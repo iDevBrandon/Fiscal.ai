@@ -7,6 +7,13 @@ pnpm i
 pnpm dev
 ```
 
+## Crawler error handling
+
+```bash
+unset CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN OPENAI_API_KEY OPENAI_BASE_URL OPENAI_MODEL
+pnpm run extract -- --check
+```
+
 ## Overall
 
 A brief explanation of the Fiscal AI assessment, its purpose, and the goal of the project.
@@ -22,48 +29,83 @@ A brief explanation of the Fiscal AI assessment, its purpose, and the goal of th
 ## Workflow
 
 ```bash
-Crawler
-  |
-  v
-Raw PDFs
-  |
-  v
-Parser
-  |
-  v
-JSON / SQLite
-  |
-  v
+Company Config (ASML/NVO/SAP)
+    |
+    v
+IR Crawler
+    |
+    v
+Temporary File System
+(raw PDFs)
+    |
+    v
+PDF Extractor
+(text/table extraction)
+    |
+    v
+LLM Extraction
+(structured JSON)
+    |
+    v
+LLM Cache
+(PDF hash -> extracted JSON)
+    |
+    v
+Validation / Reconciliation
+    |
+    v
+Normalization
+    |
+    v
+lib/data/*.json
+(version controlled dataset)
+    |
+    v
 Next.js Dashboard
-  |
-  v
-Vercel Deploy
+    |
+    v
+Vercel
 ```
+
+## Things to consider
+
+- [ ] Getting company's earning date to run cron job with Github action
+- [ ] Fetch PDFs automactically with company's IR
+- [ ] Built a filing discovery agent that normalizes financial filings using tool calling, since each company's IR website has a different structure and PDF url format
+- [ ] Is the Report written in English/Non-English & follow which Accounting Principles (U.S. GAAP vs. International Standards (IFRS))
 
 ### 1. Document Collection
 
 Download pdf files from the company’s investor relations website
 
 ```bash
-Company
-  |
-  ├── Regulatory filings
-  │       ├── Annual report
-  │       ├── Quarterly report
-  │       └── Other filings
-  |
-  └── Investor Relations
-          ├── Earnings release
-          ├── Presentation
-          └── Voluntary disclosures
-
-              ↓
-
-        Data ingestion agent
-
-              ↓
-
-        Structured financial database
+                Company Name
+                     |
+                     v
+              Discovery Agent
+                     |
+          Find Annual Report URL
+                     |
+                     v
+                  PDF
+                     |
+                     v
+             PDF Extraction
+                     |
+                     v
+        Statement Classification Agent
+                     |
+       --------------------------------
+       |              |               |
+ Income Statement  Balance Sheet  Cash Flow
+       |              |               |
+       --------------------------------
+                     |
+                     v
+             Financial Normalizer
+                     |
+                     v
+               Big Three JSON
 ```
 
 ### 2. Financial Statement Extraction

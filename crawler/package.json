@@ -1,0 +1,21 @@
+{
+  "name": "fiscal-ir-crawler",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Extract the 3 financial statements from a company's annual reports",
+  "scripts": {
+    "extract": "tsx src/extract.ts",
+    "discover": "tsx src/discover.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^4.67.0",
+    "unpdf": "^0.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

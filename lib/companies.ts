@@ -23,14 +23,6 @@ export const companies: Company[] = [
     name: "SAP SE",
     exchange: "Deutsche Börse · NYSE",
     irUrl: "https://www.sap.com/investors.html",
-    status: "pending",
-  },
-  {
-    slug: "tsla-demo",
-    ticker: "TSLA",
-    name: "Tesla, Inc. — design reference",
-    exchange: "Nasdaq",
-    irUrl: "",
-    status: "demo",
+    status: "ready",
   },
 ]

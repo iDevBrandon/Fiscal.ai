@@ -1,23 +1,38 @@
 "use client"
 
-import { useMemo, useState } from "react"
 import { FileClock } from "lucide-react"
+import { useMemo, useState } from "react"
 
+import { StatementTable } from "@/components/statement-table"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StatementTable } from "@/components/statement-table"
-import { cn } from "@/lib/utils"
 import { companies } from "@/lib/companies"
-import { teslaIncomeStatement } from "@/lib/data/demo-tesla"
-import { statementLabels, type StatementKind } from "@/lib/types"
+import {
+  balanceSheet,
+  cashFlowStatement,
+  incomeStatement,
+} from "@/lib/data/sap"
+import {
+  statementLabels,
+  type StatementData,
+  type StatementKind,
+} from "@/lib/types"
+import { cn } from "@/lib/utils"
 
-const statementData: Record<string, Partial<Record<StatementKind, typeof teslaIncomeStatement>>> = {
-  "tsla-demo": { income: teslaIncomeStatement },
+const statementData: Record<
+  string,
+  Partial<Record<StatementKind, StatementData>>
+> = {
+  sap: {
+    income: incomeStatement,
+    balance: balanceSheet,
+    cashflow: cashFlowStatement,
+  },
 }
 
 export function FinancialExplorer() {
-  const [companySlug, setCompanySlug] = useState("tsla-demo")
+  const [companySlug, setCompanySlug] = useState("sap")
   const [statement, setStatement] = useState<StatementKind>("income")
 
   const company = useMemo(
@@ -45,7 +60,9 @@ export function FinancialExplorer() {
               <span
                 className={cn(
                   "size-1.5 rounded-full",
-                  c.slug === companySlug ? "bg-background/60" : "bg-muted-foreground/50"
+                  c.slug === companySlug
+                    ? "bg-background/60"
+                    : "bg-muted-foreground/50"
                 )}
               />
             )}
@@ -55,10 +72,17 @@ export function FinancialExplorer() {
 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-lg font-semibold text-foreground">{company.name}</h1>
-          <p className="text-[13px] text-muted-foreground">{company.exchange}</p>
+          <h1 className="text-lg font-semibold text-foreground">
+            {company.name}
+          </h1>
+          <p className="text-[13px] text-muted-foreground">
+            {company.exchange}
+          </p>
         </div>
-        <Tabs value={statement} onValueChange={(v) => setStatement(v as StatementKind)}>
+        <Tabs
+          value={statement}
+          onValueChange={(v) => setStatement(v as StatementKind)}
+        >
           <TabsList>
             {(Object.keys(statementLabels) as StatementKind[]).map((key) => (
               <TabsTrigger key={key} value={key}>
@@ -76,11 +100,7 @@ export function FinancialExplorer() {
       ) : (
         <EmptyState
           irUrl={company.irUrl}
-          message={
-            company.status === "demo"
-              ? `${statementLabels[statement]} demo data hasn't been added yet — only the Income Statement is wired up for design review.`
-              : "Filings haven't been scraped and parsed for this company yet."
-          }
+          message="Filings haven't been scraped and parsed for this company yet."
         />
       )}
     </div>

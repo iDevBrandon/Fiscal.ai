@@ -11,8 +11,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
 import type { StatementData, StatementRow } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 function formatValue(row: StatementRow, value: number | null) {
   if (value === null) return "—"
@@ -25,7 +25,13 @@ function formatValue(row: StatementRow, value: number | null) {
   return value < 0 ? `-${prefix}${formatted}` : `${prefix}${formatted}`
 }
 
-function StatementRowView({ row, periodCount }: { row: StatementRow; periodCount: number }) {
+function StatementRowView({
+  row,
+  periodCount,
+}: {
+  row: StatementRow
+  periodCount: number
+}) {
   if (row.kind === "section") {
     return (
       <TableRow className="hover:bg-transparent">
@@ -45,9 +51,11 @@ function StatementRowView({ row, periodCount }: { row: StatementRow; periodCount
     <TableRow className={cn(isTotal && "border-t border-border")}>
       <TableCell
         className={cn(
-          "sticky left-0 z-10 min-w-[320px] whitespace-nowrap bg-background text-[13px]",
+          "sticky left-0 z-10 min-w-[320px] bg-background text-[13px] whitespace-nowrap",
           row.indent ? "pl-8" : "pl-4",
-          isTotal ? "font-semibold text-foreground" : "font-normal text-muted-foreground"
+          isTotal
+            ? "font-semibold text-foreground"
+            : "font-normal text-muted-foreground"
         )}
       >
         {row.label}
@@ -55,7 +63,7 @@ function StatementRowView({ row, periodCount }: { row: StatementRow; periodCount
       {row.values.map((value, i) => {
         const restated = row.restatedIndices?.includes(i)
         const cellClass = cn(
-          "min-w-[112px] whitespace-nowrap text-right text-[13px] tabular-nums",
+          "min-w-[112px] text-right text-[13px] whitespace-nowrap tabular-nums",
           isTotal ? "font-semibold text-foreground" : "text-foreground/90"
         )
 
@@ -72,7 +80,7 @@ function StatementRowView({ row, periodCount }: { row: StatementRow; periodCount
             <Tooltip>
               <TooltipTrigger
                 render={<span />}
-                className="cursor-help underline decoration-dotted decoration-muted-foreground/70 underline-offset-4"
+                className="cursor-help underline decoration-muted-foreground/70 decoration-dotted underline-offset-4"
               >
                 {formatValue(row, value)}
               </TooltipTrigger>
@@ -95,7 +103,7 @@ export function StatementTable({ data }: { data: StatementData }) {
             {data.periods.map((period) => (
               <TableHead
                 key={period}
-                className="sticky top-0 z-10 min-w-[112px] whitespace-nowrap bg-background text-right text-[13px] font-semibold text-foreground"
+                className="sticky top-0 z-10 min-w-28 bg-background text-right text-[13px] font-semibold whitespace-nowrap text-foreground"
               >
                 {period}
               </TableHead>
@@ -104,7 +112,11 @@ export function StatementTable({ data }: { data: StatementData }) {
         </TableHeader>
         <TableBody>
           {data.rows.map((row, idx) => (
-            <StatementRowView key={`${row.label}-${idx}`} row={row} periodCount={data.periods.length} />
+            <StatementRowView
+              key={`${row.label}-${idx}`}
+              row={row}
+              periodCount={data.periods.length}
+            />
           ))}
         </TableBody>
       </Table>

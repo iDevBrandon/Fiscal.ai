@@ -32,5 +32,5 @@ export interface Company {
   name: string
   exchange: string
   irUrl: string
-  status: "ready" | "pending" | "demo"
+  status: "ready" | "pending"
 }
