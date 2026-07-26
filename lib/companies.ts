@@ -25,4 +25,12 @@ export const companies: Company[] = [
     irUrl: "https://www.sap.com/investors.html",
     status: "ready",
   },
+  {
+    slug: "rheinmetall",
+    ticker: "RHM",
+    name: "Rheinmetall AG",
+    exchange: "Deutsche Börse (Xetra)",
+    irUrl: "https://www.rheinmetall.com/en/investor-relations",
+    status: "ready",
+  },
 ]

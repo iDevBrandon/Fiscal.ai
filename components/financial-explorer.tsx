@@ -9,10 +9,15 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { companies } from "@/lib/companies"
 import {
-  balanceSheet,
-  cashFlowStatement,
-  incomeStatement,
+  balanceSheet as sapBalance,
+  cashFlowStatement as sapCashflow,
+  incomeStatement as sapIncome,
 } from "@/lib/data/sap"
+import {
+  balanceSheet as rheinmetallBalance,
+  cashFlowStatement as rheinmetallCashflow,
+  incomeStatement as rheinmetallIncome,
+} from "@/lib/data/rheinmetall"
 import {
   statementLabels,
   type StatementData,
@@ -25,9 +30,14 @@ const statementData: Record<
   Partial<Record<StatementKind, StatementData>>
 > = {
   sap: {
-    income: incomeStatement,
-    balance: balanceSheet,
-    cashflow: cashFlowStatement,
+    income: sapIncome,
+    balance: sapBalance,
+    cashflow: sapCashflow,
+  },
+  rheinmetall: {
+    income: rheinmetallIncome,
+    balance: rheinmetallBalance,
+    cashflow: rheinmetallCashflow,
   },
 }
 
