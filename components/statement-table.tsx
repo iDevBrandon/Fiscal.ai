@@ -35,7 +35,7 @@ function StatementRowView({
   if (row.kind === "section") {
     return (
       <TableRow className="hover:bg-transparent">
-        <TableCell className="sticky left-0 z-10 min-w-[320px] bg-background pt-6 pb-1.5 text-[13px] font-semibold whitespace-nowrap text-foreground first:pt-2">
+        <TableCell className="sticky left-0 z-10 w-85 max-w-85 min-w-85 bg-background pt-6 pb-1.5 text-[13px] font-semibold text-foreground first:pt-2">
           {row.label}
         </TableCell>
         {Array.from({ length: periodCount }).map((_, i) => (
@@ -51,7 +51,7 @@ function StatementRowView({
     <TableRow className={cn(isTotal && "border-t border-border")}>
       <TableCell
         className={cn(
-          "sticky left-0 z-10 min-w-[320px] bg-background text-[13px] whitespace-nowrap",
+          "sticky left-0 z-10 w-85 max-w-85 min-w-85 bg-background py-1.5 align-top text-[13px] leading-snug wrap-break-word whitespace-normal",
           row.indent ? "pl-8" : "pl-4",
           isTotal
             ? "font-semibold text-foreground"
@@ -63,7 +63,7 @@ function StatementRowView({
       {row.values.map((value, i) => {
         const restated = row.restatedIndices?.includes(i)
         const cellClass = cn(
-          "min-w-[112px] text-right text-[13px] whitespace-nowrap tabular-nums",
+          "min-w-[112px] py-1.5 text-right align-top text-[13px] whitespace-nowrap tabular-nums",
           isTotal ? "font-semibold text-foreground" : "text-foreground/90"
         )
 
@@ -107,7 +107,7 @@ export function StatementTable({ data }: { data: StatementData }) {
       <Table className="border-separate border-spacing-0">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="sticky top-0 left-0 z-20 min-w-[320px] bg-background" />
+            <TableHead className="sticky top-0 left-0 z-20 w-85 max-w-85 min-w-85 bg-background" />
             {periods.map((period) => (
               <TableHead
                 key={period}
