@@ -9,25 +9,20 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { companies } from "@/lib/companies"
 import {
-  balanceSheet as sapBalance,
-  cashFlowStatement as sapCashflow,
-  incomeStatement as sapIncome,
-} from "@/lib/data/sap"
+  balanceSheet as nvoBalance,
+  cashFlowStatement as nvoCashflow,
+  incomeStatement as nvoIncome,
+} from "@/lib/data/novo-nordisk"
 import {
   balanceSheet as rheinmetallBalance,
   cashFlowStatement as rheinmetallCashflow,
   incomeStatement as rheinmetallIncome,
 } from "@/lib/data/rheinmetall"
 import {
-  balanceSheet as jcdecauxBalance,
-  cashFlowStatement as jcdecauxCashflow,
-  incomeStatement as jcdecauxIncome,
-} from "@/lib/data/jcdecaux"
-import {
-  balanceSheet as nvoBalance,
-  cashFlowStatement as nvoCashflow,
-  incomeStatement as nvoIncome,
-} from "@/lib/data/novo-nordisk"
+  balanceSheet as airbusBalance,
+  cashFlowStatement as airbusCashflow,
+  incomeStatement as airbusIncome,
+} from "@/lib/data/airbus"
 import {
   statementLabels,
   type StatementData,
@@ -39,30 +34,25 @@ const statementData: Record<
   string,
   Partial<Record<StatementKind, StatementData>>
 > = {
-  sap: {
-    income: sapIncome,
-    balance: sapBalance,
-    cashflow: sapCashflow,
+  nvo: {
+    income: nvoIncome,
+    balance: nvoBalance,
+    cashflow: nvoCashflow,
   },
   rheinmetall: {
     income: rheinmetallIncome,
     balance: rheinmetallBalance,
     cashflow: rheinmetallCashflow,
   },
-  jcdecaux: {
-    income: jcdecauxIncome,
-    balance: jcdecauxBalance,
-    cashflow: jcdecauxCashflow,
-  },
-  nvo: {
-    income: nvoIncome,
-    balance: nvoBalance,
-    cashflow: nvoCashflow,
+  airbus: {
+    income: airbusIncome,
+    balance: airbusBalance,
+    cashflow: airbusCashflow,
   },
 }
 
 export function FinancialExplorer() {
-  const [companySlug, setCompanySlug] = useState("sap")
+  const [companySlug, setCompanySlug] = useState("nvo")
   const [statement, setStatement] = useState<StatementKind>("income")
 
   const company = useMemo(

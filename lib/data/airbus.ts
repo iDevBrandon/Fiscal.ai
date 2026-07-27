@@ -4,554 +4,1742 @@ import type { StatementData } from "@/lib/types"
 // The report PDFs these numbers were extracted from.
 export const sources = [
   {
-    year: 2025,
-    url: "https://mediaassets.airbus.com/pm_38_919_919350-ko9v34j5cg.pdf?fileName=airbus-report-of-the-board-of-directors-2025.pdf",
+    "year": 2025,
+    "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2026-02/airbus_fy_2025_financial_statements.pdf"
   },
   {
-    year: 2024,
-    url: "https://www.airbus.com/sites/g/files/jlcbta136/files/2025-04/Airbus%20Annual%20Report%202024.pdf",
-  },
+    "year": 2024,
+    "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2025-04/Airbus%20Financial%20Statements%202024%20%281%29.pdf"
+  }
 ]
 
+// Cross-statement validation result (accounting identities) at extraction time.
+export const validation = {
+  "status": "pass",
+  "issues": []
+} as const
+
 export const incomeStatement: StatementData = {
-  periods: ["2024", "2023"],
-  rows: [
-    {
-      label: "Revenue",
-      kind: "line",
-      values: [69230, 65446],
-    },
-    {
-      label: "Cost of sales",
-      kind: "line",
-      values: [-58555, -55402],
-    },
-    {
-      label: "Gross margin",
-      kind: "line",
-      values: [10675, 10044],
-    },
-    {
-      label: "Selling expenses",
-      kind: "line",
-      values: [-877, -867],
-    },
-    {
-      label: "Administrative expenses",
-      kind: "line",
-      values: [-1744, -1654],
-    },
-    {
-      label: "Research and development expenses",
-      kind: "line",
-      values: [-3250, -3257],
-    },
-    {
-      label: "Other income",
-      kind: "line",
-      values: [303, 243],
-    },
-    {
-      label: "Other expenses",
-      kind: "line",
-      values: [-197, -209],
-    },
-    {
-      label:
-        "Share of profit from investments accounted for under the equity method",
-      kind: "line",
-      values: [350, 267],
-    },
-    {
-      label: "Other income from investments",
-      kind: "line",
-      values: [44, 36],
-    },
-    {
-      label: "Profit before financial result and income taxes",
-      kind: "subtotal",
-      values: [5304, 4603],
-    },
-    {
-      label: "Interest income",
-      kind: "line",
-      values: [802, 728],
-    },
-    {
-      label: "Interest expense",
-      kind: "line",
-      values: [-900, -753],
-    },
-    {
-      label: "Other financial result",
-      kind: "line",
-      values: [219, 191],
-    },
-    {
-      label: "Total financial result",
-      kind: "subtotal",
-      values: [121, 166],
-    },
-    {
-      label: "Income taxes",
-      kind: "line",
-      values: [-1347, -1156],
-    },
-    {
-      label: "Profit for the period",
-      kind: "subtotal",
-      values: [4078, 3613],
-    },
-    {
-      label: "Attributable to",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Equity owners of the parent (Net income)",
-      kind: "line",
-      values: [4232, 3789],
-    },
-    {
-      label: "Non-controlling interests",
-      kind: "line",
-      values: [-154, -176],
-    },
-    {
-      label: "Earnings per share",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Basic",
-      kind: "line",
-      values: [5.36, 4.8],
-      unit: "currency",
-      decimals: 2,
-    },
-    {
-      label: "Diluted",
-      kind: "line",
-      values: [5.35, 4.8],
-      unit: "currency",
-      decimals: 2,
-    },
+  "periods": [
+    "2025",
+    "2024",
+    "2023"
   ],
+  "rows": [
+    {
+      "label": "Revenue",
+      "kind": "line",
+      "values": [
+        73420,
+        69230,
+        65446
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cost of sales",
+      "kind": "line",
+      "values": [
+        -62453,
+        -58555,
+        -55402
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Gross margin",
+      "kind": "line",
+      "values": [
+        10667,
+        10675,
+        10044
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Selling expenses",
+      "kind": "line",
+      "values": [
+        -856,
+        -877,
+        -867
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Administrative expenses",
+      "kind": "line",
+      "values": [
+        -1722,
+        -1744,
+        -1654
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Research and development expenses",
+      "kind": "line",
+      "values": [
+        -3153,
+        -3250,
+        -3257
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other income",
+      "kind": "line",
+      "values": [
+        979,
+        303,
+        243
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other expenses",
+      "kind": "line",
+      "values": [
+        -488,
+        -197,
+        -209
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Share of profit from investments accounted for under the equity method",
+      "kind": "line",
+      "values": [
+        305,
+        350,
+        267
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other income from investments",
+      "kind": "line",
+      "values": [
+        50,
+        44,
+        36
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Profit before financial result and income taxes",
+      "kind": "subtotal",
+      "values": [
+        6082,
+        5304,
+        4603
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Interest income",
+      "kind": "line",
+      "values": [
+        710,
+        802,
+        728
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Interest expense",
+      "kind": "line",
+      "values": [
+        -770,
+        -900,
+        -753
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other financial result",
+      "kind": "line",
+      "values": [
+        328,
+        219,
+        191
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total financial result",
+      "kind": "subtotal",
+      "values": [
+        268,
+        121,
+        166
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Income taxes",
+      "kind": "line",
+      "values": [
+        -1390,
+        -1347,
+        -1156
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Profit for the period",
+      "kind": "subtotal",
+      "values": [
+        4960,
+        4078,
+        3613
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Attributable to:",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Equity owners of the parent (Net Income)",
+      "kind": "line",
+      "values": [
+        5221,
+        4232,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Non-controlling interests",
+      "kind": "line",
+      "values": [
+        -261,
+        -154,
+        -176
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Earnings per share",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Basic",
+      "kind": "line",
+      "values": [
+        6.61,
+        5.36,
+        4.8
+      ],
+      "unit": "currency",
+      "decimals": 2,
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Diluted",
+      "kind": "line",
+      "values": [
+        6.6,
+        5.35,
+        4.8
+      ],
+      "unit": "currency",
+      "decimals": 2,
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Attributable to",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Equity owners of the parent (Net income)",
+      "kind": "line",
+      "values": [
+        null,
+        4232,
+        3789
+      ],
+      "unit": "currency"
+    }
+  ]
 }
 
 export const balanceSheet: StatementData = {
-  periods: ["2024", "2023"],
-  rows: [
-    {
-      label:
-        "Introduction to customer sales financing arrangements and associated risks",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label:
-        "Potential exposure to counterparty credit risk and residual value risk",
-      kind: "line",
-      values: [null, null],
-    },
-    {
-      label:
-        "Significant pension commitments and potential impact on financial condition",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label:
-        "Factors influencing pension provisions and potential for additional provisions",
-      kind: "line",
-      values: [null, null],
-    },
-    {
-      label:
-        "Business disruptions, including cyber, physical or hybrid threats",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Exposure to cyber security risks and potential consequences",
-      kind: "line",
-      values: [null, null],
-    },
-    {
-      label:
-        "Physical incidents and potential impact on operations and supply chain",
-      kind: "line",
-      values: [null, null],
-    },
-    {
-      label: "Assets",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Non-current assets",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Intangible assets",
-      kind: "line",
-      values: [17179, 16929],
-      unit: "currency",
-    },
-    {
-      label: "Property, plant and equipment",
-      kind: "line",
-      values: [19112, 17201],
-      unit: "currency",
-    },
-    {
-      label: "Investment property",
-      kind: "line",
-      values: [35, null],
-      unit: "currency",
-    },
-    {
-      label: "Investments accounted for under the equity method",
-      kind: "line",
-      values: [2433, 2228],
-      unit: "currency",
-    },
-    {
-      label: "Other investments and other long-term financial assets",
-      kind: "line",
-      values: [5077, 4719],
-      unit: "currency",
-    },
-    {
-      label: "Non-current contract assets",
-      kind: "line",
-      values: [61, 26],
-      unit: "currency",
-    },
-    {
-      label: "Non-current other financial assets",
-      kind: "line",
-      values: [697, 922],
-      unit: "currency",
-    },
-    {
-      label: "Non-current other assets",
-      kind: "line",
-      values: [2650, 1854],
-      unit: "currency",
-    },
-    {
-      label: "Deferred tax assets",
-      kind: "line",
-      values: [3505, 3448],
-      unit: "currency",
-    },
-    {
-      label: "Non-current securities",
-      kind: "line",
-      values: [9032, 7508],
-      unit: "currency",
-    },
-    {
-      label: "Total non-current assets",
-      kind: "total",
-      values: [59781, 54870],
-      unit: "currency",
-    },
-    {
-      label: "Current assets",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Inventories",
-      kind: "line",
-      values: [37745, 33741],
-      unit: "currency",
-    },
-    {
-      label: "Trade receivables",
-      kind: "line",
-      values: [5293, 4725],
-      unit: "currency",
-    },
-    {
-      label: "Current portion of other long-term financial assets",
-      kind: "line",
-      values: [897, 795],
-      unit: "currency",
-    },
-    {
-      label: "Current contract assets",
-      kind: "line",
-      values: [1474, 1823],
-      unit: "currency",
-    },
-    {
-      label: "Current other financial assets",
-      kind: "line",
-      values: [2004, 1851],
-      unit: "currency",
-    },
-    {
-      label: "Current other assets",
-      kind: "line",
-      values: [3463, 2697],
-      unit: "currency",
-    },
-    {
-      label: "Current tax assets",
-      kind: "line",
-      values: [663, 546],
-      unit: "currency",
-    },
-    {
-      label: "Current securities",
-      kind: "line",
-      values: [2829, 1301],
-      unit: "currency",
-    },
-    {
-      label: "Cash and cash equivalents",
-      kind: "line",
-      values: [15003, 16469],
-      unit: "currency",
-    },
-    {
-      label: "Total current assets",
-      kind: "total",
-      values: [69371, 63948],
-      unit: "currency",
-    },
-    {
-      label: "Assets and disposal group of assets classified as held for sale",
-      kind: "line",
-      values: [61, 53],
-      unit: "currency",
-    },
-    {
-      label: "Total assets",
-      kind: "total",
-      values: [129213, 118871],
-      unit: "currency",
-    },
+  "periods": [
+    "2025",
+    "2024",
+    "2023"
   ],
+  "rows": [
+    {
+      "label": "Assets",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Non-current assets",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Intangible assets",
+      "kind": "line",
+      "values": [
+        16847,
+        17179,
+        16929
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Property, plant and equipment",
+      "kind": "line",
+      "values": [
+        20893,
+        19112,
+        17201
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Investment property",
+      "kind": "line",
+      "values": [
+        68,
+        35,
+        null
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Investments accounted for under the equity method",
+      "kind": "line",
+      "values": [
+        2360,
+        2433,
+        2228
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other investments and other long-term financial assets",
+      "kind": "line",
+      "values": [
+        5470,
+        5077,
+        4719
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current contract assets",
+      "kind": "line",
+      "values": [
+        17,
+        61,
+        26
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current other financial assets",
+      "kind": "line",
+      "values": [
+        1070,
+        697,
+        922
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current other assets",
+      "kind": "line",
+      "values": [
+        2762,
+        2650,
+        1854
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Deferred tax assets",
+      "kind": "line",
+      "values": [
+        1808,
+        3505,
+        3448
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current securities",
+      "kind": "line",
+      "values": [
+        9997,
+        9032,
+        7508
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total non-current assets",
+      "kind": "total",
+      "values": [
+        61292,
+        59781,
+        54870
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current assets",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Inventories",
+      "kind": "line",
+      "values": [
+        41676,
+        37745,
+        33741
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Trade receivables",
+      "kind": "line",
+      "values": [
+        5454,
+        5293,
+        4725
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current portion of other long-term financial assets",
+      "kind": "line",
+      "values": [
+        734,
+        897,
+        795
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current contract assets",
+      "kind": "line",
+      "values": [
+        1639,
+        1474,
+        1823
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current other financial assets",
+      "kind": "line",
+      "values": [
+        2557,
+        2004,
+        1851
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current other assets",
+      "kind": "line",
+      "values": [
+        3760,
+        3463,
+        2697
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current tax assets",
+      "kind": "line",
+      "values": [
+        543,
+        663,
+        546
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current securities",
+      "kind": "line",
+      "values": [
+        3093,
+        2829,
+        1301
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash and cash equivalents",
+      "kind": "line",
+      "values": [
+        14128,
+        15003,
+        16469
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total current assets",
+      "kind": "total",
+      "values": [
+        73584,
+        69371,
+        63948
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Assets and disposal group of assets classified as held for sale",
+      "kind": "line",
+      "values": [
+        63,
+        61,
+        53
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total assets",
+      "kind": "total",
+      "values": [
+        134939,
+        129213,
+        118871
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Equity and liabilities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Equity attributable to owners of the parent",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Capital stock",
+      "kind": "line",
+      "values": [
+        793,
+        793,
+        791
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Share premium",
+      "kind": "line",
+      "values": [
+        4002,
+        4002,
+        3983
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Retained earnings",
+      "kind": "line",
+      "values": [
+        22334,
+        18687,
+        15616
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other components of equity",
+      "kind": "line",
+      "values": [
+        -70,
+        -3286,
+        -2305
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Treasury shares",
+      "kind": "line",
+      "values": [
+        -955,
+        -590,
+        -390
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total equity attributable to owners of the parent",
+      "kind": "total",
+      "values": [
+        26104,
+        19606,
+        17695
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-controlling interests",
+      "kind": "line",
+      "values": [
+        80,
+        90,
+        35
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total equity",
+      "kind": "total",
+      "values": [
+        26184,
+        19696,
+        17730
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Liabilities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Non-current liabilities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Non-current provisions",
+      "kind": "line",
+      "values": [
+        3976,
+        4630,
+        5667
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Long-term financing liabilities",
+      "kind": "line",
+      "values": [
+        9063,
+        10355,
+        10202
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current contract liabilities",
+      "kind": "line",
+      "values": [
+        26484,
+        25572,
+        23961
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current other financial liabilities",
+      "kind": "line",
+      "values": [
+        4809,
+        7576,
+        6715
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current other liabilities",
+      "kind": "line",
+      "values": [
+        477,
+        463,
+        450
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Deferred tax liabilities",
+      "kind": "line",
+      "values": [
+        428,
+        271,
+        361
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Non-current deferred income",
+      "kind": "line",
+      "values": [
+        27,
+        0,
+        null
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total non-current liabilities",
+      "kind": "total",
+      "values": [
+        45244,
+        48894,
+        47391
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current liabilities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Current provisions",
+      "kind": "line",
+      "values": [
+        4369,
+        4307,
+        4161
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Short-term financing liabilities",
+      "kind": "line",
+      "values": [
+        5186,
+        3924,
+        3389
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Trade liabilities",
+      "kind": "line",
+      "values": [
+        15878,
+        13791,
+        14323
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current contract liabilities",
+      "kind": "line",
+      "values": [
+        32112,
+        30136,
+        24537
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current other financial liabilities",
+      "kind": "line",
+      "values": [
+        1000,
+        3050,
+        2569
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current other liabilities",
+      "kind": "line",
+      "values": [
+        4223,
+        4022,
+        3507
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current tax liabilities",
+      "kind": "line",
+      "values": [
+        133,
+        593,
+        740
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Current deferred income",
+      "kind": "line",
+      "values": [
+        528,
+        725,
+        450
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total current liabilities",
+      "kind": "total",
+      "values": [
+        63429,
+        60548,
+        53676
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Disposal group of liabilities classified as held for sale",
+      "kind": "line",
+      "values": [
+        82,
+        75,
+        74
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total liabilities",
+      "kind": "total",
+      "values": [
+        108755,
+        109517,
+        101141
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Total equity and liabilities",
+      "kind": "total",
+      "values": [
+        134939,
+        129213,
+        118871
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    }
+  ]
 }
 
 export const cashFlowStatement: StatementData = {
-  periods: ["2024", "2023"],
-  rows: [
-    {
-      label: "Operating activities",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label:
-        "Profit for the period attributable to equity owners of the parent (Net income)",
-      kind: "line",
-      values: [4232, 3789],
-      unit: "currency",
-    },
-    {
-      label: "Loss for the period attributable to non-controlling interests",
-      kind: "line",
-      values: [-154, -176],
-      unit: "currency",
-    },
-    {
-      label:
-        "Adjustments to reconcile profit for the period to cash provided by operating activities:",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label: "Interest income",
-      kind: "line",
-      values: [-802, -728],
-      unit: "currency",
-    },
-    {
-      label: "Interest expense",
-      kind: "line",
-      values: [900, 753],
-      unit: "currency",
-    },
-    {
-      label: "Interest received",
-      kind: "line",
-      values: [681, 690],
-      unit: "currency",
-    },
-    {
-      label: "Interest paid",
-      kind: "line",
-      values: [-786, -606],
-      unit: "currency",
-    },
-    {
-      label: "Income tax expense",
-      kind: "line",
-      values: [1347, 1156],
-      unit: "currency",
-    },
-    {
-      label: "Income tax paid",
-      kind: "line",
-      values: [-947, -544],
-      unit: "currency",
-    },
-    {
-      label: "Depreciation and amortisation",
-      kind: "line",
-      values: [2853, 2242],
-      unit: "currency",
-    },
-    {
-      label: "Valuation adjustments",
-      kind: "line",
-      values: [-640, -541],
-      unit: "currency",
-    },
-    {
-      label: "Results on disposals of non-current assets",
-      kind: "line",
-      values: [70, 64],
-      unit: "currency",
-    },
-    {
-      label: "Results of investments accounted for under the equity method",
-      kind: "line",
-      values: [-350, -267],
-      unit: "currency",
-    },
-    {
-      label: "Change in current and non-current provisions",
-      kind: "line",
-      values: [166, -114],
-      unit: "currency",
-    },
-    {
-      label: "Contribution to plan assets",
-      kind: "line",
-      values: [-505, -668],
-      unit: "currency",
-    },
-    {
-      label: "Change in other operating assets and liabilities",
-      kind: "line",
-      values: [1337, 1205],
-      unit: "currency",
-    },
-    {
-      label: "Inventories",
-      kind: "line",
-      values: [-3522, -1854],
-      unit: "currency",
-    },
-    {
-      label: "Trade receivables",
-      kind: "line",
-      values: [-105, 258],
-      unit: "currency",
-    },
-    {
-      label: "Contract assets and liabilities",
-      kind: "line",
-      values: [7135, 2277],
-      unit: "currency",
-    },
-    {
-      label: "Trade liabilities",
-      kind: "line",
-      values: [-1182, 1421],
-      unit: "currency",
-    },
-    {
-      label: "Other assets and liabilities",
-      kind: "line",
-      values: [-989, -897],
-      unit: "currency",
-    },
-    {
-      label: "Cash provided by operating activities",
-      kind: "total",
-      values: [7402, 6255],
-      unit: "currency",
-    },
-    {
-      label: "Investing activities",
-      kind: "section",
-      values: [null, null],
-    },
-    {
-      label:
-        "Purchases of intangible assets, property, plant and equipment, investment property",
-      kind: "line",
-      values: [-3669, -3051],
-      unit: "currency",
-    },
-    {
-      label:
-        "Proceeds from disposals of intangible assets, property, plant and equipment and investment property",
-      kind: "line",
-      values: [98, 75],
-      unit: "currency",
-    },
-    {
-      label:
-        "Acquisitions of subsidiaries, joint ventures and businesses (net of cash)",
-      kind: "line",
-      values: [-246, -65],
-      unit: "currency",
-    },
-    {
-      label:
-        "Payments for investments accounted for under the equity method, other investments and other long-term financial assets",
-      kind: "line",
-      values: [-871, -960],
-      unit: "currency",
-    },
-    {
-      label:
-        "Proceeds from disposals of investments accounted for under the equity method, other investments and other long-term financial assets",
-      kind: "line",
-      values: [530, 509],
-      unit: "currency",
-    },
-    {
-      label: "Dividends paid by companies valued under the equity method",
-      kind: "line",
-      values: [196, 150],
-      unit: "currency",
-    },
-    {
-      label:
-        "Disposals of non-current assets and disposal groups classified as assets held for sale and liabilities directly associated",
-      kind: "line",
-      values: [null, null],
-      unit: "currency",
-    },
-    {
-      label: "Payments for investments in securities",
-      kind: "line",
-      values: [-4460, -2700],
-      unit: "currency",
-    },
-    {
-      label: "Proceeds from disposals of securities",
-      kind: "line",
-      values: [1769, 1914],
-      unit: "currency",
-    },
-    {
-      label: "Cash (used for) investing activities",
-      kind: "total",
-      values: [-6653, -4128],
-      unit: "currency",
-    },
+  "periods": [
+    "2025",
+    "2024",
+    "2023"
   ],
+  "rows": [
+    {
+      "label": "Operating activities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Profit for the period attributable to equity owners of the parent (Net income)",
+      "kind": "line",
+      "values": [
+        5221,
+        4232,
+        3789
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Loss for the period attributable to non-controlling interests",
+      "kind": "line",
+      "values": [
+        -261,
+        -154,
+        -176
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Adjustments to reconcile profit for the period to cash provided by operating activities:",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Interest income",
+      "kind": "line",
+      "values": [
+        -710,
+        -802,
+        -728
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Interest expense",
+      "kind": "line",
+      "values": [
+        770,
+        900,
+        753
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Interest received",
+      "kind": "line",
+      "values": [
+        607,
+        681,
+        690
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Interest paid",
+      "kind": "line",
+      "values": [
+        -651,
+        -786,
+        -606
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Income tax expense",
+      "kind": "line",
+      "values": [
+        1390,
+        1347,
+        1156
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Income tax paid",
+      "kind": "line",
+      "values": [
+        -965,
+        -947,
+        -544
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Depreciation and amortisation",
+      "kind": "line",
+      "values": [
+        3133,
+        2853,
+        2242
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Valuation adjustments",
+      "kind": "line",
+      "values": [
+        -393,
+        -640,
+        -541
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Results on disposals of non-current assets",
+      "kind": "line",
+      "values": [
+        70,
+        0,
+        64
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Results of investments accounted for under the equity method",
+      "kind": "line",
+      "values": [
+        -305,
+        -350,
+        -267
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Change in current and non-current provisions",
+      "kind": "line",
+      "values": [
+        314,
+        166,
+        -114
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Contribution to plan assets",
+      "kind": "line",
+      "values": [
+        -272,
+        -505,
+        -668
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Change in other operating assets and liabilities",
+      "kind": "line",
+      "values": [
+        100,
+        1337,
+        1205
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Inventories",
+      "kind": "line",
+      "values": [
+        -3989,
+        -3522,
+        -1854
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Trade receivables",
+      "kind": "line",
+      "values": [
+        -707,
+        -105,
+        258
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Contract assets and liabilities",
+      "kind": "line",
+      "values": [
+        3250,
+        7135,
+        2277
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Trade liabilities",
+      "kind": "line",
+      "values": [
+        2791,
+        -1182,
+        1421
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Other assets and liabilities",
+      "kind": "line",
+      "values": [
+        -1245,
+        -989,
+        -897
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash provided by operating activities",
+      "kind": "total",
+      "values": [
+        7995,
+        7402,
+        6255
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Investing activities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Purchases of intangible assets, property, plant and equipment, investment property",
+      "kind": "line",
+      "values": [
+        -3964,
+        -3669,
+        -3051
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Proceeds from disposals of intangible assets, property, plant and equipment and investment property",
+      "kind": "line",
+      "values": [
+        69,
+        98,
+        75
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Acquisitions of subsidiaries and businesses (net of cash acquired) and joint ventures",
+      "kind": "line",
+      "values": [
+        122,
+        -246,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Proceeds from disposals of subsidiaries (net of cash)",
+      "kind": "line",
+      "values": [
+        0,
+        0,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Payments for investments accounted for under the equity method, other investments and other long-term financial assets",
+      "kind": "line",
+      "values": [
+        -879,
+        -871,
+        -960
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Proceeds from disposals of investments accounted for under the equity method, other investments and other long-term financial assets",
+      "kind": "line",
+      "values": [
+        1083,
+        530,
+        509
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Dividends paid by companies accounted for under the equity method",
+      "kind": "line",
+      "values": [
+        387,
+        196,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Disposals of non-current assets and disposal groups classified as assets held for sale and liabilities directly associated",
+      "kind": "line",
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Payments for investments in securities",
+      "kind": "line",
+      "values": [
+        -5205,
+        -4460,
+        -2700
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Proceeds from disposals of securities",
+      "kind": "line",
+      "values": [
+        3678,
+        1769,
+        1914
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash (used for) investing activities",
+      "kind": "total",
+      "values": [
+        -4682,
+        -6653,
+        -4128
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Financing activities",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "label": "Increase in financing liabilities",
+      "kind": "line",
+      "values": [
+        244,
+        851,
+        247
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Repayment of financing liabilities",
+      "kind": "line",
+      "values": [
+        -858,
+        -1283,
+        -52
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash distribution to Airbus SE shareholders",
+      "kind": "line",
+      "values": [
+        -2372,
+        -2215,
+        -1421
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Dividends paid to non-controlling interests",
+      "kind": "line",
+      "values": [
+        -2,
+        -1,
+        0
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Changes in capital and non-controlling interests",
+      "kind": "line",
+      "values": [
+        82,
+        354,
+        146
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Change in treasury shares",
+      "kind": "line",
+      "values": [
+        -565,
+        -276,
+        -334
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash (used for) financing activities",
+      "kind": "total",
+      "values": [
+        -3471,
+        -2570,
+        -1276
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Effect of foreign exchange rate changes on cash and cash equivalents",
+      "kind": "line",
+      "values": [
+        -712,
+        358,
+        -201
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Net (decrease) in cash and cash equivalents",
+      "kind": "line",
+      "values": [
+        -870,
+        -1463,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Cash and cash equivalents at beginning of period",
+      "kind": "line",
+      "values": [
+        15010,
+        16473,
+        15823
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Cash and cash equivalents at end of period",
+      "kind": "line",
+      "values": [
+        14140,
+        15010,
+        16473
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "thereof presented as cash and cash equivalents",
+      "kind": "line",
+      "values": [
+        14128,
+        15003,
+        16469
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "thereof presented as part of disposal groups classified as held for sale",
+      "kind": "line",
+      "values": [
+        12,
+        7,
+        4
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1
+      ]
+    },
+    {
+      "label": "Acquisitions of subsidiaries, joint ventures and businesses (net of cash)",
+      "kind": "line",
+      "values": [
+        null,
+        -246,
+        -65
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Dividends paid by companies valued under the equity method",
+      "kind": "line",
+      "values": [
+        null,
+        196,
+        150
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Payments for liability for puttable instruments",
+      "kind": "line",
+      "values": [
+        null,
+        228,
+        138
+      ],
+      "unit": "currency"
+    },
+    {
+      "label": "Net (decrease) increase in cash and cash equivalents",
+      "kind": "line",
+      "values": [
+        null,
+        -1463,
+        650
+      ],
+      "unit": "currency"
+    }
+  ]
 }
 
-export default { incomeStatement, balanceSheet, cashFlowStatement, sources }
+export default { incomeStatement, balanceSheet, cashFlowStatement, sources, validation }

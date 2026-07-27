@@ -2,27 +2,11 @@ import type { Company } from "@/lib/types"
 
 export const companies: Company[] = [
   {
-    slug: "asml",
-    ticker: "ASML",
-    name: "ASML Holding N.V.",
-    exchange: "Euronext Amsterdam · Nasdaq",
-    irUrl: "https://www.asml.com/en/investors",
-    status: "pending",
-  },
-  {
     slug: "nvo",
     ticker: "NVO",
     name: "Novo Nordisk A/S",
     exchange: "Nasdaq Copenhagen · NYSE",
     irUrl: "https://www.novonordisk.com/investors.html",
-    status: "ready",
-  },
-  {
-    slug: "sap",
-    ticker: "SAP",
-    name: "SAP SE",
-    exchange: "Deutsche Börse · NYSE",
-    irUrl: "https://www.sap.com/investors.html",
     status: "ready",
   },
   {
@@ -34,11 +18,11 @@ export const companies: Company[] = [
     status: "ready",
   },
   {
-    slug: "jcdecaux",
-    ticker: "DEC",
-    name: "JCDecaux SE",
-    exchange: "Euronext Paris",
-    irUrl: "https://www.jcdecaux.com/investors",
+    slug: "airbus",
+    ticker: "AIR",
+    name: "Airbus SE",
+    exchange: "Euronext Paris · Frankfurt",
+    irUrl: "https://www.airbus.com/en/investors",
     status: "ready",
   },
 ]

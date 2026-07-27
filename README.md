@@ -33,28 +33,56 @@ Company Config (ASML/NVO/SAP)
     |
     v
 IR Crawler
+(discover investor relations pages)
+    |
+    v
+Discovery Agent
+(find & classify annual report PDFs)
     |
     v
 Temporary File System
 (raw PDFs)
     |
     v
-PDF Extractor
-(text/table extraction)
+PDF Parser
+(text / table extraction)
+    |
+    v
+Document Structure Analysis
+(build page index + heading map)
+    |
+    v
+Section Locator Agent
+(identify Consolidated Financial Statements section)
+    |
+    v
+Statement Locator Agent
+(identify Income Statement / Balance Sheet / Cash Flow pages)
     |
     v
 LLM Extraction
-(structured JSON)
+(extract structured financial statement JSON)
     |
     v
 LLM Cache
-(PDF hash -> extracted JSON)
+(PDF hash + page hash -> extracted JSON)
     |
     v
-Validation / Reconciliation
+Compilation Engine
+(merge multiple annual reports into 10-year dataset)
+    |
+    v
+Validation Engine
+(deterministic accounting checks)
+    |
+    ├── Balance Sheet Identity
+    ├── Net Income Tie (Income Statement ↔ Cash Flow)
+    ├── Ending Cash Tie (Balance Sheet ↔ Cash Flow)
+    └── Statement Reconciliation
     |
     v
 Normalization
+(deduplicate rows, latest report wins, align labels)
     |
     v
 lib/data/*.json
@@ -62,9 +90,10 @@ lib/data/*.json
     |
     v
 Next.js Dashboard
+(financial statements visualization)
     |
     v
-Vercel
+Vercel Deployment
 ```
 
 ## Things to consider
@@ -75,8 +104,7 @@ Vercel
 - [ ] Is the Report written in English/Non-English & follow which Accounting Principles (U.S. GAAP vs. International Standards (IFRS))
 - [ ] Added ignore-list filtering and section windowing to `classifyPages()` to select consolidated financial statements while excluding notes, supplementary statements, and separate/local GAAP reports.
 - [ ] section locator LLM confidence is less than 0.6, it will retry automatically
-
-## Validation & testing
+- [ ] Add validation & testing (validateStatements) using 3 statements
 
 ### 1. Document Collection
 

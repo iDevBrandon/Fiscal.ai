@@ -36,9 +36,9 @@ use OpenAI instead, set `OPENAI_API_KEY`.) `.env` is loaded automatically if pre
 
 ```bash
 pnpm run extract -- --check                                    # just test the key
-pnpm run extract -- --company "SAP SE" --years 2023-2025       # extract → lib/data/sap.ts
-pnpm run extract -- --company "Novo Nordisk" --years 2024-2025
-pnpm run extract -- --company "Rheinmetall AG" --years 2024-2025
+pnpm run extract -- --company "Rheinmetall AG" --years 2024-2025 --slug rheinmetall --refresh
+pnpm run extract -- --company "Airbus SE" --years 2024-2025 --slug airbus --refresh
+pnpm run extract -- --company "Novo Nordisk A/S" --years 2024-2025 --slug novo-nordisk --refresh
 pnpm run extract -- --refresh                                  # ignore caches, redo everything
 pnpm run extract -- --dry-run                                  # extract + check totals, don't write
 pnpm run extract -- --company "JCDecaux" --years 2025-2025 --pages income:21,balance:19,cashflow:24
@@ -121,6 +121,57 @@ reports that haven't changed. Only new years — or a `--refresh` run — hit th
 Store the LLM credentials as repo secrets (`CLOUDFLARE_ACCOUNT_ID`,
 `CLOUDFLARE_API_TOKEN`) and export them into the job env. Note the Cloudflare free
 tier caps at 10,000 neurons/day, which resets daily — batch big backfills accordingly.
+
+## Testing the extraction
+
+Work from cheapest to most thorough:
+
+```bash
+pnpm run typecheck                                              # 1. compiles clean?
+pnpm run extract -- --check                                     # 2. LLM key/model reachable?
+pnpm run extract -- --company "Novo Nordisk" --years 2024-2025 --slug nvo --dry-run
+                                                               # 3. full run, validate, DON'T write
+```
+
+A healthy `--dry-run` prints the located pages, the row counts, and the validation line:
+
+```text
+    statements section: pages 101–104 (confidence 0.90)
+    income: page 101   balance: page 103   cashflow: page 102
+  income: 4 periods, 30 rows, ...
+  validation: all checks passed ✓
+```
+
+**Two independent checks run on every extraction — deterministic maths, not the LLM:**
+
+- `reconcile()` — _within_ each statement, do the line items sum to their subtotals.
+  Noisy on multi-level statements (informational only).
+- `validateStatements()` — _across_ statements, accounting identities that hold for any
+  filer. Each issue has a severity:
+  - **fail** — the balance sheet balances (`Total assets = Total equity + Total liabilities`)
+  - **fail** — net profit is the same figure on the income and the cash-flow statement
+  - **warning** — cash-flow ending cash = the balance sheet's cash line (reclassifications
+    and restricted cash make this drift legitimately, so it never blocks)
+
+  Status is `pass` / `warning` / `fail`. Results print to the console and are written to
+  `cache/<slug>.validation.json` (`{ slug, status, issues }`). Add `--strict` to block the
+  write on a hard **fail** (warnings never block) — use it in CI so bad data never reaches
+  `lib/data/`.
+
+**Spot-check against the PDF.** The strongest confidence check is still comparing a few
+headline figures to the source: open the report and confirm e.g. Revenue, Net profit and
+Total assets for the latest year match `lib/data/<slug>.ts`. The `sources` array in that
+file has the exact PDF URLs the numbers came from.
+
+**Reference companies** that extract and validate cleanly (good regression cases):
+SAP, Novo Nordisk, JCDecaux, Rheinmetall, Airbus.
+
+**When the locator gets a report wrong**, pin the pages by hand and re-run:
+
+```bash
+pnpm run extract -- --company "JCDecaux" --years 2025-2025 --slug jcdecaux \
+  --pages income:21,balance:19,cashflow:24 --refresh
+```
 
 ## Output
 

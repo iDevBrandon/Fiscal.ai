@@ -385,8 +385,10 @@ async function locateSection(
   if (typeof start !== "number" || typeof end !== "number" || end < start)
     return null
   const confidence = typeof parsed.confidence === "number" ? parsed.confidence : 0.5
+  // Small margin: the LLM can be off by one, and a leading statement (income first) may
+  // sit just before its reported start.
   return {
-    window: [Math.max(0, start), Math.min(end + 1, cleaned.length - 1)],
+    window: [Math.max(0, start - 1), Math.min(end + 2, cleaned.length - 1)],
     confidence,
   }
 }
@@ -600,11 +602,132 @@ function reconcile(statement: Statement): string[] {
   return problems
 }
 
+// ─── 6b. Cross-statement validation (accounting identities) ────────────────
+// reconcile() checks structure WITHIN a statement (do the line items sum to the subtotal).
+// validateStatements() checks identities ACROSS statements on the final merged data —
+// this is deterministic maths, not the LLM. Three identities that hold for any IFRS/US-GAAP
+// filer:
+//   • FAIL   the balance sheet balances: Total assets = Total equity + Total liabilities
+//   • FAIL   net profit is the same on the income statement and the cash-flow statement
+//   • WARN   cash-flow ending cash = the balance sheet's cash line (reclassifications /
+//            restricted cash mean this legitimately drifts, so it's a warning, not a fail)
+type Severity = "fail" | "warning"
+interface ValidationIssue {
+  check: string
+  severity: Severity
+  period: string
+  expected: number
+  actual: number
+  diff: number
+}
+interface ValidationResult {
+  status: "pass" | "warning" | "fail"
+  issues: ValidationIssue[]
+}
+
+// Net-profit line goes by many names across IFRS/US GAAP filers.
+const NET_PROFIT_LABELS = new Set([
+  "net profit",
+  "net income",
+  "profit for the year",
+  "profit for the period",
+  "profit after tax",
+  "profit after taxes",
+  "earnings after taxes",
+  "consolidated net income",
+])
+
+// First matching row that actually HAS a value for the period — a label like "operating
+// activities" matches a null section header AND the real total row, so we skip the nulls.
+function findValue(
+  st: Statement,
+  period: string,
+  match: (label: string) => boolean
+): number | null {
+  const col = st.periods.indexOf(period)
+  if (col === -1) return null
+  for (const row of st.rows) {
+    if (match(row.label.trim().toLowerCase()) && row.values[col] != null)
+      return row.values[col]
+  }
+  return null
+}
+
+function validateStatements(data: Record<Kind, Statement>): ValidationResult {
+  const issues: ValidationIssue[] = []
+  const off = (a: number, b: number) => Math.abs(a - b) > Math.max(1, Math.abs(b) * 0.005)
+  const add = (
+    check: string,
+    severity: Severity,
+    period: string,
+    expected: number,
+    actual: number
+  ) => issues.push({ check, severity, period, expected, actual, diff: actual - expected })
+
+  // 1. Balance sheet identity (FAIL).
+  for (const period of data.balance.periods) {
+    const assets = findValue(data.balance, period, (l) => l === "total assets")
+    let eqLiab = findValue(data.balance, period, (l) =>
+      /^total (equity and liabilities|liabilities and equity)$/.test(l)
+    )
+    if (eqLiab == null) {
+      const eq = findValue(data.balance, period, (l) => l === "total equity")
+      const liab = findValue(data.balance, period, (l) => l === "total liabilities")
+      if (eq != null && liab != null) eqLiab = eq + liab
+    }
+    if (assets != null && eqLiab != null && off(assets, eqLiab))
+      add("balance sheet balances (assets = equity + liabilities)", "fail", period, eqLiab, assets)
+  }
+
+  // 2. Net profit is the same on the income statement and the cash-flow statement (FAIL).
+  const isNetProfit = (l: string) => NET_PROFIT_LABELS.has(l)
+  for (const period of data.income.periods) {
+    const inc = findValue(data.income, period, isNetProfit)
+    const cf = findValue(data.cashflow, period, isNetProfit)
+    if (inc != null && cf != null && off(inc, cf))
+      add("net profit matches (income vs cash flow)", "fail", period, inc, cf)
+  }
+
+  // 3. Cash-flow ending cash = the balance sheet cash line (WARNING).
+  const isBsCash = (l: string) =>
+    l.includes("cash and cash equivalents") || l.includes("cash at bank") || l === "cash"
+  const isEndingCash = (l: string) => l.includes("cash") && l.includes("end")
+  for (const period of data.balance.periods) {
+    const bs = findValue(data.balance, period, isBsCash)
+    const cf = findValue(data.cashflow, period, isEndingCash)
+    if (bs != null && cf != null && off(bs, cf))
+      add("ending cash matches (cash flow vs balance sheet)", "warning", period, bs, cf)
+  }
+
+  // 4. Coverage (per period): each statement must carry its headline line WITH A VALUE for
+  //    every period. A missing figure means that year's page was wrong (e.g. a notes page) —
+  //    something the identity checks alone miss (they skip when a label isn't found).
+  const coverage: [Kind, RegExp, string][] = [
+    // "sales" also covers Rheinmetall-style nature-of-expense statements ("Sales"),
+    // "total operating performance", etc.; "revenue"/"turnover" cover the rest.
+    ["income", /revenue|sales|turnover|total operating performance/, "income: no revenue/sales value (wrong page?)"],
+    ["balance", /^total assets$/, "balance: no total assets value (wrong page?)"],
+    ["cashflow", /operating activities/, "cashflow: no operating-activities value (wrong page?)"],
+  ]
+  for (const [kind, re, msg] of coverage)
+    for (const period of data[kind].periods)
+      if (findValue(data[kind], period, (l) => re.test(l)) == null)
+        issues.push({ check: msg, severity: "fail", period, expected: 0, actual: 0, diff: 0 })
+
+  const status = issues.some((i) => i.severity === "fail")
+    ? "fail"
+    : issues.length
+      ? "warning"
+      : "pass"
+  return { status, issues }
+}
+
 // ─── 7. Write the file the dashboard imports ──────────────────────────────
 function writeDataset(
   slug: string,
   data: Record<Kind, Statement>,
-  sources: { year: number; url: string }[]
+  sources: { year: number; url: string }[],
+  validation: ValidationResult
 ): string {
   mkdirSync(APP_DATA_DIR, { recursive: true })
   const file = join(APP_DATA_DIR, `${slug}.ts`)
@@ -614,39 +737,57 @@ function writeDataset(
       `import type { StatementData } from "@/lib/types"\n\n` +
       `// The report PDFs these numbers were extracted from.\n` +
       `export const sources = ${JSON.stringify(sources, null, 2)}\n\n` +
+      `// Cross-statement validation result (accounting identities) at extraction time.\n` +
+      `export const validation = ${JSON.stringify(validation, null, 2)} as const\n\n` +
       `export const incomeStatement: StatementData = ${JSON.stringify(data.income, null, 2)}\n\n` +
       `export const balanceSheet: StatementData = ${JSON.stringify(data.balance, null, 2)}\n\n` +
       `export const cashFlowStatement: StatementData = ${JSON.stringify(data.cashflow, null, 2)}\n\n` +
-      `export default { incomeStatement, balanceSheet, cashFlowStatement, sources }\n`
+      `export default { incomeStatement, balanceSheet, cashFlowStatement, sources, validation }\n`
   )
   return file
 }
 
 // A statement can spread across consecutive pages (e.g. a balance sheet split into
 // "Assets" | "Equity and liabilities"). Include an adjacent page when it's a continuation:
-// not the page picked for another statement, and carrying no OTHER statement's heading.
+// not already claimed by another statement, and carrying no OTHER statement's heading.
+// `claimed` holds every page already assigned (incl. all statement picks), so no page
+// ends up counted in two statements.
 function statementSpan(
   kind: Kind,
   picked: number,
-  picks: Record<Kind, number | null>,
-  cleaned: string[]
+  cleaned: string[],
+  claimed: Set<number>
 ): number[] {
   const otherHeads = KINDS.filter((k) => k !== kind)
     .flatMap((k) => HEADINGS[k])
     .concat("comprehensive income", "changes in equity")
-  const takenByOther = new Set(
-    KINDS.filter((k) => k !== kind)
-      .map((k) => picks[k])
-      .filter((v): v is number => v != null)
-  )
   const span = [picked]
   for (const nb of [picked - 1, picked + 1]) {
-    if (nb < 0 || nb >= cleaned.length || takenByOther.has(nb)) continue
-    const low = cleaned[nb].toLowerCase()
-    if (otherHeads.some((h) => low.includes(h))) continue
+    if (nb < 0 || nb >= cleaned.length || claimed.has(nb)) continue
+    if (otherHeads.some((h) => cleaned[nb].toLowerCase().includes(h))) continue
     span.push(nb)
   }
   return [...new Set(span)].sort((a, b) => a - b)
+}
+
+// Best keyword page for a kind within a page range (fallback when the statement locator
+// misses one inside the section — used instead of a whole-document guess).
+function bestInWindow(
+  kind: Kind,
+  lo: number,
+  hi: number,
+  cleaned: string[]
+): number | null {
+  let best = -1
+  let bestScore = 2 // require score > 2 to accept
+  for (let i = Math.max(0, lo); i <= hi && i < cleaned.length; i++) {
+    const s = pageScore(cleaned[i].toLowerCase(), kind)
+    if (s > bestScore) {
+      bestScore = s
+      best = i
+    }
+  }
+  return best === -1 ? null : best
 }
 
 // ─── Glue: run one report through the pipeline ────────────────────────────
@@ -698,7 +839,10 @@ async function readReport(
   // Two-step locate (only for kinds not pinned by --pages):
   //   1. Section Locator (LLM) reads a heading map → the statements' page range.
   //   2. Statement Locator (LLM) assigns income/balance/cashflow within that range.
-  // Falls back to whole-document keyword candidates if no section is found.
+  // A kind the locator misses falls back to the best keyword page WITHIN the section
+  // (never a whole-document guess, which used to land on a notes page).
+  let winLo = -1
+  let winHi = -1
   if (KINDS.some((k) => picks[k] === null)) {
     const { byKind, union } = candidatePages(pages)
     let auto: Record<Kind, number | null> = {
@@ -707,8 +851,7 @@ async function readReport(
       cashflow: null,
     }
     // Section Locator returns a confidence; on a low score, retry once (LLM sampling
-    // varies) and take the better answer, then widen the window so the Statement Locator
-    // isn't boxed into a possibly-wrong range.
+    // varies) and take the better answer, then widen the window.
     let section = await locateSection(client, cleaned)
     if (section && section.confidence < SECTION_CONFIDENCE_MIN) {
       console.warn(
@@ -718,31 +861,48 @@ async function readReport(
       if (retry && retry.confidence > section.confidence) section = retry
     }
     if (section) {
-      let [lo, hi] = section.window
+      ;[winLo, winHi] = section.window
       if (section.confidence < SECTION_CONFIDENCE_MIN) {
-        lo = Math.max(0, lo - 5)
-        hi = Math.min(cleaned.length - 1, hi + 5)
+        winLo = Math.max(0, winLo - 5)
+        winHi = Math.min(cleaned.length - 1, winHi + 5)
       }
       console.log(
-        `    statements section: pages ${lo}–${hi} (confidence ${section.confidence.toFixed(2)})`
+        `    statements section: pages ${winLo}–${winHi} (confidence ${section.confidence.toFixed(2)})`
       )
-      const idx = range(lo, hi).filter((i) => i >= 0 && i < cleaned.length)
+      const idx = range(winLo, winHi).filter((i) => i >= 0 && i < cleaned.length)
       auto = await classifyPages(client, cleaned, idx)
     } else if (union.length) {
       auto = await classifyPages(client, pages, union)
     }
     for (const kind of KINDS)
       if (picks[kind] === null)
-        picks[kind] = auto[kind] ?? byKind[kind][0] ?? null
+        picks[kind] =
+          auto[kind] ??
+          (winLo >= 0
+            ? bestInWindow(kind, winLo, winHi, cleaned)
+            : (byKind[kind][0] ?? null))
+  }
+
+  // Assign each page to at most one statement (earlier statements claim their continuation
+  // first), so a shared continuation page never lands in two statements.
+  const claimed = new Set<number>(
+    KINDS.map((k) => picks[k]).filter((v): v is number => v != null)
+  )
+  const spans: Partial<Record<Kind, number[]>> = {}
+  for (const kind of [...KINDS].sort((a, b) => (picks[a] ?? 1e9) - (picks[b] ?? 1e9))) {
+    const idx = picks[kind]
+    if (idx == null) continue
+    const span = statementSpan(kind, idx, cleaned, claimed)
+    span.forEach((p) => claimed.add(p))
+    spans[kind] = span
   }
 
   const statement = async (kind: Kind): Promise<Statement> => {
-    const idx = picks[kind]
-    if (idx == null) {
+    const span = spans[kind]
+    if (!span) {
       console.warn(`    ${kind}: no page found in ${year} — skipped`)
       return { periods: [], rows: [] }
     }
-    const span = statementSpan(kind, idx, picks, cleaned)
     console.log(`    ${kind}: page ${span.join("+")}`)
     return extractStatement(client, span.map((p) => pages[p]).join("\n"), kind)
   }
@@ -837,8 +997,27 @@ async function main() {
     problems.slice(0, 3).forEach((p) => console.log(`    ⚠ ${p}`))
   }
 
+  // Cross-statement validation on the FINAL merged data (deterministic accounting
+  // identities). Reported by severity; --strict blocks the write only on a hard FAIL.
+  const result = validateStatements(data)
+  console.log(
+    `  validation: ${result.status.toUpperCase()}${result.issues.length ? ` (${result.issues.length} issue(s))` : ""}`
+  )
+  result.issues.forEach((i) =>
+    console.log(
+      `    ${i.severity === "fail" ? "✗" : "⚠"} ${i.check} @ ${i.period}: ${Math.round(i.actual)} vs ${Math.round(i.expected)} (Δ ${Math.round(i.diff)})`
+    )
+  )
+  mkdirSync(CACHE_DIR, { recursive: true })
+  writeFileSync(
+    join(CACHE_DIR, `${SLUG}.validation.json`),
+    JSON.stringify({ slug: SLUG, ...result }, null, 2)
+  )
+
   if (flags.has("--dry-run")) return console.log("\n(dry run — not written)")
-  console.log(`\nWrote ${writeDataset(SLUG, data, sources)}`)
+  if (flags.has("--strict") && result.status === "fail")
+    fail("Validation FAILED (--strict) — dataset not written.")
+  console.log(`\nWrote ${writeDataset(SLUG, data, sources, result)}`)
 }
 
 // ─── Tiny helpers ─────────────────────────────────────────────────────────

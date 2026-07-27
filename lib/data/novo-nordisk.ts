@@ -13,6 +13,12 @@ export const sources = [
   }
 ]
 
+// Cross-statement validation result (accounting identities) at extraction time.
+export const validation = {
+  "status": "pass",
+  "issues": []
+} as const
+
 export const incomeStatement: StatementData = {
   "periods": [
     "2025",
@@ -1305,4 +1311,4 @@ export const cashFlowStatement: StatementData = {
   ]
 }
 
-export default { incomeStatement, balanceSheet, cashFlowStatement, sources }
+export default { incomeStatement, balanceSheet, cashFlowStatement, sources, validation }
