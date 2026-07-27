@@ -329,19 +329,25 @@ export const incomeStatement: StatementData = {
         37,
         13,
         -42,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        28,
+        23,
+        -3,
+        3,
+        -13,
+        -5
       ],
       "unit": "currency",
       "restatedIndices": [
         1,
         2,
         3,
-        4
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -540,8 +546,8 @@ export const incomeStatement: StatementData = {
         -388,
         -59,
         -318,
-        null,
-        null
+        -414,
+        2947
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -552,7 +558,9 @@ export const incomeStatement: StatementData = {
         5,
         6,
         7,
-        8
+        8,
+        9,
+        10
       ]
     },
     {
@@ -770,77 +778,6 @@ export const incomeStatement: StatementData = {
         6,
         7,
         8,
-        9,
-        10
-      ]
-    },
-    {
-      "label": "Income/(loss) from joint ventures and associates",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        13,
-        -42,
-        28,
-        23,
-        -3,
-        3,
-        null,
-        null
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        5,
-        6,
-        7,
-        8
-      ]
-    },
-    {
-      "label": "Income (loss) from joint ventures and associates",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        -3,
-        3,
-        -13,
-        -5
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        9,
-        10
-      ]
-    },
-    {
-      "label": "Net financial income (expense)",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        -179,
-        -432,
-        -414,
-        2947
-      ],
-      "unit": "currency",
-      "restatedIndices": [
         9,
         10
       ]
@@ -1117,7 +1054,7 @@ export const balanceSheet: StatementData = {
         93858,
         101719,
         99984,
-        null,
+        94906,
         91010,
         68698,
         69997,
@@ -1129,6 +1066,8 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
+        2,
+        4,
         5,
         6,
         7,
@@ -1552,7 +1491,7 @@ export const balanceSheet: StatementData = {
         11919,
         12489,
         13677,
-        null,
+        10991,
         10735,
         9281,
         9177,
@@ -1562,7 +1501,11 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        2
+        2,
+        4,
+        5,
+        6,
+        7
       ]
     },
     {
@@ -1572,7 +1515,7 @@ export const balanceSheet: StatementData = {
         42672,
         46207,
         47848,
-        null,
+        46498,
         48413,
         44524,
         35519,
@@ -1584,6 +1527,8 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
+        2,
+        4,
         5,
         6,
         7,
@@ -1776,103 +1721,6 @@ export const balanceSheet: StatementData = {
         8,
         9,
         10
-      ]
-    },
-    {
-      "label": "Non‑current assets",
-      "kind": "subtotal",
-      "values": [
-        null,
-        null,
-        99984,
-        94906,
-        91010,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Non‑current liabilities",
-      "kind": "subtotal",
-      "values": [
-        null,
-        null,
-        47848,
-        46498,
-        48413,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "ASSETS",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "LIABILITIES AND EQUITY",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Purchase commitments for minority interests' shares",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        13677,
-        10991,
-        10735,
-        9281,
-        null,
-        null,
-        null,
-        null
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        5,
-        6
       ]
     },
     {
@@ -2232,8 +2080,8 @@ export const cashFlowStatement: StatementData = {
         42,
         26,
         41,
-        null,
-        null,
+        64,
+        -10,
         null,
         null,
         null,
@@ -2243,7 +2091,9 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3
+        3,
+        4,
+        5
       ]
     },
     {
@@ -2866,18 +2716,21 @@ export const cashFlowStatement: StatementData = {
         -15156,
         7403,
         -4734,
-        null,
-        null,
-        null,
-        null,
-        null
+        -792,
+        4263,
+        -1372,
+        -1438,
+        201
       ],
       "restatedIndices": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -3080,28 +2933,6 @@ export const cashFlowStatement: StatementData = {
         1,
         2,
         3,
-        4,
-        5
-      ]
-    },
-    {
-      "label": "(Income)/loss and dividends received from joint ventures and associates",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        26,
-        41,
-        64,
-        -10,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "restatedIndices": [
         4,
         5
       ]
@@ -3583,30 +3414,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
-    },
-    {
-      "label": "Net cash from (used in) financing activities",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        -792,
-        4263,
-        -1372,
-        -1438,
-        201
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        8,
-        9,
-        10
       ]
     },
     {

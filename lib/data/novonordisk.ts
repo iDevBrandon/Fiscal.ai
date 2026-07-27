@@ -856,31 +856,6 @@ export const incomeStatement: StatementData = {
       ]
     },
     {
-      "label": "Other comprehensive income",
-      "kind": "subtotal",
-      "values": [
-        -263,
-        -1901,
-        -1160,
-        4778,
-        -670,
-        -610,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1,
-        2,
-        3,
-        4
-      ]
-    },
-    {
       "label": "Total comprehensive income",
       "kind": "total",
       "values": [
@@ -983,42 +958,6 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency"
-    },
-    {
-      "label": "Items that will not be reclassified subsequently to the income statement:",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Items that will be reclassified subsequently to the income statement:",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
     },
     {
       "label": "Tax on other comprehensive income, net",
@@ -1165,24 +1104,6 @@ export const incomeStatement: StatementData = {
       ]
     },
     {
-      "label": "INCOME STATEMENT",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
       "label": "– Non-recurring income from the partial divestment of NNIT A/S",
       "kind": "line",
       "values": [
@@ -1201,78 +1122,6 @@ export const incomeStatement: StatementData = {
       ],
       "restatedIndices": [
         10
-      ]
-    },
-    {
-      "label": "EARNINGS PER SHARE",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "STATEMENT OF COMPREHENSIVE INCOME",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Items that will not be reclassified subsequently to the Income statement:",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Items that will be reclassified subsequently to the Income statement:",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
       ]
     },
     {
@@ -2181,23 +2030,6 @@ export const balanceSheet: StatementData = {
       ]
     },
     {
-      "label": "ASSETS",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    {
       "label": "Investment in associated company",
       "kind": "line",
       "values": [
@@ -2216,23 +2048,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
-    },
-    {
-      "label": "EQUITY AND LIABILITIES",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
       ]
     },
     {
@@ -2337,8 +2152,8 @@ export const cashFlowStatement: StatementData = {
         9602,
         8987,
         10550,
-        null,
-        null,
+        9873,
+        8623,
         null
       ],
       "unit": "currency",
@@ -2348,7 +2163,10 @@ export const cashFlowStatement: StatementData = {
         3,
         4,
         5,
-        6
+        6,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -3600,29 +3418,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
-    },
-    {
-      "label": "Income taxes in the Income statement",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        10550,
-        9873,
-        8623,
-        null
-      ],
-      "restatedIndices": [
-        8,
-        9,
-        10
       ]
     },
     {

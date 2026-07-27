@@ -477,28 +477,22 @@ function parseJson(content: string): {
 
 // ─── 6. Merge across years, then sanity-check the totals ──────────────────
 // Companies rename the same line item across years — Novo's bottom line is
-// "Net profit" in recent reports and "Net profit for the year" in older ones.
-// Canonicalise labels before merging so those columns land on one row instead of
-// splitting into two half-filled rows.
-function canonLabel(label: string): string {
-  return label
+// "Net profit" vs "Net profit for the year"; LVMH's JV line is "Income (loss)…" vs
+// "Income/(loss)…" vs "Income/(Loss)…". We match rows by a NORMALISED KEY (lowercase,
+// punctuation-stripped, "for the year/period" removed) so those variants collapse onto
+// ONE row — while the DISPLAY label keeps the newest report's wording (see compile).
+function canonKey(label: string): string {
+  const k = label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/ for the (financial )?(year|period)\b/g, "")
+    .replace(/\s+/g, " ")
     .trim()
-    .replace(/\s+for the (financial\s+)?(year|period)\b/i, "")
-    .trim()
+  return k || label.trim().toLowerCase()
 }
 
 function compile(input: { year: number; statement: Statement }[]): Statement {
-  const reports = input.map((r) => ({
-    year: r.year,
-    statement: {
-      periods: r.statement.periods,
-      rows: r.statement.rows.map((row) => ({
-        ...row,
-        label: canonLabel(row.label),
-      })),
-    },
-  }))
-  const newestFirst = [...reports].sort((a, b) => b.year - a.year)
+  const newestFirst = [...input].sort((a, b) => b.year - a.year)
 
   const labelByYear = new Map<number, string>()
   for (const { statement } of newestFirst) {
@@ -510,12 +504,14 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
   const years = [...labelByYear.keys()].sort((a, b) => b - a)
   const periods = years.map((y) => labelByYear.get(y)!)
 
+  // Dedup by canonical key; the first row seen (newest report) becomes the display template.
   const labels: Row[] = []
   const seen = new Set<string>()
   for (const { statement } of newestFirst) {
     for (const row of statement.rows) {
-      if (seen.has(row.label)) continue
-      seen.add(row.label)
+      const key = canonKey(row.label)
+      if (seen.has(key)) continue
+      seen.add(key)
       labels.push(row)
     }
   }
@@ -550,7 +546,8 @@ function valueFor(
   label: string,
   year: number
 ): number | null {
-  const row = statement.rows.find((r) => r.label === label)
+  const key = canonKey(label)
+  const row = statement.rows.find((r) => canonKey(r.label) === key)
   if (!row) return null
   const col = statement.periods.findIndex((p) => yearOf(p) === year)
   return col === -1 ? null : (row.values?.[col] ?? null)
