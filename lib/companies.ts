@@ -17,4 +17,12 @@ export const companies: Company[] = [
     irUrl: "https://www.airbus.com/en/investors",
     status: "ready",
   },
+  {
+    slug: "lvmh",
+    ticker: "MC",
+    name: "LVMH Moët Hennessy Louis Vuitton SE",
+    exchange: "Euronext Paris",
+    irUrl: "https://www.lvmh.com/en/investors",
+    status: "ready",
+  },
 ]

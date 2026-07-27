@@ -19,6 +19,11 @@ import {
   incomeStatement as airbusIncome,
 } from "@/lib/data/airbus"
 import {
+  balanceSheet as lvmhBalance,
+  cashFlowStatement as lvmhCashflow,
+  incomeStatement as lvmhIncome,
+} from "@/lib/data/lvmh"
+import {
   statementLabels,
   type StatementData,
   type StatementKind,
@@ -38,6 +43,11 @@ const statementData: Record<
     income: airbusIncome,
     balance: airbusBalance,
     cashflow: airbusCashflow,
+  },
+  lvmh: {
+    income: lvmhIncome,
+    balance: lvmhBalance,
+    cashflow: lvmhCashflow,
   },
 }
 
