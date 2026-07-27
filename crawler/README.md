@@ -36,12 +36,10 @@ use OpenAI instead, set `OPENAI_API_KEY`.) `.env` is loaded automatically if pre
 
 ```bash
 pnpm run extract -- --check                                    # just test the key
-pnpm run extract -- --company "Rheinmetall AG" --years 2024-2025 --slug rheinmetall --refresh
 pnpm run extract -- --company "Airbus SE" --years 2024-2025 --slug airbus --refresh
-pnpm run extract -- --company "Novo Nordisk A/S" --years 2024-2025 --slug novo-nordisk --refresh
+pnpm run extract -- --company "Novo Nordisk" --years 2016-2025 --slug novonordisk --refresh
 pnpm run extract -- --refresh                                  # ignore caches, redo everything
 pnpm run extract -- --dry-run                                  # extract + check totals, don't write
-pnpm run extract -- --company "JCDecaux" --years 2025-2025 --pages income:21,balance:19,cashflow:24
 ```
 
 `--company` is the full company name (used by discovery to find the PDF) and

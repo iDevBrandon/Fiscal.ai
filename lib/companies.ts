@@ -10,14 +10,6 @@ export const companies: Company[] = [
     status: "ready",
   },
   {
-    slug: "rheinmetall",
-    ticker: "RHM",
-    name: "Rheinmetall AG",
-    exchange: "Deutsche Börse (Xetra)",
-    irUrl: "https://www.rheinmetall.com/en/investor-relations",
-    status: "ready",
-  },
-  {
     slug: "airbus",
     ticker: "AIR",
     name: "Airbus SE",

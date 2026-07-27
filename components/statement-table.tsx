@@ -35,12 +35,12 @@ function StatementRowView({
   if (row.kind === "section") {
     return (
       <TableRow className="hover:bg-transparent">
-        <TableCell
-          colSpan={periodCount + 1}
-          className="sticky left-0 z-10 bg-background pt-6 pb-1.5 text-[13px] font-semibold text-foreground first:pt-2"
-        >
+        <TableCell className="sticky left-0 z-10 min-w-[320px] bg-background pt-6 pb-1.5 text-[13px] font-semibold whitespace-nowrap text-foreground first:pt-2">
           {row.label}
         </TableCell>
+        {Array.from({ length: periodCount }).map((_, i) => (
+          <TableCell key={i} className="bg-background" />
+        ))}
       </TableRow>
     )
   }
@@ -93,14 +93,22 @@ function StatementRowView({
   )
 }
 
+// Periods are newest-first; the deliverable is a 10-year view, so cap the display.
+const MAX_PERIODS = 10
+
 export function StatementTable({ data }: { data: StatementData }) {
+  const periods = data.periods.slice(0, MAX_PERIODS)
+  const rows = data.rows.map((row) =>
+    row.values ? { ...row, values: row.values.slice(0, MAX_PERIODS) } : row
+  )
+
   return (
     <div className="max-h-[70vh] overflow-auto rounded-lg border border-border">
       <Table className="border-separate border-spacing-0">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             <TableHead className="sticky top-0 left-0 z-20 min-w-[320px] bg-background" />
-            {data.periods.map((period) => (
+            {periods.map((period) => (
               <TableHead
                 key={period}
                 className="sticky top-0 z-10 min-w-28 bg-background text-right text-[13px] font-semibold whitespace-nowrap text-foreground"
@@ -111,11 +119,11 @@ export function StatementTable({ data }: { data: StatementData }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.rows.map((row, idx) => (
+          {rows.map((row, idx) => (
             <StatementRowView
               key={`${row.label}-${idx}`}
               row={row}
-              periodCount={data.periods.length}
+              periodCount={periods.length}
             />
           ))}
         </TableBody>

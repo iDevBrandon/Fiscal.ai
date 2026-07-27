@@ -6,10 +6,10 @@
  *
  *   1. download the PDF (cached on disk)               downloadPdf / ensurePdf
  *   2. split it into per-page text (cached on disk)    loadPages
- *   3. keyword pre-filter to a few candidate pages     candidatePages   (no LLM)
- *   4. LLM classifies which page is which statement    classifyPages    (1 call)
- *   5. LLM transcribes the table on that page          extractStatement (3 calls)
- *   6. merge years, check totals, write the file       compile / reconcile / write
+ *   3. strip repeated boilerplate + build a heading map  stripBoilerplate (no LLM)
+ *   4. LLM locates income/balance/cashflow pages         locateStatements (1 call)
+ *   5. LLM transcribes each statement's table            extractStatement (3 calls)
+ *   6. merge years, validate, write the file             compile / validate / write
  *
  * Everything except steps 4 and 5 is plain code. The cache (step 1-2) means that
  * while you tune the prompts you re-run against local files, not the IR website.
@@ -29,6 +29,7 @@ import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import OpenAI from "openai"
 import { extractText, getDocumentProxy } from "unpdf"
+import { makeClient, resolveProvider } from "./discover.js"
 
 // ─── CONFIG — the company registry ────────────────────────────────────────
 // `pdf` is either a function (predictable URL) or an explicit {year: url} map
@@ -71,7 +72,8 @@ async function ensurePdfUrl(year: number): Promise<string> {
   const { discoverPdfUrl } = await import("./discover.js")
   const found = await discoverPdfUrl(COMPANY.name, year, SLUG)
   if (found) return found
-  fail(`Discovery could not find a PDF for ${SLUG} ${year}.`)
+  // Throw (not fail/exit) so a single missing year is skipped, not the whole run.
+  throw new Error(`no official PDF found for ${SLUG} ${year}`)
 }
 
 // URLs found by the discovery agent (crawler/cache/discovered.json). This is the
@@ -92,7 +94,7 @@ const HERE = dirname(fileURLToPath(import.meta.url))
 const CACHE_DIR = join(HERE, "..", "cache") // downloaded PDFs + parsed page text
 const APP_DATA_DIR = join(HERE, "..", "..", "lib", "data") // fiscal.ai/lib/data
 let MODEL = "gpt-4o" // resolved from env in main()
-const SECTION_CONFIDENCE_MIN = 0.6 // below this, the section locator retries + widens
+const MAX_YEARS = 10 // the compiled view keeps the most recent N years
 
 // ─── Types (mirror the app's lib/types.ts) ────────────────────────────────
 type RowKind = "section" | "line" | "subtotal" | "total"
@@ -316,13 +318,13 @@ function stripBoilerplate(pages: string[]): string[] {
   )
 }
 
-// ─── 3c. Section locator (LLM): which page range holds the primary statements? ──
-// Step 1 of a two-step locate. The three statements sit together in the "Consolidated
-// Financial Statements" section, right before the notes. We hand the LLM a MAP of the
-// report's statement/section headings (page index → heading, from the boilerplate-stripped
-// text) and let it pick that section's page range. Feeding a whole-document map — rather
-// than a hand-tuned keyword candidate list — is what lets this generalize across very
-// different layouts (a management report full of the same figures no longer fools it).
+// ─── 3c. Statement locator (LLM, ONE call): which page is each statement? ──
+// The three primary statements sit together in the "Consolidated Financial Statements"
+// section, just before the notes. We hand the LLM a MAP of the report's statement/section
+// headings (page index → heading, from the boilerplate-stripped text) and it returns each
+// statement's page directly. A whole-document map — not a hand-tuned keyword list — is what
+// generalizes across layouts (a management report full of the same figures no longer fools
+// it), and doing section + statement location in ONE call keeps token use low.
 const LANDMARKS = [
   "consolidated income statement",
   "consolidated statement of",
@@ -343,22 +345,23 @@ function headingMap(cleaned: string[]): { i: number; head: string }[] {
   for (let i = 0; i < cleaned.length; i++) {
     const flat = cleaned[i].replace(/\s+/g, " ").trim()
     if (LANDMARKS.some((m) => flat.toLowerCase().includes(m))) {
-      map.push({ i, head: flat.slice(0, 80) })
+      map.push({ i, head: flat.slice(0, 110) })
     }
   }
   return map
 }
 
-interface Section {
-  window: [number, number]
-  confidence: number
-}
-async function locateSection(
+async function locateStatements(
   client: OpenAI,
   cleaned: string[]
-): Promise<Section | null> {
+): Promise<Record<Kind, number | null>> {
+  const none: Record<Kind, number | null> = {
+    income: null,
+    balance: null,
+    cashflow: null,
+  }
   const map = headingMap(cleaned)
-  if (map.length === 0) return null
+  if (map.length === 0) return none
 
   const res = await chat(client, {
     model: MODEL,
@@ -366,70 +369,24 @@ async function locateSection(
       {
         role: "system",
         content:
-          "Below is a MAP of an annual report — a page index and the statement/section heading\n" +
-          "found on each listed page. Return the page range of the PRIMARY CONSOLIDATED FINANCIAL\n" +
-          "STATEMENTS: the actual Income Statement, Balance Sheet / Statement of Financial Position\n" +
-          "and Cash Flow Statement tables. They sit together, just BEFORE 'Notes to the consolidated\n" +
-          "financial statements'. IGNORE the management report, governance, sustainability, the notes,\n" +
-          "and the auditor's report. `start` = first statement page, `end` = last statement page\n" +
-          "(the one right before the notes begin). Also give `confidence` (0-1): how sure you are\n" +
-          "this range is the primary statements and not the notes or management report.\n" +
-          'Return ONLY JSON: { "start": <index>, "end": <index>, "confidence": <0..1> }',
+          "Below is a MAP of an annual report: a page index and the statement/section heading on\n" +
+          "each listed page. Return the page index whose TABLE is each PRIMARY CONSOLIDATED statement:\n" +
+          "  income   = Consolidated Income Statement / Statement of Operations / Profit and Loss\n" +
+          "  balance  = Consolidated Balance Sheet / Statement of Financial Position\n" +
+          "  cashflow = Consolidated Statement of Cash Flows\n" +
+          "The three sit together, just before 'Notes to the consolidated financial statements'.\n" +
+          "Choose the CONSOLIDATED GROUP statement. Return null for a kind rather than pick:\n" +
+          "  - a contents/index page that merely LISTS all three statements,\n" +
+          "  - parent-company / standalone / separate statements (local GAAP, e.g. HGB),\n" +
+          "  - comprehensive income, changes in equity, notes, or the auditor's report.\n" +
+          'Return ONLY JSON: { "income": <index or null>, "balance": <index or null>, "cashflow": <index or null> }',
       },
       { role: "user", content: map.map((m) => `p${m.i}: ${m.head}`).join("\n") },
     ],
   })
   const parsed = parseJson(res)
-  const start = parsed.start
-  const end = parsed.end
-  if (typeof start !== "number" || typeof end !== "number" || end < start)
-    return null
-  const confidence = typeof parsed.confidence === "number" ? parsed.confidence : 0.5
-  // Small margin: the LLM can be off by one, and a leading statement (income first) may
-  // sit just before its reported start.
-  return {
-    window: [Math.max(0, start - 1), Math.min(end + 2, cleaned.length - 1)],
-    confidence,
-  }
-}
-
-// ─── 4. LLM classifier: which candidate page is which statement ───────────
-// One call. Reads short snippets of the candidate pages and picks the CONSOLIDATED
-// group statement for each kind (parent-company standalone pages are "none").
-async function classifyPages(
-  client: OpenAI,
-  pages: string[],
-  candidateIdx: number[]
-): Promise<Record<Kind, number | null>> {
-  const snippets = candidateIdx
-    .map((i) => `Page ${i}: ${pages[i].replace(/\s+/g, " ").slice(0, 600)}`)
-    .join("\n\n")
-
-  const instructions =
-    "You are given candidate pages from an annual report. For each of the three PRIMARY\n" +
-    "CONSOLIDATED statements, return the page index whose MAIN TABLE is that statement:\n" +
-    "  income   = Consolidated Income Statement / Statement of Operations / Profit and Loss\n" +
-    "  balance  = Consolidated Balance Sheet / Statement of Financial Position\n" +
-    "  cashflow = Consolidated Statement of Cash Flows\n" +
-    "Pick by the statement's ROLE, not an exact title, and choose the CONSOLIDATED GROUP figures.\n" +
-    "Return null (do NOT pick) for these look-alikes:\n" +
-    "  - Parent-company / standalone / separate financial statements (local GAAP, e.g. HGB)\n" +
-    "  - Statement of Comprehensive Income\n" +
-    "  - Statement of Changes in Equity\n" +
-    "  - Segment reporting, and any Notes / tax / PP&E / lease / financial-instrument tables\n" +
-    'Return ONLY JSON: { "income": <index or null>, "balance": <index or null>, "cashflow": <index or null> }'
-
-  const res = await chat(client, {
-    model: MODEL,
-    messages: [
-      { role: "system", content: instructions },
-      { role: "user", content: `Candidate pages:\n\n${snippets}` },
-    ],
-  })
-
-  const parsed = parseJson(res)
-  const pick = (v: unknown) =>
-    typeof v === "number" && candidateIdx.includes(v) ? v : null
+  const valid = new Set(map.map((m) => m.i))
+  const pick = (v: unknown) => (typeof v === "number" && valid.has(v) ? v : null)
   return {
     income: pick(parsed.income),
     balance: pick(parsed.balance),
@@ -490,7 +447,12 @@ async function extractStatement(
     ],
   })
   const parsed = parseJson(res)
-  return { periods: parsed.periods ?? [], rows: parsed.rows ?? [] }
+  // Sanitize: the model occasionally omits fields — keep only well-formed rows and make
+  // sure every row has a values array, so compile/validation never hit an undefined.
+  const rows = (Array.isArray(parsed.rows) ? parsed.rows : [])
+    .filter((r): r is Row => !!r && typeof r.label === "string")
+    .map((r) => ({ ...r, values: Array.isArray(r.values) ? r.values : [] }))
+  return { periods: Array.isArray(parsed.periods) ? parsed.periods : [], rows }
 }
 
 function parseJson(content: string): {
@@ -514,7 +476,28 @@ function parseJson(content: string): {
 }
 
 // ─── 6. Merge across years, then sanity-check the totals ──────────────────
-function compile(reports: { year: number; statement: Statement }[]): Statement {
+// Companies rename the same line item across years — Novo's bottom line is
+// "Net profit" in recent reports and "Net profit for the year" in older ones.
+// Canonicalise labels before merging so those columns land on one row instead of
+// splitting into two half-filled rows.
+function canonLabel(label: string): string {
+  return label
+    .trim()
+    .replace(/\s+for the (financial\s+)?(year|period)\b/i, "")
+    .trim()
+}
+
+function compile(input: { year: number; statement: Statement }[]): Statement {
+  const reports = input.map((r) => ({
+    year: r.year,
+    statement: {
+      periods: r.statement.periods,
+      rows: r.statement.rows.map((row) => ({
+        ...row,
+        label: canonLabel(row.label),
+      })),
+    },
+  }))
   const newestFirst = [...reports].sort((a, b) => b.year - a.year)
 
   const labelByYear = new Map<number, string>()
@@ -570,7 +553,7 @@ function valueFor(
   const row = statement.rows.find((r) => r.label === label)
   if (!row) return null
   const col = statement.periods.findIndex((p) => yearOf(p) === year)
-  return col === -1 ? null : (row.values[col] ?? null)
+  return col === -1 ? null : (row.values?.[col] ?? null)
 }
 
 function yearOf(period: string): number | null {
@@ -586,8 +569,8 @@ function reconcile(statement: Statement): string[] {
       lines.push(row)
     } else if (row.kind === "subtotal" || row.kind === "total") {
       statement.periods.forEach((period, i) => {
-        const sum = lines.reduce((acc, l) => acc + (l.values[i] ?? 0), 0)
-        const got = row.values[i]
+        const sum = lines.reduce((acc, l) => acc + (l.values?.[i] ?? 0), 0)
+        const got = row.values?.[i]
         if (got != null && Math.abs(sum - got) > 1) {
           problems.push(
             `${row.label} @ ${period}: lines sum to ${Math.round(sum)}, row says ${got}`
@@ -647,22 +630,31 @@ function findValue(
   const col = st.periods.indexOf(period)
   if (col === -1) return null
   for (const row of st.rows) {
-    if (match(row.label.trim().toLowerCase()) && row.values[col] != null)
-      return row.values[col]
+    const v = row.values?.[col]
+    if (v != null && match(row.label.trim().toLowerCase())) return v
   }
   return null
 }
 
 function validateStatements(data: Record<Kind, Statement>): ValidationResult {
   const issues: ValidationIssue[] = []
-  const off = (a: number, b: number) => Math.abs(a - b) > Math.max(1, Math.abs(b) * 0.005)
+  const off = (a: number, b: number) =>
+    Math.abs(a - b) > Math.max(1, Math.abs(b) * 0.005)
   const add = (
     check: string,
     severity: Severity,
     period: string,
     expected: number,
     actual: number
-  ) => issues.push({ check, severity, period, expected, actual, diff: actual - expected })
+  ) =>
+    issues.push({
+      check,
+      severity,
+      period,
+      expected,
+      actual,
+      diff: actual - expected,
+    })
 
   // 1. Balance sheet identity (FAIL).
   for (const period of data.balance.periods) {
@@ -672,11 +664,21 @@ function validateStatements(data: Record<Kind, Statement>): ValidationResult {
     )
     if (eqLiab == null) {
       const eq = findValue(data.balance, period, (l) => l === "total equity")
-      const liab = findValue(data.balance, period, (l) => l === "total liabilities")
+      const liab = findValue(
+        data.balance,
+        period,
+        (l) => l === "total liabilities"
+      )
       if (eq != null && liab != null) eqLiab = eq + liab
     }
     if (assets != null && eqLiab != null && off(assets, eqLiab))
-      add("balance sheet balances (assets = equity + liabilities)", "fail", period, eqLiab, assets)
+      add(
+        "balance sheet balances (assets = equity + liabilities)",
+        "fail",
+        period,
+        eqLiab,
+        assets
+      )
   }
 
   // 2. Net profit is the same on the income statement and the cash-flow statement (FAIL).
@@ -690,13 +692,21 @@ function validateStatements(data: Record<Kind, Statement>): ValidationResult {
 
   // 3. Cash-flow ending cash = the balance sheet cash line (WARNING).
   const isBsCash = (l: string) =>
-    l.includes("cash and cash equivalents") || l.includes("cash at bank") || l === "cash"
+    l.includes("cash and cash equivalents") ||
+    l.includes("cash at bank") ||
+    l === "cash"
   const isEndingCash = (l: string) => l.includes("cash") && l.includes("end")
   for (const period of data.balance.periods) {
     const bs = findValue(data.balance, period, isBsCash)
     const cf = findValue(data.cashflow, period, isEndingCash)
     if (bs != null && cf != null && off(bs, cf))
-      add("ending cash matches (cash flow vs balance sheet)", "warning", period, bs, cf)
+      add(
+        "ending cash matches (cash flow vs balance sheet)",
+        "warning",
+        period,
+        bs,
+        cf
+      )
   }
 
   // 4. Coverage (per period): each statement must carry its headline line WITH A VALUE for
@@ -705,14 +715,33 @@ function validateStatements(data: Record<Kind, Statement>): ValidationResult {
   const coverage: [Kind, RegExp, string][] = [
     // "sales" also covers Rheinmetall-style nature-of-expense statements ("Sales"),
     // "total operating performance", etc.; "revenue"/"turnover" cover the rest.
-    ["income", /revenue|sales|turnover|total operating performance/, "income: no revenue/sales value (wrong page?)"],
-    ["balance", /^total assets$/, "balance: no total assets value (wrong page?)"],
-    ["cashflow", /operating activities/, "cashflow: no operating-activities value (wrong page?)"],
+    [
+      "income",
+      /revenue|sales|turnover|total operating performance/,
+      "income: no revenue/sales value (wrong page?)",
+    ],
+    [
+      "balance",
+      /^total assets$/,
+      "balance: no total assets value (wrong page?)",
+    ],
+    [
+      "cashflow",
+      /operating activities/,
+      "cashflow: no operating-activities value (wrong page?)",
+    ],
   ]
   for (const [kind, re, msg] of coverage)
     for (const period of data[kind].periods)
       if (findValue(data[kind], period, (l) => re.test(l)) == null)
-        issues.push({ check: msg, severity: "fail", period, expected: 0, actual: 0, diff: 0 })
+        issues.push({
+          check: msg,
+          severity: "fail",
+          period,
+          expected: 0,
+          actual: 0,
+          diff: 0,
+        })
 
   const status = issues.some((i) => i.severity === "fail")
     ? "fail"
@@ -770,26 +799,6 @@ function statementSpan(
   return [...new Set(span)].sort((a, b) => a - b)
 }
 
-// Best keyword page for a kind within a page range (fallback when the statement locator
-// misses one inside the section — used instead of a whole-document guess).
-function bestInWindow(
-  kind: Kind,
-  lo: number,
-  hi: number,
-  cleaned: string[]
-): number | null {
-  let best = -1
-  let bestScore = 2 // require score > 2 to accept
-  for (let i = Math.max(0, lo); i <= hi && i < cleaned.length; i++) {
-    const s = pageScore(cleaned[i].toLowerCase(), kind)
-    if (s > bestScore) {
-      bestScore = s
-      best = i
-    }
-  }
-  return best === -1 ? null : best
-}
-
 // ─── Glue: run one report through the pipeline ────────────────────────────
 // The extracted statements for one report year.
 interface Report {
@@ -813,7 +822,15 @@ async function readReport(
   }
 
   console.log(`  reading ${year}…`)
-  const pages = await loadPages(year, refresh)
+  let pages: string[]
+  try {
+    pages = await loadPages(year, refresh)
+  } catch (err) {
+    // e.g. discovery found no official PDF for this year — skip it, keep the other years.
+    console.warn(`    ${year}: ${(err as Error).message} — skipped`)
+    const empty: Statement = { periods: [], rows: [] }
+    return { year, income: empty, balance: empty, cashflow: empty }
+  }
 
   // Scope gate (no LLM): current scope is ENGLISH-language reports (IFRS or US GAAP).
   // Non-English text breaks the English keyword anchors, so stop before spending any
@@ -836,51 +853,18 @@ async function readReport(
     cashflow: PAGES_OVERRIDE.cashflow ?? null,
   }
 
-  // Two-step locate (only for kinds not pinned by --pages):
-  //   1. Section Locator (LLM) reads a heading map → the statements' page range.
-  //   2. Statement Locator (LLM) assigns income/balance/cashflow within that range.
-  // A kind the locator misses falls back to the best keyword page WITHIN the section
-  // (never a whole-document guess, which used to land on a notes page).
-  let winLo = -1
-  let winHi = -1
+  // Locate each statement's page in ONE LLM call from the report's heading map (only for
+  // kinds not pinned by --pages). A kind the locator misses falls back to the top keyword
+  // page for that kind.
   if (KINDS.some((k) => picks[k] === null)) {
-    const { byKind, union } = candidatePages(pages)
-    let auto: Record<Kind, number | null> = {
-      income: null,
-      balance: null,
-      cashflow: null,
-    }
-    // Section Locator returns a confidence; on a low score, retry once (LLM sampling
-    // varies) and take the better answer, then widen the window.
-    let section = await locateSection(client, cleaned)
-    if (section && section.confidence < SECTION_CONFIDENCE_MIN) {
-      console.warn(
-        `    section confidence ${section.confidence.toFixed(2)} low — retrying`
-      )
-      const retry = await locateSection(client, cleaned)
-      if (retry && retry.confidence > section.confidence) section = retry
-    }
-    if (section) {
-      ;[winLo, winHi] = section.window
-      if (section.confidence < SECTION_CONFIDENCE_MIN) {
-        winLo = Math.max(0, winLo - 5)
-        winHi = Math.min(cleaned.length - 1, winHi + 5)
-      }
-      console.log(
-        `    statements section: pages ${winLo}–${winHi} (confidence ${section.confidence.toFixed(2)})`
-      )
-      const idx = range(winLo, winHi).filter((i) => i >= 0 && i < cleaned.length)
-      auto = await classifyPages(client, cleaned, idx)
-    } else if (union.length) {
-      auto = await classifyPages(client, pages, union)
-    }
+    const auto = await locateStatements(client, cleaned)
+    const { byKind } = candidatePages(pages)
     for (const kind of KINDS)
       if (picks[kind] === null)
-        picks[kind] =
-          auto[kind] ??
-          (winLo >= 0
-            ? bestInWindow(kind, winLo, winHi, cleaned)
-            : (byKind[kind][0] ?? null))
+        picks[kind] = auto[kind] ?? byKind[kind][0] ?? null
+    console.log(
+      `    located: income ${picks.income}, balance ${picks.balance}, cashflow ${picks.cashflow}`
+    )
   }
 
   // Assign each page to at most one statement (earlier statements claim their continuation
@@ -889,7 +873,9 @@ async function readReport(
     KINDS.map((k) => picks[k]).filter((v): v is number => v != null)
   )
   const spans: Partial<Record<Kind, number[]>> = {}
-  for (const kind of [...KINDS].sort((a, b) => (picks[a] ?? 1e9) - (picks[b] ?? 1e9))) {
+  for (const kind of [...KINDS].sort(
+    (a, b) => (picks[a] ?? 1e9) - (picks[b] ?? 1e9)
+  )) {
     const idx = picks[kind]
     if (idx == null) continue
     const span = statementSpan(kind, idx, cleaned, claimed)
@@ -920,13 +906,9 @@ async function readReport(
 
 async function main() {
   loadEnv()
-  // OPENAI_MODEL overrides the default — handy for probing which model is live:
-  //   OPENAI_MODEL=@cf/... pnpm run extract -- --check
-  MODEL =
-    process.env.OPENAI_MODEL ||
-    (process.env.CLOUDFLARE_ACCOUNT_ID
-      ? "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-      : "gpt-4o")
+  // Provider (cloudflare | groq | openai) + its default model, from LLM_PROVIDER in .env.
+  // OPENAI_MODEL overrides the model for any provider.
+  MODEL = resolveProvider().model
 
   const flags = new Set(process.argv.slice(2))
   const client = makeClient()
@@ -968,9 +950,18 @@ async function main() {
   const refresh = flags.has("--refresh")
   console.log(`=== ${COMPANY.name} — years ${years.at(0)}–${years.at(-1)} ===`)
 
+  // Each year is independent: if one fails (discovery, download, an LLM error…), skip it
+  // and keep going, so a 10-year run never dies on a single bad year.
+  const empty: Statement = { periods: [], rows: [] }
   const reports = []
-  for (const year of [...years].sort((a, b) => b - a))
-    reports.push(await readReport(client, year, refresh))
+  for (const year of [...years].sort((a, b) => b - a)) {
+    try {
+      reports.push(await readReport(client, year, refresh))
+    } catch (err) {
+      console.warn(`  ${year}: failed (${(err as Error).message}) — skipped`)
+      reports.push({ year, income: empty, balance: empty, cashflow: empty })
+    }
+  }
 
   // Provenance: best-effort URL (registry/cache; populated by discovery if it ran).
   const sources = [...years]
@@ -989,12 +980,19 @@ async function main() {
     ),
   }
 
+  // reconcile() is a naive intra-statement subtotal heuristic (sign conventions and
+  // multi-level subtotals make it noisy) — informational only. The cross-statement
+  // validation below is the authoritative check. Use --verbose to see the notes.
   for (const kind of KINDS) {
-    const problems = reconcile(data[kind])
+    const notes = reconcile(data[kind])
     console.log(
-      `  ${kind}: ${data[kind].periods.length} periods, ${data[kind].rows.length} rows, ${problems.length} check issue(s)`
+      `  ${kind}: ${data[kind].periods.length} periods, ${data[kind].rows.length} rows` +
+        (notes.length
+          ? ` (${notes.length} subtotal notes — informational)`
+          : "")
     )
-    problems.slice(0, 3).forEach((p) => console.log(`    ⚠ ${p}`))
+    if (flags.has("--verbose"))
+      notes.slice(0, 3).forEach((p) => console.log(`    · ${p}`))
   }
 
   // Cross-statement validation on the FINAL merged data (deterministic accounting
@@ -1021,26 +1019,6 @@ async function main() {
 }
 
 // ─── Tiny helpers ─────────────────────────────────────────────────────────
-function makeClient(): OpenAI {
-  const account = process.env.CLOUDFLARE_ACCOUNT_ID
-  const token = process.env.CLOUDFLARE_API_TOKEN
-  if (account && token) {
-    return new OpenAI({
-      apiKey: token,
-      baseURL: `https://api.cloudflare.com/client/v4/accounts/${account}/ai/v1`,
-    })
-  }
-  if (process.env.OPENAI_API_KEY) {
-    return new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      baseURL: process.env.OPENAI_BASE_URL,
-    })
-  }
-  fail(
-    "Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN (or OPENAI_API_KEY) in your environment"
-  )
-}
-
 function range(from: number, to: number): number[] {
   return Array.from({ length: to - from + 1 }, (_, i) => from + i)
 }

@@ -144,30 +144,36 @@ export async function discoverPdfUrl(
       role: "system",
       content:
         "You find the direct PDF URL of the report that CONTAINS A COMPANY'S CONSOLIDATED\n" +
-        "FINANCIAL STATEMENTS (the income statement, balance sheet and cash-flow statement) for a\n" +
-        "given year.\n" +
-        "You have these tools; use ONE per turn:\n" +
-        "- web_search(query): search the web; returns [{title, url}]\n" +
-        "- fetch_page(url): a page's title and its on-page links\n" +
-        "- list_pdf_links(url): only the PDF links on a page\n" +
-        "- save_pdf_url(url): save the final PDF URL and finish\n" +
-        "IMPORTANT — companies often publish SEVERAL PDFs for one year. Review ALL the links and\n" +
-        "pick the one that holds the full financial statements. Order of preference by title:\n" +
-        "  1. 'Financial Statements' / 'Consolidated Financial Statements'\n" +
-        "  2. 'Annual Report' / 'Universal Registration Document' / 'Registration Document' / 'Form 20-F' / '10-K'\n" +
-        "DO NOT pick: 'Report of the Board of Directors', 'Annual Review', 'Sustainability'/'ESG',\n" +
-        "'Remuneration', 'Governance', 'Highlights', 'Presentation', 'Fact Sheet', or ESEF/XBRL\n" +
-        "packages — these do NOT contain the full statements. Prefer the complete year-end report\n" +
-        "over quarterly or partial files.\n" +
-        "Reply with ONLY a JSON object, no prose, e.g.\n" +
-        '{"tool":"web_search","args":{"query":"Company 2024 financial statements pdf"}}\n' +
-        'When you have the direct .pdf URL, reply {"tool":"save_pdf_url","args":{"url":"https://…"}}.',
+        "FINANCIAL STATEMENTS (income statement, balance sheet, cash-flow statement) for a year.\n" +
+        "\n" +
+        "OFFICIAL SOURCES ONLY — this is strict:\n" +
+        "- The PDF you save MUST be hosted on the company's OWN official domain (e.g. a URL on\n" +
+        "  novonordisk.com / rheinmetall.com / airbus.com), or a link you found on the company's\n" +
+        "  official investor-relations page.\n" +
+        "- NEVER save a URL from a third-party site, mirror, blog, file-sharing host, university,\n" +
+        "  SEC/EDGAR, or cached copy — even if the filename looks correct.\n" +
+        "- Use web_search to find the official page/PDF; fetch_page / list_pdf_links to inspect it.\n" +
+        '- If no official PDF exists, reply {"tool":"save_pdf_url","args":{"url":"NOT_FOUND"}}.\n' +
+        "\n" +
+        "Tools (use ONE per turn): web_search(query), fetch_page(url), list_pdf_links(url), save_pdf_url(url).\n" +
+        "When several PDFs exist, prefer by title: (1) 'Financial Statements' / 'Consolidated\n" +
+        "Financial Statements', then (2) 'Annual Report' / 'Universal/Registration Document' /\n" +
+        "'Form 20-F' / '10-K'. DO NOT pick 'Report of the Board of Directors', 'Annual Review',\n" +
+        "'Sustainability'/'ESG', 'Remuneration', 'Governance', 'Presentation', or ESEF/XBRL packages.\n" +
+        "Reply with ONLY a JSON object, e.g.\n" +
+        '{"tool":"web_search","args":{"query":"Company official investor relations annual report"}}',
     },
     {
       role: "user",
-      content: `Company: ${company}\nYear: ${year}\nFind the PDF that contains the consolidated financial statements. Reply with your first action as JSON.`,
+      content: `Company: ${company}\nYear: ${year}\nFind the consolidated financial statements PDF on ${company}'s OFFICIAL site. Reply with your first action as JSON.`,
     },
   ]
+
+  // PDFs discovered on the company's OWN domain — the only URLs we'll save. This is what
+  // makes "official sources only" real: a mirror's URL never enters this set, so it can't
+  // be saved even if the model tries (and a company CDN link found on the official page is
+  // trusted, because the trust comes from the page it was listed on, not the PDF's host).
+  const officialPdfs = new Set<string>()
 
   for (let step = 0; step < 12; step++) {
     const res = await chatWithBackoff(client, { model: MODEL, messages })
@@ -188,10 +194,30 @@ export async function discoverPdfUrl(
     )
 
     if (action.tool === "save_pdf_url" && typeof action.args.url === "string") {
-      saveUrl(slug, year, action.args.url)
-      console.log(`\n✓ ${slug} ${year}: ${action.args.url}`)
+      const url = action.args.url
+      if (url === "NOT_FOUND") {
+        console.error(`  no official PDF found for ${slug} ${year}`)
+        return null
+      }
+      // Accept a PDF that is EITHER on the company's own domain (novonordisk.com/…),
+      // OR was listed on the company's official page (covers company CDNs like the
+      // JCDecaux cloudfront host). A mirror satisfies neither → rejected.
+      if (!isOfficialHost(url, company) && !officialPdfs.has(url)) {
+        console.error(`  ✗ rejected (not an official source): ${url.slice(0, 80)}`)
+        messages.push({
+          role: "user",
+          content:
+            `Rejected: "${url}" is not on ${company}'s official domain and was not listed on ` +
+            `its official investor-relations page. Only save a PDF hosted on the company's own ` +
+            `website (or linked from its official IR page). Search for the official one, or reply ` +
+            `{"tool":"save_pdf_url","args":{"url":"NOT_FOUND"}}.`,
+        })
+        continue
+      }
+      saveUrl(slug, year, url)
+      console.log(`\n✓ ${slug} ${year}: ${url}`)
       console.log(`  saved to ${DISCOVERED}`)
-      return action.args.url
+      return url
     }
 
     let result: unknown
@@ -200,12 +226,54 @@ export async function discoverPdfUrl(
     } catch (err) {
       result = { error: (err as Error).message }
     }
+
+    // Only record PDFs listed on the company's OWN domain as savable.
+    if (
+      (action.tool === "list_pdf_links" || action.tool === "fetch_page") &&
+      isOfficialHost(String(action.args.url ?? ""), company)
+    ) {
+      const links = ((result as { pdfLinks?: unknown; links?: unknown }).pdfLinks ??
+        (result as { links?: unknown }).links ??
+        []) as { href?: string }[]
+      for (const l of links)
+        if (
+          typeof l?.href === "string" &&
+          l.href.toLowerCase().split("?")[0].endsWith(".pdf")
+        )
+          officialPdfs.add(l.href)
+    }
+
     messages.push({
       role: "user",
       content: `Result of ${action.tool}:\n${JSON.stringify(result).slice(0, 6000)}\n\nReply with your next action as JSON.`,
     })
   }
   return null
+}
+
+// Does this URL's hostname belong to the company? Derives name tokens from the company
+// name (dropping legal suffixes) and checks the host contains one — so ir.rheinmetall.com
+// and mediaassets.airbus.com pass, but vanslingerlandt.com / hauptversammlung.de do not.
+function officialTokens(company: string): string[] {
+  const stop = new Set([
+    "ag", "se", "sa", "nv", "as", "plc", "inc", "corp", "co", "ltd",
+    "limited", "holding", "holdings", "group", "the", "company",
+  ])
+  const words = company
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length >= 2 && !stop.has(w))
+  return [words.join(""), ...words].filter((t) => t.length >= 3)
+}
+function isOfficialHost(url: string, company: string): boolean {
+  let host: string
+  try {
+    host = new URL(url).hostname.toLowerCase().replace(/^www\./, "")
+  } catch {
+    return false
+  }
+  return officialTokens(company).some((t) => host.includes(t))
 }
 
 // Pull the { "tool", "args" } JSON action out of the model's reply (it may wrap it
@@ -224,17 +292,10 @@ function parseAction(content: string): { tool: string; args: any } | null {
   return null
 }
 
-// Discovery drives a JSON-action loop over plain chat (no function-calling needed),
-// so it uses the same model as extraction (OPENAI_MODEL). DISCOVERY_MODEL overrides
-// just the discovery step if you want a different one.
+// Discovery drives a JSON-action loop over plain chat (no function-calling needed), so it
+// uses the provider's model by default. DISCOVERY_MODEL overrides just the discovery step.
 function resolveModel(): string {
-  return (
-    process.env.DISCOVERY_MODEL ||
-    process.env.OPENAI_MODEL ||
-    (process.env.CLOUDFLARE_ACCOUNT_ID
-      ? "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-      : "gpt-4o")
-  )
+  return process.env.DISCOVERY_MODEL || resolveProvider().model
 }
 
 // One chat call, retrying on rate limits (429) and transient server errors (5xx).
@@ -301,24 +362,44 @@ function stripTags(s: string): string {
     .trim()
 }
 
-function makeClient(): OpenAI {
+// LLM provider selection via LLM_PROVIDER (cloudflare | groq | openai). Each provider has
+// its own API key + default model; OPENAI_MODEL overrides the model for whichever is active.
+// Shared by extract.ts too, so switching providers is one .env variable in one place.
+export interface ProviderConfig {
+  apiKey: string
+  baseURL?: string
+  model: string
+}
+export function resolveProvider(): ProviderConfig {
+  const provider = (process.env.LLM_PROVIDER || "cloudflare").toLowerCase()
+  const model = (fallback: string) => process.env.OPENAI_MODEL || fallback
+  if (provider === "groq") {
+    const key = process.env.GROQ_API_KEY
+    if (!key) fail("LLM_PROVIDER=groq but GROQ_API_KEY is not set")
+    return {
+      apiKey: key,
+      baseURL: "https://api.groq.com/openai/v1",
+      model: model("llama-3.3-70b-versatile"),
+    }
+  }
+  if (provider === "openai") {
+    const key = process.env.OPENAI_API_KEY
+    if (!key) fail("LLM_PROVIDER=openai but OPENAI_API_KEY is not set")
+    return { apiKey: key, baseURL: process.env.OPENAI_BASE_URL, model: model("gpt-4o-mini") }
+  }
   const account = process.env.CLOUDFLARE_ACCOUNT_ID
   const token = process.env.CLOUDFLARE_API_TOKEN
-  if (account && token) {
-    return new OpenAI({
-      apiKey: token,
-      baseURL: `https://api.cloudflare.com/client/v4/accounts/${account}/ai/v1`,
-    })
+  if (!account || !token)
+    fail("LLM_PROVIDER=cloudflare but CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN are not set")
+  return {
+    apiKey: token,
+    baseURL: `https://api.cloudflare.com/client/v4/accounts/${account}/ai/v1`,
+    model: model("@cf/meta/llama-3.3-70b-instruct-fp8-fast"),
   }
-  if (process.env.OPENAI_API_KEY) {
-    return new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      baseURL: process.env.OPENAI_BASE_URL,
-    })
-  }
-  fail(
-    "Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN (or OPENAI_API_KEY) in your environment"
-  )
+}
+export function makeClient(): OpenAI {
+  const p = resolveProvider()
+  return new OpenAI({ apiKey: p.apiKey, baseURL: p.baseURL })
 }
 
 function argValue(name: string): string | undefined {

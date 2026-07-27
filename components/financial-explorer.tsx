@@ -12,12 +12,7 @@ import {
   balanceSheet as nvoBalance,
   cashFlowStatement as nvoCashflow,
   incomeStatement as nvoIncome,
-} from "@/lib/data/novo-nordisk"
-import {
-  balanceSheet as rheinmetallBalance,
-  cashFlowStatement as rheinmetallCashflow,
-  incomeStatement as rheinmetallIncome,
-} from "@/lib/data/rheinmetall"
+} from "@/lib/data/novonordisk"
 import {
   balanceSheet as airbusBalance,
   cashFlowStatement as airbusCashflow,
@@ -38,11 +33,6 @@ const statementData: Record<
     income: nvoIncome,
     balance: nvoBalance,
     cashflow: nvoCashflow,
-  },
-  rheinmetall: {
-    income: rheinmetallIncome,
-    balance: rheinmetallBalance,
-    cashflow: rheinmetallCashflow,
   },
   airbus: {
     income: airbusIncome,
