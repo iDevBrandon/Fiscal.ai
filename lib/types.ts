@@ -33,4 +33,17 @@ export interface Company {
   exchange: string
   irUrl: string
   status: "ready" | "pending"
+  /** ISO currency the statements are reported in (e.g. "EUR", "DKK") */
+  currency: string
+  /** Accounting standard the reports follow (e.g. "IFRS", "US GAAP") */
+  standard: string
+}
+
+/** Symbol shown before figures for a given ISO currency code. */
+export const currencySymbols: Record<string, string> = {
+  EUR: "€",
+  DKK: "kr",
+  USD: "$",
+  GBP: "£",
+  CHF: "CHF",
 }

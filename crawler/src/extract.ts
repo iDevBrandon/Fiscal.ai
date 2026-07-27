@@ -481,6 +481,14 @@ function parseJson(content: string): {
 // "Income/(loss)…" vs "Income/(Loss)…". We match rows by a NORMALISED KEY (lowercase,
 // punctuation-stripped, "for the year/period" removed) so those variants collapse onto
 // ONE row — while the DISPLAY label keeps the newest report's wording (see compile).
+// A few line items are the same figure under different names across years — most
+// commonly the top line (Airbus: "Revenues" → "Revenue"). Map known aliases onto one
+// canonical key so those columns merge instead of splitting into half-filled rows.
+const KEY_ALIASES: Record<string, string> = {
+  revenues: "revenue",
+  "total revenue": "revenue",
+  "total revenues": "revenue",
+}
 function canonKey(label: string): string {
   const k = label
     .toLowerCase()
@@ -488,7 +496,7 @@ function canonKey(label: string): string {
     .replace(/ for the (financial )?(year|period)\b/g, "")
     .replace(/\s+/g, " ")
     .trim()
-  return k || label.trim().toLowerCase()
+  return KEY_ALIASES[k] ?? (k || label.trim().toLowerCase())
 }
 
 function compile(input: { year: number; statement: Statement }[]): Statement {

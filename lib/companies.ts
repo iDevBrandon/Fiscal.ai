@@ -8,6 +8,8 @@ export const companies: Company[] = [
     exchange: "Nasdaq Copenhagen · NYSE",
     irUrl: "https://www.novonordisk.com/investors.html",
     status: "ready",
+    currency: "DKK",
+    standard: "IFRS",
   },
   {
     slug: "airbus",
@@ -16,6 +18,8 @@ export const companies: Company[] = [
     exchange: "Euronext Paris · Frankfurt",
     irUrl: "https://www.airbus.com/en/investors",
     status: "ready",
+    currency: "EUR",
+    standard: "IFRS",
   },
   {
     slug: "lvmh",
@@ -24,5 +28,7 @@ export const companies: Company[] = [
     exchange: "Euronext Paris",
     irUrl: "https://www.lvmh.com/en/investors",
     status: "ready",
+    currency: "EUR",
+    standard: "IFRS",
   },
 ]

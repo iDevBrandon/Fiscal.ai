@@ -14,23 +14,27 @@ import {
 import type { StatementData, StatementRow } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-function formatValue(row: StatementRow, value: number | null) {
+function formatValue(row: StatementRow, value: number | null, symbol: string) {
   if (value === null) return "—"
   const decimals = row.decimals ?? 0
   const formatted = Math.abs(value).toLocaleString("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   })
-  const prefix = row.unit === "shares" ? "" : "$"
+  // Multi-letter symbols (kr, CHF) read better with a space; € / $ / £ hug the number.
+  const prefix =
+    row.unit === "shares" ? "" : symbol.length > 1 ? `${symbol} ` : symbol
   return value < 0 ? `-${prefix}${formatted}` : `${prefix}${formatted}`
 }
 
 function StatementRowView({
   row,
   periodCount,
+  symbol,
 }: {
   row: StatementRow
   periodCount: number
+  symbol: string
 }) {
   if (row.kind === "section") {
     return (
@@ -70,7 +74,7 @@ function StatementRowView({
         if (!restated) {
           return (
             <TableCell key={i} className={cellClass}>
-              {formatValue(row, value)}
+              {formatValue(row, value, symbol)}
             </TableCell>
           )
         }
@@ -82,7 +86,7 @@ function StatementRowView({
                 render={<span />}
                 className="cursor-help underline decoration-muted-foreground/70 decoration-dotted underline-offset-4"
               >
-                {formatValue(row, value)}
+                {formatValue(row, value, symbol)}
               </TooltipTrigger>
               <TooltipContent>Restated in a later annual report</TooltipContent>
             </Tooltip>
@@ -96,7 +100,13 @@ function StatementRowView({
 // Periods are newest-first; the deliverable is a 10-year view, so cap the display.
 const MAX_PERIODS = 10
 
-export function StatementTable({ data }: { data: StatementData }) {
+export function StatementTable({
+  data,
+  symbol = "$",
+}: {
+  data: StatementData
+  symbol?: string
+}) {
   const periods = data.periods.slice(0, MAX_PERIODS)
   const rows = data.rows.map((row) =>
     row.values ? { ...row, values: row.values.slice(0, MAX_PERIODS) } : row
@@ -124,6 +134,7 @@ export function StatementTable({ data }: { data: StatementData }) {
               key={`${row.label}-${idx}`}
               row={row}
               periodCount={periods.length}
+              symbol={symbol}
             />
           ))}
         </TableBody>
