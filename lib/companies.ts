@@ -15,7 +15,7 @@ export const companies: Company[] = [
     name: "Novo Nordisk A/S",
     exchange: "Nasdaq Copenhagen · NYSE",
     irUrl: "https://www.novonordisk.com/investors.html",
-    status: "pending",
+    status: "ready",
   },
   {
     slug: "sap",
@@ -31,6 +31,14 @@ export const companies: Company[] = [
     name: "Rheinmetall AG",
     exchange: "Deutsche Börse (Xetra)",
     irUrl: "https://www.rheinmetall.com/en/investor-relations",
+    status: "ready",
+  },
+  {
+    slug: "jcdecaux",
+    ticker: "DEC",
+    name: "JCDecaux SE",
+    exchange: "Euronext Paris",
+    irUrl: "https://www.jcdecaux.com/investors",
     status: "ready",
   },
 ]

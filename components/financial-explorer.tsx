@@ -19,6 +19,16 @@ import {
   incomeStatement as rheinmetallIncome,
 } from "@/lib/data/rheinmetall"
 import {
+  balanceSheet as jcdecauxBalance,
+  cashFlowStatement as jcdecauxCashflow,
+  incomeStatement as jcdecauxIncome,
+} from "@/lib/data/jcdecaux"
+import {
+  balanceSheet as nvoBalance,
+  cashFlowStatement as nvoCashflow,
+  incomeStatement as nvoIncome,
+} from "@/lib/data/novo-nordisk"
+import {
   statementLabels,
   type StatementData,
   type StatementKind,
@@ -38,6 +48,16 @@ const statementData: Record<
     income: rheinmetallIncome,
     balance: rheinmetallBalance,
     cashflow: rheinmetallCashflow,
+  },
+  jcdecaux: {
+    income: jcdecauxIncome,
+    balance: jcdecauxBalance,
+    cashflow: jcdecauxCashflow,
+  },
+  nvo: {
+    income: nvoIncome,
+    balance: nvoBalance,
+    cashflow: nvoCashflow,
   },
 }
 

@@ -73,6 +73,10 @@ Vercel
 - [ ] Fetch PDFs automactically with company's IR
 - [ ] Built a filing discovery agent that normalizes financial filings using tool calling, since each company's IR website has a different structure and PDF url format
 - [ ] Is the Report written in English/Non-English & follow which Accounting Principles (U.S. GAAP vs. International Standards (IFRS))
+- [ ] Added ignore-list filtering and section windowing to `classifyPages()` to select consolidated financial statements while excluding notes, supplementary statements, and separate/local GAAP reports.
+- [ ] section locator LLM confidence is less than 0.6, it will retry automatically
+
+## Validation & testing
 
 ### 1. Document Collection
 

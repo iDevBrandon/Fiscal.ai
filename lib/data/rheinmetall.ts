@@ -4,1193 +4,773 @@ import type { StatementData } from "@/lib/types"
 // The report PDFs these numbers were extracted from.
 export const sources = [
   {
-    "year": 2025,
-    "url": "https://www.rheinmetall.com/Rheinmetall%20Group/Investor%20Relations/Ver%C3%B6ffentlichungen/Pr%C3%A4sentationen%20und%20Berichte/2026/GB/Rheinmetall-Annual-Report-2025.pdf"
+    year: 2025,
+    url: "https://www.rheinmetall.com/Rheinmetall%20Group/Investor%20Relations/Ver%C3%B6ffentlichungen/Pr%C3%A4sentationen%20und%20Berichte/2026/GB/Rheinmetall-Annual-Report-2025.pdf",
   },
   {
-    "year": 2024,
-    "url": "https://www.rheinmetall.com/Rheinmetall%20Group/Investor%20Relations/Ver%C3%B6ffentlichungen/Pr%C3%A4sentationen%20und%20Berichte/2025/GB/Rheinmetall-Annual-Report-2024.pdf"
-  }
+    year: 2024,
+    url: "https://www.rheinmetall.com/Rheinmetall%20Group/Investor%20Relations/Ver%C3%B6ffentlichungen/Pr%C3%A4sentationen%20und%20Berichte/2025/GB/Rheinmetall-Annual-Report-2024.pdf",
+  },
 ]
 
 export const incomeStatement: StatementData = {
-  "periods": [
-    "2025",
-    "2024",
-    "2023"
+  periods: ["2025", "2024", "2023"],
+  rows: [
+    {
+      label: "Sales",
+      kind: "line",
+      values: [9935, 7715, 7176],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Changes in inventories and work performed by the enterprise and capitalized",
+      kind: "line",
+      values: [521, 132, 696],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Total operating performance",
+      kind: "subtotal",
+      values: [10456, 7847, 7872],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other operating income",
+      kind: "line",
+      values: [273, 178, 153],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Cost of materials",
+      kind: "line",
+      values: [5252, 3693, 3935],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Personnel costs",
+      kind: "line",
+      values: [2314, 1844, 2047],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Amortization, depreciation and impairment",
+      kind: "line",
+      values: [406, 284, 308],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other operating expenses",
+      kind: "line",
+      values: [1112, 891, 889],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Result from investments accounted for using the equity method",
+      kind: "line",
+      values: [47, -33, null],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other financial result",
+      kind: "line",
+      values: [-9, -6, null],
+      unit: "currency",
+    },
+    {
+      label: "Earnings before interest and taxes (EBIT)",
+      kind: "subtotal",
+      values: [1684, 1270, 897],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Interest income",
+      kind: "line",
+      values: [4, 14, 29],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Interest expenses",
+      kind: "line",
+      values: [116, 116, 111],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Earnings before taxes (EBT)",
+      kind: "subtotal",
+      values: [1572, 1168, 815],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Income taxes",
+      kind: "line",
+      values: [-396, -328, -185],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Earnings from continuing operations",
+      kind: "subtotal",
+      values: [1176, 840, 630],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Of which non-controlling interests",
+      kind: "line",
+      values: [148, 93, null],
+      unit: "currency",
+    },
+    {
+      label: "Of which Rheinmetall AG shareholders",
+      kind: "line",
+      values: [1028, 747, null],
+      unit: "currency",
+    },
+    {
+      label: "Earnings from discontinued operations",
+      kind: "line",
+      values: [-341, -32, -44],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Earnings after taxes",
+      kind: "subtotal",
+      values: [835, 808, 586],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Basic earnings per share",
+      kind: "line",
+      values: [15.38, 16.51, 12.32],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Basic earnings per share from continuing operations",
+      kind: "line",
+      values: [22.73, 17.19, 13.34],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Basic earnings per share from discontinued operations",
+      kind: "line",
+      values: [-7.35, -0.68, -1.02],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Diluted earnings per share",
+      kind: "line",
+      values: [15.16, 15.96, 12.07],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Diluted earnings per share from continuing operations",
+      kind: "line",
+      values: [22.29, 16.6, 13.02],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Diluted earnings per share from discontinued operations",
+      kind: "line",
+      values: [-7.13, -0.64, -0.95],
+      unit: "currency",
+      decimals: 2,
+      restatedIndices: [1],
+    },
+    {
+      label: "Non-controlling interests",
+      kind: "line",
+      values: [null, 91, 51],
+      unit: "currency",
+    },
+    {
+      label: "Rheinmetall AG shareholders",
+      kind: "line",
+      values: [null, 717, 535],
+      unit: "currency",
+    },
   ],
-  "rows": [
-    {
-      "label": "Investment income",
-      "kind": "line",
-      "values": [
-        566,
-        637,
-        567
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Income from loans of non-current financial assets",
-      "kind": "line",
-      "values": [
-        8,
-        0,
-        null
-      ]
-    },
-    {
-      "label": "Net interest",
-      "kind": "line",
-      "values": [
-        -23,
-        -46,
-        -18
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Net financial income",
-      "kind": "line",
-      "values": [
-        551,
-        591,
-        549
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Sales",
-      "kind": "line",
-      "values": [
-        156,
-        110,
-        84
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Other operating income",
-      "kind": "line",
-      "values": [
-        213,
-        274,
-        221
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Personnel expenses",
-      "kind": "line",
-      "values": [
-        91,
-        69,
-        63
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Amortization, depreciation and write-downs",
-      "kind": "line",
-      "values": [
-        6,
-        4,
-        8
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Other operating expenses",
-      "kind": "line",
-      "values": [
-        315,
-        366,
-        292
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Earnings before taxes (EBT)",
-      "kind": "subtotal",
-      "values": [
-        508,
-        535,
-        null
-      ]
-    },
-    {
-      "label": "Taxes on income and revenue",
-      "kind": "line",
-      "values": [
-        -195,
-        -88,
-        -99
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Net profit for the year",
-      "kind": "subtotal",
-      "values": [
-        314,
-        447,
-        393
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Allocation to retained earnings",
-      "kind": "line",
-      "values": [
-        0,
-        67,
-        null
-      ]
-    },
-    {
-      "label": "Withdrawal from retained earnings",
-      "kind": "line",
-      "values": [
-        235,
-        0,
-        null
-      ]
-    },
-    {
-      "label": "Net earnings",
-      "kind": "total",
-      "values": [
-        549,
-        380,
-        250
-      ],
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Earnings before Taxes (EBT)",
-      "kind": "subtotal",
-      "values": [
-        null,
-        535,
-        491
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Appropriations to retained earnings",
-      "kind": "line",
-      "values": [
-        null,
-        67,
-        143
-      ],
-      "unit": "currency"
-    }
-  ]
 }
 
 export const balanceSheet: StatementData = {
-  "periods": [
-    "12/31/2025",
-    "12/31/2024",
-    "2023"
+  periods: ["12/31/2025", "12/31/2024", "12/31/2023"],
+  rows: [
+    {
+      label: "Assets",
+      kind: "section",
+      values: [null, null, null],
+    },
+    {
+      label: "Goodwill",
+      kind: "line",
+      values: [1354, 1426, 1125],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other intangible assets",
+      kind: "line",
+      values: [1244, 1376, 952],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Right-of-use assets",
+      kind: "line",
+      values: [338, 334, 271],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Property, plant and equipment",
+      kind: "line",
+      values: [1962, 1853, 1370],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Investment property",
+      kind: "line",
+      values: [2, 20, 22],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Investments accounted for using the equity method",
+      kind: "line",
+      values: [213, 346, 373],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other non-current assets",
+      kind: "line",
+      values: [592, 585, 339],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Deferred taxes",
+      kind: "line",
+      values: [165, 172, 164],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Non-current assets",
+      kind: "subtotal",
+      values: [5871, 6112, 4615],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Inventories",
+      kind: "line",
+      values: [4721, 3989, 3244],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Contract assets",
+      kind: "line",
+      values: [957, 692, 516],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Trade receivables",
+      kind: "line",
+      values: [1907, 1959, 2021],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other current assets",
+      kind: "line",
+      values: [384, 350, 251],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Income tax receivables",
+      kind: "line",
+      values: [11, 57, 13],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Cash and cash equivalents",
+      kind: "line",
+      values: [1650, 1184, 850],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Assets held for sale",
+      kind: "line",
+      values: [1270, 0, 196],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Current assets",
+      kind: "subtotal",
+      values: [10901, 8231, 7092],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Total assets",
+      kind: "total",
+      values: [16772, 14344, 11707],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Equity and liabilities",
+      kind: "section",
+      values: [null, null, null],
+    },
+    {
+      label: "Share capital",
+      kind: "line",
+      values: [118, 112, 112],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Capital reserves",
+      kind: "line",
+      values: [1394, 696, 676],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Retained earnings",
+      kind: "line",
+      values: [3503, 3247, 2533],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Treasury shares",
+      kind: "line",
+      values: [-4, -4, null],
+      unit: "currency",
+    },
+    {
+      label: "Rheinmetall AG shareholders' equity",
+      kind: "subtotal",
+      values: [5011, 4050, 3316],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Non-controlling interests",
+      kind: "line",
+      values: [604, 414, 327],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Equity",
+      kind: "subtotal",
+      values: [5614, 4465, 3643],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Provisions for pensions and similar obligations",
+      kind: "line",
+      values: [278, 527, 562],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other non-current provisions",
+      kind: "line",
+      values: [280, 285, 230],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Non-current financial debts",
+      kind: "line",
+      values: [1155, 1871, 1503],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other non-current liabilities",
+      kind: "line",
+      values: [10, 58, 51],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Non-current liabilities",
+      kind: "subtotal",
+      values: [2086, 3097, 2605],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other current provisions",
+      kind: "line",
+      values: [891, 807, 690],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Current financial debts",
+      kind: "line",
+      values: [126, 552, 410],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Contract liabilities",
+      kind: "line",
+      values: [5642, 3866, 2594],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Trade liabilities",
+      kind: "line",
+      values: [1186, 1151, 1222],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Other current liabilities",
+      kind: "line",
+      values: [318, 288, 274],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Income tax liabilities",
+      kind: "line",
+      values: [200, 118, 108],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Liabilities directly associated with assets held for sale",
+      kind: "line",
+      values: [708, 0, 161],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Current liabilities",
+      kind: "subtotal",
+      values: [9071, 6782, 5459],
+      unit: "currency",
+      restatedIndices: [1],
+    },
+    {
+      label: "Total equity and liabilities",
+      kind: "total",
+      values: [16772, 14344, 11707],
+      unit: "currency",
+      restatedIndices: [1],
+    },
   ],
-  "rows": [
-    {
-      "label": "Non-current assets",
-      "kind": "line",
-      "values": [
-        5871,
-        6112,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Current assets",
-      "kind": "line",
-      "values": [
-        10901,
-        8231,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Total assets",
-      "kind": "total",
-      "values": [
-        16772,
-        14344,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Equity",
-      "kind": "line",
-      "values": [
-        5614,
-        4465,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Non-current liabilities",
-      "kind": "line",
-      "values": [
-        2086,
-        3097,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Current liabilities",
-      "kind": "line",
-      "values": [
-        9071,
-        6782,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Total equity and liabilities",
-      "kind": "total",
-      "values": [
-        16772,
-        14344,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Current financial debts",
-      "kind": "line",
-      "values": [
-        126,
-        552,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Non-current financial debts",
-      "kind": "line",
-      "values": [
-        1155,
-        1871,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Total financial debts",
-      "kind": "subtotal",
-      "values": [
-        1281,
-        2423,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash and cash equivalents",
-      "kind": "line",
-      "values": [
-        1650,
-        1184,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Net financial debts (-)/Net liquidity (+)",
-      "kind": "line",
-      "values": [
-        369,
-        -1239,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Net financial debts (-)/Net liquidity (+) from continuing operations",
-      "kind": "line",
-      "values": [
-        369,
-        -1292,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Total assets adjusted for cash and cash equivalents",
-      "kind": "line",
-      "values": [
-        15122,
-        13159,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Net financial debts (-)",
-      "kind": "line",
-      "values": [
-        369,
-        -1292,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Assets from pension valuation",
-      "kind": "line",
-      "values": [
-        289,
-        275,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Pension provisions",
-      "kind": "line",
-      "values": [
-        278,
-        325,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Capital employed",
-      "kind": "line",
-      "values": [
-        5235,
-        5807,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Average capital employed",
-      "kind": "line",
-      "values": [
-        5521,
-        5425,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "EBIT pre PPA effect",
-      "kind": "line",
-      "values": [
-        1850,
-        1395,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "ROCE (in %)",
-      "kind": "line",
-      "values": [
-        33.5,
-        25.7,
-        null
-      ],
-      "decimals": 2
-    },
-    {
-      "label": "Present value of DBO",
-      "kind": "line",
-      "values": [
-        null,
-        2338,
-        2323
-      ]
-    },
-    {
-      "label": "Plan assets (at fair value)",
-      "kind": "line",
-      "values": [
-        null,
-        -2121,
-        -2031
-      ]
-    },
-    {
-      "label": "Net liability for defined benefit obligations",
-      "kind": "line",
-      "values": [
-        null,
-        217,
-        291
-      ]
-    },
-    {
-      "label": "As of 1/1",
-      "kind": "line",
-      "values": [
-        null,
-        2323,
-        2088
-      ]
-    },
-    {
-      "label": "Current service cost",
-      "kind": "line",
-      "values": [
-        null,
-        35,
-        28
-      ]
-    },
-    {
-      "label": "Past service cost",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Interest cost",
-      "kind": "line",
-      "values": [
-        null,
-        57,
-        62
-      ]
-    },
-    {
-      "label": "Interest income",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Entry benefits/leaving benefits",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null
-      ]
-    },
-    {
-      "label": "Amounts recognized in the income statement",
-      "kind": "line",
-      "values": [
-        null,
-        93,
-        90
-      ]
-    },
-    {
-      "label": "Expense (income) from plan assets (excluding interest income)",
-      "kind": "line",
-      "values": [
-        null,
-        -63,
-        -42
-      ]
-    },
-    {
-      "label": "Actuarial gains (-) and losses (+) Change in financial assumptions",
-      "kind": "line",
-      "values": [
-        null,
-        11,
-        131
-      ]
-    },
-    {
-      "label": "Actuarial gains (-) and losses (+) Change in demographic assumptions",
-      "kind": "line",
-      "values": [
-        null,
-        -5,
-        null
-      ]
-    },
-    {
-      "label": "Actuarial gains (-) and losses (+) Empirical adjustments",
-      "kind": "line",
-      "values": [
-        null,
-        -14,
-        7
-      ]
-    },
-    {
-      "label": "Other comprehensive income from remeasurement of net defined benefit",
-      "kind": "line",
-      "values": [
-        null,
-        -72,
-        96
-      ]
-    },
-    {
-      "label": "Employer contributions",
-      "kind": "line",
-      "values": [
-        null,
-        -26,
-        -30
-      ]
-    },
-    {
-      "label": "Employee contributions",
-      "kind": "line",
-      "values": [
-        null,
-        1,
-        -1
-      ]
-    },
-    {
-      "label": "Pension payments",
-      "kind": "line",
-      "values": [
-        null,
-        -44,
-        -36
-      ]
-    },
-    {
-      "label": "Adjustment in scope of consolidation",
-      "kind": "line",
-      "values": [
-        null,
-        1,
-        null
-      ]
-    },
-    {
-      "label": "Reclassification IFRS 5",
-      "kind": "line",
-      "values": [
-        null,
-        15,
-        40
-      ]
-    },
-    {
-      "label": "Currency differences/Other",
-      "kind": "line",
-      "values": [
-        null,
-        2,
-        -2
-      ]
-    },
-    {
-      "label": "As of 12/31",
-      "kind": "line",
-      "values": [
-        null,
-        217,
-        291
-      ]
-    },
-    {
-      "label": "Defined benefit obligation",
-      "kind": "line",
-      "values": [
-        null,
-        2338,
-        2323
-      ]
-    },
-    {
-      "label": "Plan assets",
-      "kind": "line",
-      "values": [
-        null,
-        -2121,
-        -2031
-      ]
-    },
-    {
-      "label": "Changes in the effect of the asset ceiling",
-      "kind": "line",
-      "values": [
-        null,
-        36,
-        172
-      ]
-    },
-    {
-      "label": "Balance sheet amount",
-      "kind": "line",
-      "values": [
-        null,
-        253,
-        463
-      ]
-    },
-    {
-      "label": "thereof provision",
-      "kind": "line",
-      "values": [
-        null,
-        528,
-        562
-      ]
-    },
-    {
-      "label": "thereof net asset value",
-      "kind": "line",
-      "values": [
-        null,
-        275,
-        99
-      ]
-    }
-  ]
 }
 
 export const cashFlowStatement: StatementData = {
-  "periods": [
-    "2025",
-    "2024",
-    "2023"
+  periods: ["2025", "2024", "2023"],
+  rows: [
+    {
+      label: "Earnings after taxes",
+      kind: "line",
+      values: [835, 808, 586],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Amortization/depreciation/impairment of property, plant and equipment, intangible assets and investment property",
+      kind: "line",
+      values: [501, 403, 308],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Impairment/reversal of impairment of non-current assets of discontinued operations",
+      kind: "line",
+      values: [376, 0, 63],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Allocation of CTA assets to secure pension and partial retirement obligations",
+      kind: "line",
+      values: [-28, -18, -20],
+      restatedIndices: [1],
+    },
+    {
+      label: "Other changes in pension provisions",
+      kind: "line",
+      values: [4, -6, -48],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Income/expenses from disposals of non-current assets and disinvestments in consolidated companies",
+      kind: "line",
+      values: [-24, 103, -59],
+      restatedIndices: [1],
+    },
+    {
+      label: "Changes in other provisions",
+      kind: "line",
+      values: [117, 135, 29],
+      restatedIndices: [1],
+    },
+    {
+      label: "Changes in working capital",
+      kind: "line",
+      values: [499, 407, -217],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Changes in receivables, liabilities (without financial debt) and prepaid and deferred items",
+      kind: "line",
+      values: [93, -102, null],
+    },
+    {
+      label:
+        "Pro rata income/loss from investments accounted for using the equity method",
+      kind: "line",
+      values: [-9, 15, -4],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Dividends received from investments accounted for using the equity method",
+      kind: "line",
+      values: [21, 16, 29],
+      restatedIndices: [1],
+    },
+    {
+      label: "Other non-cash expenses and income",
+      kind: "line",
+      values: [-97, -42, 28],
+      restatedIndices: [1],
+    },
+    {
+      label: "Cash flow from operating activities",
+      kind: "total",
+      values: [2287, 1720, 743],
+      restatedIndices: [1],
+    },
+    {
+      label: "Of which continuing operations",
+      kind: "subtotal",
+      values: [1996, 1625, 740],
+      restatedIndices: [1],
+    },
+    {
+      label: "Of which discontinued operations",
+      kind: "subtotal",
+      values: [291, 95, 3],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Cash outflows for property, plant and equipment, intangible assets and investment property",
+      kind: "line",
+      values: [-872, -732, -398],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Cash inflows from government grants for investments not yet commenced",
+      kind: "line",
+      values: [0, 35, null],
+    },
+    {
+      label:
+        "Cash inflows from the disposal of property, plant and equipment, intangible assets and investment property",
+      kind: "line",
+      values: [10, 10, 2],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Cash inflows/outflows from disinvestments in consolidated companies and financial assets",
+      kind: "line",
+      values: [74, 24, 155],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Cash outflows for investments in consolidated companies and financial assets",
+      kind: "line",
+      values: [-54, -508, -1064],
+      restatedIndices: [1],
+    },
+    {
+      label: "Cash flow from investing activities",
+      kind: "total",
+      values: [-843, -1172, -1175],
+      restatedIndices: [1],
+    },
+    {
+      label: "Dividends paid out by Rheinmetall AG",
+      kind: "line",
+      values: [-369, -248, -187],
+      restatedIndices: [1],
+    },
+    {
+      label: "Other profit distributions",
+      kind: "line",
+      values: [-52, -29, -3],
+      restatedIndices: [1],
+    },
+    {
+      label: "Increase in shares in consolidated subsidiaries",
+      kind: "line",
+      values: [75, 22, 21],
+      restatedIndices: [1],
+    },
+    {
+      label: "Borrowing of other financial debts",
+      kind: "line",
+      values: [71, 793, 407],
+      restatedIndices: [1],
+    },
+    {
+      label: "Repayment of other financial debts",
+      kind: "line",
+      values: [-585, -773, -485],
+      restatedIndices: [1],
+    },
+    {
+      label: "Cash flow from financing activities",
+      kind: "total",
+      values: [-861, -234, 746],
+      restatedIndices: [1],
+    },
+    {
+      label: "Changes in cash and cash equivalents",
+      kind: "line",
+      values: [583, 313, 314],
+      restatedIndices: [1],
+    },
+    {
+      label: "Changes in cash and cash equivalents due to exchange rates",
+      kind: "line",
+      values: [-10, -2, -9],
+      restatedIndices: [1],
+    },
+    {
+      label: "Total change in cash and cash equivalents",
+      kind: "total",
+      values: [574, 312, 305],
+      restatedIndices: [1],
+    },
+    {
+      label: "Opening cash and cash equivalents January 1",
+      kind: "line",
+      values: [1184, 873, 568],
+      restatedIndices: [1],
+    },
+    {
+      label: "Closing cash and cash equivalents December 31",
+      kind: "line",
+      values: [1758, 1184, 873],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Closing cash and cash equivalents December 31 from discontinued operations",
+      kind: "line",
+      values: [108, 0, 23],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Cash and cash equivalents as per consolidated statement of financial position December 31",
+      kind: "line",
+      values: [1650, 1184, 850],
+      restatedIndices: [1],
+    },
+    {
+      label:
+        "Proceeds from reimbursements of pension payments made from CTA assets",
+      kind: "line",
+      values: [null, 0, 8],
+      unit: "currency",
+    },
+    {
+      label:
+        "Changes in receivables, liabilities (without financial debt) and prepaid & deferred items",
+      kind: "line",
+      values: [null, -102, 39],
+      unit: "currency",
+    },
+    {
+      label: "Cash inflows from government grants for investments",
+      kind: "line",
+      values: [null, 35, 0],
+      unit: "currency",
+    },
+    {
+      label: "Cash in-/outflows from/for securities held for trade",
+      kind: "line",
+      values: [null, 0, 130],
+      unit: "currency",
+    },
+    {
+      label:
+        "Cash inflows from the issuance of convertible bonds - Addition to equity",
+      kind: "line",
+      values: [null, 0, 113],
+      unit: "currency",
+    },
+    {
+      label:
+        "Cash inflows from the issuance of convertible bonds - Fair value financial liability",
+      kind: "line",
+      values: [null, 0, 887],
+      unit: "currency",
+    },
+    {
+      label: "Transaction costs for the issuance of convertible bonds",
+      kind: "line",
+      values: [null, 0, -7],
+      unit: "currency",
+    },
   ],
-  "rows": [
-    {
-      "label": "Earnings after taxes",
-      "kind": "line",
-      "values": [
-        835,
-        808,
-        586
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Amortization/depreciation/impairment of property, plant and equipment, intangible assets and investment property",
-      "kind": "line",
-      "values": [
-        501,
-        403,
-        308
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Impairment/reversal of impairment of non-current assets of discontinued operations",
-      "kind": "line",
-      "values": [
-        376,
-        0,
-        63
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Allocation of CTA assets to secure pension and partial retirement obligations",
-      "kind": "line",
-      "values": [
-        -28,
-        -18,
-        -20
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Other changes in pension provisions",
-      "kind": "line",
-      "values": [
-        4,
-        -6,
-        -48
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Income/expenses from disposals of non-current assets and disinvestments in consolidated companies",
-      "kind": "line",
-      "values": [
-        -24,
-        103,
-        -59
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Changes in other provisions",
-      "kind": "line",
-      "values": [
-        117,
-        135,
-        29
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Changes in working capital",
-      "kind": "line",
-      "values": [
-        499,
-        407,
-        -217
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Changes in receivables, liabilities (without financial debt) and prepaid and deferred items",
-      "kind": "line",
-      "values": [
-        93,
-        -102,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Pro rata income/loss from investments accounted for using the equity method",
-      "kind": "line",
-      "values": [
-        -9,
-        15,
-        -4
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Dividends received from investments accounted for using the equity method",
-      "kind": "line",
-      "values": [
-        21,
-        16,
-        29
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Other non-cash expenses and income",
-      "kind": "line",
-      "values": [
-        -97,
-        -42,
-        28
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash flow from operating activities",
-      "kind": "total",
-      "values": [
-        2287,
-        1720,
-        743
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Of which continuing operations",
-      "kind": "subtotal",
-      "values": [
-        1996,
-        1625,
-        740
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Of which discontinued operations",
-      "kind": "subtotal",
-      "values": [
-        291,
-        95,
-        3
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash outflows for property, plant and equipment, intangible assets and investment property",
-      "kind": "line",
-      "values": [
-        -872,
-        -732,
-        -398
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash inflows from government grants for investments not yet commenced",
-      "kind": "line",
-      "values": [
-        null,
-        35,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash inflows from the disposal of property, plant and equipment, intangible assets and investment property",
-      "kind": "line",
-      "values": [
-        10,
-        10,
-        2
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash inflows/outflows from disinvestments in consolidated companies and financial assets",
-      "kind": "line",
-      "values": [
-        74,
-        24,
-        155
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash outflows for investments in consolidated companies and financial assets",
-      "kind": "line",
-      "values": [
-        -54,
-        -508,
-        -1064
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash flow from investing activities",
-      "kind": "total",
-      "values": [
-        -843,
-        -1172,
-        -1175
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Dividends paid out by Rheinmetall AG",
-      "kind": "line",
-      "values": [
-        -369,
-        -248,
-        -187
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Other profit distributions",
-      "kind": "line",
-      "values": [
-        -52,
-        -29,
-        -3
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Increase in shares in consolidated subsidiaries",
-      "kind": "line",
-      "values": [
-        75,
-        22,
-        21
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Borrowing of other financial debts",
-      "kind": "line",
-      "values": [
-        71,
-        793,
-        407
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Repayment of other financial debts",
-      "kind": "line",
-      "values": [
-        -585,
-        -773,
-        -485
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Cash flow from financing activities",
-      "kind": "total",
-      "values": [
-        -861,
-        -234,
-        746
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Changes in cash and cash equivalents",
-      "kind": "line",
-      "values": [
-        583,
-        313,
-        314
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Changes in cash and cash equivalents due to exchange rates",
-      "kind": "line",
-      "values": [
-        -10,
-        -2,
-        -9
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Total change in cash and cash equivalents",
-      "kind": "total",
-      "values": [
-        574,
-        312,
-        305
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Opening cash and cash equivalents January 1",
-      "kind": "line",
-      "values": [
-        1184,
-        873,
-        568
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Closing cash and cash equivalents December 31",
-      "kind": "line",
-      "values": [
-        1758,
-        1184,
-        873
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Closing cash and cash equivalents December 31 from discontinued operations",
-      "kind": "line",
-      "values": [
-        108,
-        0,
-        23
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash and cash equivalents as per consolidated statement of financial position December 31",
-      "kind": "line",
-      "values": [
-        1650,
-        1184,
-        850
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        1
-      ]
-    },
-    {
-      "label": "Proceeds from reimbursements of pension payments made from CTA assets",
-      "kind": "line",
-      "values": [
-        null,
-        0,
-        8
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Changes in receivables, liabilities (without financial debt) and prepaid & deferred items",
-      "kind": "line",
-      "values": [
-        null,
-        -102,
-        39
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash inflows from government grants for investments",
-      "kind": "line",
-      "values": [
-        null,
-        35,
-        0
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash in-/outflows from/for securities held for trade",
-      "kind": "line",
-      "values": [
-        null,
-        0,
-        130
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash inflows from the issuance of convertible bonds - Addition to equity",
-      "kind": "line",
-      "values": [
-        null,
-        0,
-        113
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Cash inflows from the issuance of convertible bonds - Fair value financial liability",
-      "kind": "line",
-      "values": [
-        null,
-        0,
-        887
-      ],
-      "unit": "currency"
-    },
-    {
-      "label": "Transaction costs for the issuance of convertible bonds",
-      "kind": "line",
-      "values": [
-        null,
-        0,
-        -7
-      ],
-      "unit": "currency"
-    }
-  ]
 }
 
 export default { incomeStatement, balanceSheet, cashFlowStatement, sources }

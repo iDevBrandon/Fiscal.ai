@@ -41,11 +41,30 @@ pnpm run extract -- --company "Novo Nordisk" --years 2024-2025
 pnpm run extract -- --company "Rheinmetall AG" --years 2024-2025
 pnpm run extract -- --refresh                                  # ignore caches, redo everything
 pnpm run extract -- --dry-run                                  # extract + check totals, don't write
+pnpm run extract -- --company "JCDecaux" --years 2025-2025 --pages income:21,balance:19,cashflow:24
 ```
 
 `--company` is the full company name (used by discovery to find the PDF) and
 `--years` is required — e.g. `2023-2025`. The slug (output filename) is derived from
 the name: `"Rheinmetall AG"` → `rheinmetall-ag` → `lib/data/rheinmetall-ag.ts`.
+
+## Locating the statements
+
+Finding _which_ of hundreds of pages holds each consolidated statement is the hard part
+(dozens of tables look alike; the management report and notes repeat the same figures).
+It runs as two LLM steps, mirroring how you'd do it by hand:
+
+1. **Section Locator** — the report is stripped of repeated boilerplate (nav/headers),
+   then a map of its statement/section headings (page index → heading) is handed to the
+   LLM, which returns the page range of the primary _Consolidated Financial Statements_
+   section (the tables that sit just before "Notes to the consolidated…"). Passing a
+   whole-document map — not a hand-tuned keyword list — is what makes this generalize.
+2. **Statement Locator** — within that small range, the LLM assigns income / balance /
+   cash-flow to specific page indices, which are sliced directly (`pages[i]`), so a
+   report's printed page numbers never enter the picture.
+
+For the rare report the locator gets wrong, `--pages income:21,balance:19,cashflow:24`
+pins the pages by hand (an escape hatch — the default path is fully automatic).
 
 ## How a company's PDF URL is resolved
 
@@ -69,6 +88,15 @@ ASML's per-year viewer) would need a headless-browser tool, or a pre-seeded URL.
 
 The classifier and extractor are accounting-standard-agnostic: the keyword pre-filter
 covers both IFRS (SAP, Novo, Rheinmetall) and US GAAP (ASML) titles and line items.
+
+## Scope
+
+Current scope is **English-language annual reports (IFRS or US GAAP)**. A cheap,
+deterministic English-language check (stopword density — no LLM) runs right after a PDF
+is parsed; a report that isn't in English is skipped before any LLM tokens are spent on
+it. Accounting standard is _not_ filtered — the anchors handle IFRS and US GAAP alike, so
+US-GAAP filers like ASML are in scope. Non-English editions (e.g. a German-only report)
+are out of scope for now.
 
 ## Caching (important for CI / GitHub Actions)
 
