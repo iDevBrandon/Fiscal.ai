@@ -492,12 +492,31 @@ const KEY_ALIASES: Record<string, string> = {
 function canonKey(label: string): string {
   const k = label
     .toLowerCase()
-    .replace(/\(\d+\)/g, " ") // strip footnote refs, e.g. SAP's "Total assets(3)"
+    // note/footnote refs in parens: "(3)", "(D.2)", "(b.3)", "(e.2)"
+    .replace(/\([a-z]?\.?\d+\)/g, " ")
+    // wording that only appears in loss/gain years, e.g. "Profit (loss) after tax"
+    .replace(/\((loss|profit|gain|income|expense|net)\)/g, " ")
     .replace(/[^a-z0-9]+/g, " ")
+    // trailing footnote digit stuck to a word: "tax1" → "tax", "refunds2" → "refunds"
+    .replace(/([a-z])\d+\b/g, "$1")
+    // cash-flow subtotals drift in wording: "generated from" / "flows from" / "used in" all
+    // mean the same, so "net cash generated from operating" == "net cash flows from operating".
+    .replace(/\b(generated (from|by)|provided by|used (in|for)|flows? from)\b/g, "from")
     .replace(/ for the (financial )?(year|period)\b/g, "")
     .replace(/\s+/g, " ")
     .trim()
   return KEY_ALIASES[k] ?? (k || label.trim().toLowerCase())
+}
+
+// Clean a label for DISPLAY only: strip note cross-references — "(D.2)", "(A.1), (C.2)" — and
+// footnote superscripts that clutter the table (SAP's 20-F is full of them). Row MERGING still
+// uses canonKey; this only prettifies what the dashboard shows.
+function cleanLabel(label: string): string {
+  return label
+    .replace(/[\s,]*\([A-Za-z]?\.?\d+\)/g, "")
+    .replace(/([A-Za-z])\d+\b/g, "$1")
+    .replace(/\s{2,}/g, " ")
+    .trim()
 }
 
 function compile(input: { year: number; statement: Statement }[]): Statement {
@@ -511,7 +530,9 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
     }
   }
   const years = [...labelByYear.keys()].sort((a, b) => b - a)
-  const periods = years.map((y) => labelByYear.get(y)!)
+  // Display the fiscal year as the column header. Reports label the period inconsistently
+  // ("2025-12-31", "12/31/2021", "2015 €", "2025³"), so normalise to the year for a clean table.
+  const periods = years.map((y) => String(y))
 
   // Dedup by canonical key; the first row seen (newest report) becomes the display template.
   const labels: Row[] = []
@@ -540,7 +561,7 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
       if (reporting[0].year !== reporting[reporting.length - 1].year)
         restated.push(i)
     })
-    const row: Row = { label: template.label, kind: template.kind, values }
+    const row: Row = { label: cleanLabel(template.label), kind: template.kind, values }
     if (template.unit) row.unit = template.unit
     if (template.decimals != null) row.decimals = template.decimals
     if (restated.length) row.restatedIndices = restated

@@ -2200,32 +2200,43 @@ export const cashFlowStatement: StatementData = {
       ]
     },
     {
-      "label": "Other non-cash items1",
+      "label": "Other non-cash items",
       "kind": "line",
       "values": [
         -3122,
         445,
         424,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        22509,
+        13416,
+        7849,
+        7032,
+        6098,
+        2027,
+        3882,
+        5908,
+        4163
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
+      ]
     },
     {
-      "label": "Changes in working capital1",
+      "label": "Changes in working capital",
       "kind": "line",
       "values": [
         3737,
         2589,
         19713,
-        null,
+        -5535,
         null,
         null,
         null,
@@ -2235,7 +2246,11 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2
+      ]
     },
     {
       "label": "Interest received",
@@ -2335,19 +2350,26 @@ export const cashFlowStatement: StatementData = {
         120968,
         108908,
         78887,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        55000,
+        51951,
+        46782,
+        44616,
+        41168,
+        48314,
+        38287,
+        31692
       ],
       "unit": "currency",
       "restatedIndices": [
         1,
-        2
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -2569,19 +2591,26 @@ export const cashFlowStatement: StatementData = {
         -128895,
         -43892,
         -24918,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        -31605,
+        -22436,
+        -11509,
+        -12080,
+        -6571,
+        -6790,
+        -6098,
+        -2064
       ],
       "unit": "currency",
       "restatedIndices": [
         1,
-        2
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -2700,19 +2729,26 @@ export const cashFlowStatement: StatementData = {
         8735,
         -63158,
         -51797,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        -25493,
+        -32244,
+        -35484,
+        -34521,
+        -35689,
+        -38887,
+        -30101,
+        -26533
       ],
       "unit": "currency",
       "restatedIndices": [
         1,
-        2
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
       ]
     },
     {
@@ -2836,54 +2872,6 @@ export const cashFlowStatement: StatementData = {
       ]
     },
     {
-      "label": "Other non-cash items",
-      "kind": "line",
-      "values": [
-        null,
-        15029,
-        33517,
-        22509,
-        13416,
-        7849,
-        7032,
-        6098,
-        2027,
-        3882,
-        5908,
-        4163
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        8,
-        9,
-        10
-      ]
-    },
-    {
-      "label": "Changes in working capital",
-      "kind": "line",
-      "values": [
-        null,
-        -11995,
-        -13380,
-        -5535,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "unit": "currency"
-    },
-    {
       "label": "Change in working capital",
       "kind": "line",
       "values": [
@@ -2899,33 +2887,6 @@ export const cashFlowStatement: StatementData = {
         -3708,
         -2157,
         -2148
-      ],
-      "restatedIndices": [
-        3,
-        4,
-        5,
-        6,
-        8,
-        9,
-        10
-      ]
-    },
-    {
-      "label": "Net cash generated from operating activities",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        108908,
-        78887,
-        55000,
-        51951,
-        46782,
-        44616,
-        41168,
-        48314,
-        38287,
-        31692
       ],
       "restatedIndices": [
         3,
@@ -2958,60 +2919,6 @@ export const cashFlowStatement: StatementData = {
         4,
         5,
         6
-      ]
-    },
-    {
-      "label": "Net cash used in investing activities",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        -43892,
-        -24918,
-        -31605,
-        -22436,
-        -11509,
-        -12080,
-        -6571,
-        -6790,
-        -6098,
-        -2064
-      ],
-      "restatedIndices": [
-        3,
-        4,
-        5,
-        6,
-        8,
-        9,
-        10
-      ]
-    },
-    {
-      "label": "Net cash used in financing activities",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        -63158,
-        -51797,
-        -25493,
-        -32244,
-        -35484,
-        -34521,
-        -35689,
-        -38887,
-        -30101,
-        -26533
-      ],
-      "restatedIndices": [
-        3,
-        4,
-        5,
-        6,
-        8,
-        9,
-        10
       ]
     },
     {
