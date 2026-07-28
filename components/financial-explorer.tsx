@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { companies } from "@/lib/companies"
 import * as nvo from "@/lib/data/novonordisk"
-import * as airbus from "@/lib/data/airbus"
+import * as sap from "@/lib/data/sap"
 import * as lvmh from "@/lib/data/lvmh"
 import {
   currencySymbols,
@@ -47,14 +47,14 @@ const registry: Record<string, CompanyData> = {
     sources: nvo.sources,
     validation: nvo.validation,
   },
-  airbus: {
+  sap: {
     statements: {
-      income: airbus.incomeStatement,
-      balance: airbus.balanceSheet,
-      cashflow: airbus.cashFlowStatement,
+      income: sap.incomeStatement,
+      balance: sap.balanceSheet,
+      cashflow: sap.cashFlowStatement,
     },
-    sources: airbus.sources,
-    validation: airbus.validation,
+    sources: sap.sources,
+    validation: sap.validation,
   },
   lvmh: {
     statements: {
@@ -293,7 +293,7 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
           <p className="mt-2 text-xs text-muted-foreground">
             {data.validation.status === "fail"
               ? "A failure means a headline figure (revenue or total assets) is missing for a period — here the two oldest reports, whose source PDFs the page-locator read imperfectly. Every recent year passes; the affected columns are the earliest in the range."
-              : "Warnings never block — reclassifications and restricted-cash movements make the ending-cash tie drift legitimately. The balance-sheet identity and the net-income tie must pass."}
+              : "Warnings never block. The ending-cash warning is expected: a cash-flow statement's end-of-period cash is net of bank overdrafts (and may exclude restricted cash), while the balance-sheet cash line is gross — so the two differ by a small, consistent amount each year (for LVMH, the overdraft balance). Both figures are correct as reported. The hard checks — the balance-sheet identity and the net-income tie — pass."}
           </p>
         </div>
       )}

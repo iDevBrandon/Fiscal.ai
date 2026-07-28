@@ -492,6 +492,7 @@ const KEY_ALIASES: Record<string, string> = {
 function canonKey(label: string): string {
   const k = label
     .toLowerCase()
+    .replace(/\(\d+\)/g, " ") // strip footnote refs, e.g. SAP's "Total assets(3)"
     .replace(/[^a-z0-9]+/g, " ")
     .replace(/ for the (financial )?(year|period)\b/g, "")
     .replace(/\s+/g, " ")
@@ -541,7 +542,7 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
     })
     const row: Row = { label: template.label, kind: template.kind, values }
     if (template.unit) row.unit = template.unit
-    if (template.decimals !== undefined) row.decimals = template.decimals
+    if (template.decimals != null) row.decimals = template.decimals
     if (restated.length) row.restatedIndices = restated
     return row
   })
@@ -804,6 +805,31 @@ function statementSpan(
   return [...new Set(span)].sort((a, b) => a - b)
 }
 
+// The real consolidated balance sheet is the ONE page that carries both sides of the
+// accounting identity — "total assets" AND "total equity and liabilities" (it balances).
+// A "Selected Financial Data" / 5-year-summary table lists total assets alone, so it lacks
+// this signature — which is exactly how the locator gets fooled on long filings (e.g. SAP's
+// 20-F). Return the signature page, preferring the one nearest the income statement (the
+// consolidated statements sit together, so this avoids a parent-company balance sheet).
+function balanceSheetPage(pages: string[], near?: number): number | null {
+  const hits: number[] = []
+  pages.forEach((p, i) => {
+    const low = p.toLowerCase()
+    const hasAssets = low.includes("total assets")
+    const hasEqLiab =
+      low.includes("total equity and liabilities") ||
+      low.includes("total liabilities and equity") ||
+      low.includes("total liabilities and shareholders") ||
+      (low.includes("total equity") && low.includes("total liabilities"))
+    if (hasAssets && hasEqLiab) hits.push(i)
+  })
+  if (hits.length === 0) return null
+  if (near == null) return hits[0]
+  return hits.reduce((best, i) =>
+    Math.abs(i - near) < Math.abs(best - near) ? i : best
+  )
+}
+
 // ─── Glue: run one report through the pipeline ────────────────────────────
 // The extracted statements for one report year.
 interface Report {
@@ -870,6 +896,19 @@ async function readReport(
     console.log(
       `    located: income ${picks.income}, balance ${picks.balance}, cashflow ${picks.cashflow}`
     )
+  }
+
+  // Deterministic balance-sheet correction (unless --pages pinned it): snap `balance` to the
+  // page carrying the full identity signature — "total assets" AND "total equity and
+  // liabilities" — nearest the income statement. Fixes the locator grabbing a summary table
+  // (e.g. SAP's 20-F); a no-op when it already picked the right page, and skipped when the
+  // balance sheet is split across two pages (no single page has both, so `sig` is null).
+  if (PAGES_OVERRIDE.balance == null) {
+    const sig = balanceSheetPage(pages, picks.income ?? undefined)
+    if (sig != null && sig !== picks.balance) {
+      console.log(`    balance → page ${sig} (balance-sheet signature)`)
+      picks.balance = sig
+    }
   }
 
   // Assign each page to at most one statement (earlier statements claim their continuation
