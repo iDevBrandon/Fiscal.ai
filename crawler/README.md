@@ -9,11 +9,11 @@ find URL ─▶ download (cache) ─▶ per-page text (cache) ─▶ keyword pre
                         lib/data/<slug>.ts ◀─ check ◀─ merge years ◀─ (cache) ◀─ LLM extract table
 ```
 
-It's one file, `src/extract.ts`, meant to be read top to bottom. The report is
-split into per-page text; a cheap keyword pass narrows hundreds of pages to a few
-candidates; the LLM then (1) classifies which candidate page is the _consolidated_
-income / balance / cash-flow statement and (2) transcribes that page's table into
-rows. Merging years, flagging restatements and checking totals is plain code.
+The report is split into per-page text; the balance-sheet and cash-flow pages are found
+**deterministically** by the accounting signature each must satisfy (see _Locating the
+statements_), the income page by the LLM; the LLM then transcribes each located table into rows.
+Merging years, deduplicating labels, flagging restatements and checking totals is plain code.
+Collection of the PDFs themselves is a separate step — see `src/catalog.ts` below.
 
 ## Setup
 
@@ -22,15 +22,18 @@ cd crawler
 pnpm install
 ```
 
-Provide LLM credentials, either as shell exports or a `crawler/.env` file (gitignored):
+Provide credentials as shell exports or a `crawler/.env` file (gitignored):
 
 ```bash
 CLOUDFLARE_ACCOUNT_ID=<your account id>
-CLOUDFLARE_API_TOKEN=<a token with the Workers AI permission>
+CLOUDFLARE_API_TOKEN=<token with Workers AI + Browser Rendering permissions>
+OPENAI_API_KEY=<optional, if LLM_PROVIDER=openai>
+LLM_PROVIDER=openai            # openai | cloudflare | groq
 ```
 
-The script builds the Cloudflare Workers AI endpoint from those two variables. (To
-use OpenAI instead, set `OPENAI_API_KEY`.) `.env` is loaded automatically if present.
+The Cloudflare token needs **Workers AI** (for the extraction LLM if `LLM_PROVIDER=cloudflare`)
+and **Browser Rendering** (for `catalog.ts`). To use OpenAI for extraction instead, set
+`OPENAI_API_KEY` and `LLM_PROVIDER=openai`. `.env` is loaded automatically if present.
 
 ## Run
 
@@ -49,20 +52,42 @@ the name: `"Rheinmetall AG"` → `rheinmetall-ag` → `lib/data/rheinmetall-ag.t
 ## Locating the statements
 
 Finding _which_ of hundreds of pages holds each consolidated statement is the hard part
-(dozens of tables look alike; the management report and notes repeat the same figures).
-It runs as two LLM steps, mirroring how you'd do it by hand:
+(dozens of tables look alike; the notes and "Selected Financial Data" summaries repeat the
+same figures). Two of the three are located **deterministically, without the LLM**, using the
+accounting identity each statement must satisfy:
 
-1. **Section Locator** — the report is stripped of repeated boilerplate (nav/headers),
-   then a map of its statement/section headings (page index → heading) is handed to the
-   LLM, which returns the page range of the primary _Consolidated Financial Statements_
-   section (the tables that sit just before "Notes to the consolidated…"). Passing a
-   whole-document map — not a hand-tuned keyword list — is what makes this generalize.
-2. **Statement Locator** — within that small range, the LLM assigns income / balance /
-   cash-flow to specific page indices, which are sliced directly (`pages[i]`), so a
-   report's printed page numbers never enter the picture.
+- **Balance sheet** = the page carrying both `total assets` **and** `total equity and
+liabilities` (a balance sheet balances; a summary table lists total assets alone). Nearest the
+  income statement, to prefer the consolidated one over a parent-company sheet.
+- **Cash flow statement** = the page with all three sections — operating, investing **and**
+  financing activities — plus the ending-cash line. Notes and MD&A liquidity tables lack the full
+  signature, so they're skipped.
+- **Income statement** = still LLM-located from the report's heading map (its signature — revenue
+  - EPS — also appears in early summary tables, so a keyword heuristic is riskier here).
 
-For the rare report the locator gets wrong, `--pages income:21,balance:19,cashflow:24`
-pins the pages by hand (an escape hatch — the default path is fully automatic).
+These signatures were verified across all 40 company-years and generalise (they encode a
+universal property of the statements, not per-company tuning); when a signature isn't found the
+code falls back to the LLM locator, so it never regresses. `--pages income:21,balance:19,cashflow:24`
+pins pages by hand for the rare miss.
+
+## Cataloging filings (`src/catalog.ts`)
+
+The extractor above only needs one report per year. `catalog.ts` is the separate "scrape/classify
+the whole IR site" step (the assignment's secondary output). IR archives are JavaScript-rendered,
+so a static fetch sees nothing — this drives real headless Chrome via **Cloudflare Browser Run**
+(`/links` quick action), which executes the page's JS and returns every rendered link. Each PDF is
+classified by type (Annual Report, Half-Year, Earnings Presentation, Quarterly Statement,
+ESG/Sustainability, Registration Document, …) and written to `lib/data/filings.ts` (the app's
+**Filings** tab). It also fills any missing Annual-Report URL into `discovered.json`, so discovery
+of the report to parse is automatic rather than hand-seeded.
+
+```bash
+pnpm run catalog                    # all companies
+pnpm run catalog -- --company sap   # one (safe — merges, never wipes the others)
+```
+
+Needs a Cloudflare API token with the **Browser Rendering** permission (in addition to Workers AI).
+Free tier is rate-limited, so it throttles and backs off on 429; run one company at a time if needed.
 
 ## How a company's PDF URL is resolved
 
@@ -74,11 +99,14 @@ registry override → cache/discovered.json → discovery agent
 ```
 
 - **registry** (`COMPANIES`, optional): hardcode a known/stable URL to skip discovery.
-- **cache** (`cache/discovered.json`): URLs the agent already found, or that you
-  pre-seed by hand as `{ "slug:year": "https://…/report.pdf" }`.
+- **cache** (`cache/discovered.json`): URLs `catalog.ts` scraped (the Browser Run pass fills
+  Annual-Report URLs here automatically), the discovery agent found, or you pre-seeded by hand.
 - **discovery agent** (`src/discover.ts`): on a miss, an LLM uses tools (web search,
   fetch page, list PDF links) to locate the annual-report PDF and saves the URL to
   `cache/discovered.json` — so you **discover once, then it's cached**.
+
+In practice `catalog.ts` (headless-browser scrape) populates `discovered.json` first, and the LLM
+discovery agent is the fallback only for years the scrape didn't surface.
 
 Resolution is lazy: if a year's page text is already cached, discovery never runs.
 Limitation: the discovery tools fetch static HTML; JS-rendered download pages (e.g.
