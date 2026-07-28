@@ -293,7 +293,7 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
           <p className="mt-2 text-xs text-muted-foreground">
             {data.validation.status === "fail"
               ? "A failure means a headline figure (revenue or total assets) is missing for a period — here the two oldest reports, whose source PDFs the page-locator read imperfectly. Every recent year passes; the affected columns are the earliest in the range."
-              : "Warnings never block. The ending-cash warning is expected: a cash-flow statement's end-of-period cash is net of bank overdrafts (and may exclude restricted cash), while the balance-sheet cash line is gross — so the two differ by a small, consistent amount each year (for LVMH, the overdraft balance). Both figures are correct as reported. The hard checks — the balance-sheet identity and the net-income tie — pass."}
+              : "Warnings never block. The ending-cash warning is expected: a cash-flow statement's end-of-period cash is net of bank overdrafts (and may exclude restricted cash), while the balance-sheet cash line is gross — so the two differ each year by the overdraft balance. Both figures are correct as reported. The hard checks — the balance-sheet identity and the net-income tie — pass."}
           </p>
         </div>
       )}

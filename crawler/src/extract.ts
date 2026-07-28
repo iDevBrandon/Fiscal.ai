@@ -830,6 +830,33 @@ function balanceSheetPage(pages: string[], near?: number): number | null {
   )
 }
 
+// The consolidated statement of cash flows is the one page carrying all three activity
+// sections — operating, investing AND financing — plus the "cash and cash equivalents at the
+// end" line. Notes, MD&A liquidity/net-debt tables and employee disclosures lack this full
+// signature, so this stops the locator grabbing them (SAP's 20-F scatters such tables
+// throughout, which is why its cash flow was pulling employee-headcount rows).
+function cashFlowPage(pages: string[], near?: number): number | null {
+  const hits: number[] = []
+  pages.forEach((p, i) => {
+    const low = p.toLowerCase()
+    const ok =
+      low.includes("operating activities") &&
+      low.includes("investing activities") &&
+      low.includes("financing activities") &&
+      (low.includes("cash and cash equivalents at the end") ||
+        low.includes("cash and cash equivalents at end") ||
+        low.includes("at the end of the period") ||
+        low.includes("at the end of the year") ||
+        low.includes("at end of"))
+    if (ok) hits.push(i)
+  })
+  if (hits.length === 0) return null
+  if (near == null) return hits[0]
+  return hits.reduce((best, i) =>
+    Math.abs(i - near) < Math.abs(best - near) ? i : best
+  )
+}
+
 // ─── Glue: run one report through the pipeline ────────────────────────────
 // The extracted statements for one report year.
 interface Report {
@@ -908,6 +935,15 @@ async function readReport(
     if (sig != null && sig !== picks.balance) {
       console.log(`    balance → page ${sig} (balance-sheet signature)`)
       picks.balance = sig
+    }
+  }
+  // Same idea for the cash flow statement: snap to the page with all three activity sections
+  // plus the ending-cash line, so notes / liquidity tables don't get pulled in.
+  if (PAGES_OVERRIDE.cashflow == null) {
+    const sig = cashFlowPage(pages, picks.income ?? undefined)
+    if (sig != null && sig !== picks.cashflow) {
+      console.log(`    cashflow → page ${sig} (cash-flow signature)`)
+      picks.cashflow = sig
     }
   }
 
