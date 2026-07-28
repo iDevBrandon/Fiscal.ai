@@ -47,3 +47,26 @@ export const currencySymbols: Record<string, string> = {
   GBP: "£",
   CHF: "CHF",
 }
+
+/** Document types the catalog scraper classifies IR filings into. */
+export type FilingType =
+  | "Annual Report"
+  | "Financial Statements"
+  | "Integrated Report"
+  | "Registration Document"
+  | "Half-Year Report"
+  | "Quarterly Statement"
+  | "Earnings Presentation"
+  | "ESG / Sustainability"
+  | "Press Release"
+  | "Other"
+
+/** One PDF scraped from a company's IR site and classified by type. */
+export interface Filing {
+  year: number | null
+  type: FilingType
+  title: string
+  url: string
+  /** true if this PDF was the one parsed for the 10-year statements */
+  usedForExtraction?: boolean
+}

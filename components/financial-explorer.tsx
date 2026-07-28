@@ -11,10 +11,12 @@ import { companies } from "@/lib/companies"
 import * as nvo from "@/lib/data/novonordisk"
 import * as sap from "@/lib/data/sap"
 import * as lvmh from "@/lib/data/lvmh"
+import { filings as filingsCatalog } from "@/lib/data/filings"
 import {
   currencySymbols,
   statementLabels,
   type Company,
+  type Filing,
   type StatementData,
   type StatementKind,
 } from "@/lib/types"
@@ -129,7 +131,11 @@ export function FinancialExplorer() {
 
       {view === "filings" ? (
         cd ? (
-          <FilingsPanel company={company} data={cd} />
+          <FilingsPanel
+            company={company}
+            filings={filingsCatalog[companySlug] ?? []}
+            validation={cd.validation}
+          />
         ) : (
           <EmptyState irUrl={company.irUrl} message="No filings for this company yet." />
         )
@@ -185,33 +191,66 @@ function ValidationBadge({ validation }: { validation: ValidationResult }) {
   )
 }
 
-// Classify a discovered PDF from its URL/filename — the "classify" step, made visible.
-function classifyFiling(url: string): string {
-  const u = decodeURIComponent(url).toLowerCase()
-  if (
-    /financial[-_\s]*statements?|financial[-_\s]*documents?|financialdocuments|documents?[-_ ]financiers?|document[-_ ]financier/.test(
-      u
-    )
+function FilterChip({
+  label,
+  count,
+  active,
+  onClick,
+}: {
+  label: string
+  count: number
+  active: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+        active
+          ? "border-foreground bg-foreground text-background"
+          : "border-border text-muted-foreground hover:text-foreground"
+      )}
+    >
+      {label}{" "}
+      <span className={active ? "opacity-70" : "opacity-50"}>{count}</span>
+    </button>
   )
-    return "Financial Statements"
-  if (/registration|ra-rf|urd/.test(u)) return "Registration Document"
-  return "Annual Report"
 }
 
-function fileName(url: string): string {
-  try {
-    return decodeURIComponent(url.split("/").pop() ?? url)
-  } catch {
-    return url
-  }
-}
+function FilingsPanel({
+  company,
+  filings,
+  validation,
+}: {
+  company: Company
+  filings: Filing[]
+  validation: ValidationResult
+}) {
+  const [type, setType] = useState<string>("All")
 
-function FilingsPanel({ company, data }: { company: Company; data: CompanyData }) {
-  const sources = [...data.sources].sort((a, b) => b.year - a.year)
+  const counts = useMemo(() => {
+    const m: Record<string, number> = {}
+    for (const f of filings) m[f.type] = (m[f.type] ?? 0) + 1
+    return m
+  }, [filings])
+  const types = Object.keys(counts).sort((a, b) => counts[b] - counts[a])
+  const usedCount = filings.filter((f) => f.usedForExtraction).length
+
+  const shown = useMemo(
+    () =>
+      (type === "All" ? filings : filings.filter((f) => f.type === type))
+        .slice()
+        .sort(
+          (a, b) => (b.year ?? 0) - (a.year ?? 0) || a.type.localeCompare(b.type)
+        ),
+    [filings, type]
+  )
+
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[13px] text-muted-foreground">
-        {sources.length} annual filings were discovered on{" "}
+        {filings.length} PDF documents were scraped from{" "}
         <a
           href={company.irUrl}
           target="_blank"
@@ -220,10 +259,30 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
         >
           {company.irUrl}
           <ExternalLink className="size-3" />
-        </a>
-        , classified by document type, and parsed for the consolidated income
-        statement, balance sheet and cash-flow statement.
+        </a>{" "}
+        and classified into {types.length} document types. The {usedCount}{" "}
+        <span className="font-medium text-foreground">Annual Report</span>{" "}
+        filings (tagged <span className="font-medium text-emerald-700">parsed</span>)
+        are the ones the 10-year statements were extracted from.
       </p>
+
+      <div className="flex flex-wrap gap-1.5">
+        <FilterChip
+          label="All"
+          count={filings.length}
+          active={type === "All"}
+          onClick={() => setType("All")}
+        />
+        {types.map((t) => (
+          <FilterChip
+            key={t}
+            label={t}
+            count={counts[t]}
+            active={type === t}
+            onClick={() => setType(t)}
+          />
+        ))}
+      </div>
 
       <div className="overflow-hidden rounded-lg border border-border">
         <table className="w-full text-[13px]">
@@ -231,30 +290,41 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
             <tr className="border-b border-border text-left text-muted-foreground">
               <th className="px-4 py-2.5 font-medium">Year</th>
               <th className="px-4 py-2.5 font-medium">Classification</th>
-              <th className="px-4 py-2.5 font-medium">Source PDF</th>
+              <th className="px-4 py-2.5 font-medium">Document</th>
+              <th className="px-4 py-2.5 font-medium" />
             </tr>
           </thead>
           <tbody>
-            {sources.map((s) => (
-              <tr key={s.year} className="border-b border-border last:border-0">
+            {shown.map((f) => (
+              <tr key={f.url} className="border-b border-border last:border-0">
                 <td className="px-4 py-2.5 tabular-nums text-foreground">
-                  {s.year}
+                  {f.year ?? "—"}
                 </td>
                 <td className="px-4 py-2.5">
                   <Badge variant="secondary" className="font-normal">
-                    {classifyFiling(s.url)}
+                    {f.type}
                   </Badge>
                 </td>
                 <td className="max-w-md px-4 py-2.5">
                   <a
-                    href={s.url}
+                    href={f.url}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1 truncate text-foreground/80 underline decoration-dotted underline-offset-2 hover:text-foreground"
                   >
-                    <span className="truncate">{fileName(s.url)}</span>
+                    <span className="truncate">{f.title}</span>
                     <ExternalLink className="size-3 shrink-0" />
                   </a>
+                </td>
+                <td className="px-4 py-2.5">
+                  {f.usedForExtraction && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-emerald-50 font-normal text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                    >
+                      parsed
+                    </Badge>
+                  )}
                 </td>
               </tr>
             ))}
@@ -262,25 +332,25 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
         </table>
       </div>
 
-      {data.validation.issues.length > 0 && (
+      {validation.issues.length > 0 && (
         <div className="rounded-lg border border-border p-4 text-[13px]">
           <p className="mb-2 flex items-center gap-1.5 font-medium text-foreground">
             <AlertTriangle
               className={cn(
                 "size-3.5",
-                data.validation.status === "fail"
+                validation.status === "fail"
                   ? "text-red-600"
                   : "text-amber-600"
               )}
               strokeWidth={2}
             />
-            {data.validation.status === "fail"
+            {validation.status === "fail"
               ? "Validation issues"
               : "Validation warnings"}{" "}
-            ({data.validation.status})
+            ({validation.status})
           </p>
           <ul className="flex flex-col gap-1 text-muted-foreground">
-            {data.validation.issues.map((iss, i) => (
+            {validation.issues.map((iss, i) => (
               <li key={i}>
                 {iss.check}
                 {iss.period ? ` · ${iss.period}` : ""}
@@ -291,7 +361,7 @@ function FilingsPanel({ company, data }: { company: Company; data: CompanyData }
             ))}
           </ul>
           <p className="mt-2 text-xs text-muted-foreground">
-            {data.validation.status === "fail"
+            {validation.status === "fail"
               ? "A failure means a headline figure (revenue or total assets) is missing for a period — here the two oldest reports, whose source PDFs the page-locator read imperfectly. Every recent year passes; the affected columns are the earliest in the range."
               : "Warnings never block. The ending-cash warning is expected: a cash-flow statement's end-of-period cash is net of bank overdrafts (and may exclude restricted cash), while the balance-sheet cash line is gross — so the two differ each year by the overdraft balance. Both figures are correct as reported. The hard checks — the balance-sheet identity and the net-income tie — pass."}
           </p>
