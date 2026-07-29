@@ -427,6 +427,11 @@ const TRANSCRIBE =
   '"unit"?: "currency"|"shares", "decimals"?: number } ] }\n' +
   "Keep every line item in order. `periods` are the column headers left-to-right. " +
   "Numbers in the reporting unit (usually millions); negatives negative; blanks null. " +
+  "IGNORE any 'Note'/reference column — the column of note cross-references that sits BETWEEN " +
+  "the line-item label and the year value columns (e.g. 4.3, '4.3, 4.5', (D.2), (A.1), 'Note 12'). " +
+  "These point to notes, they are NOT data. Transcribe ONLY the value columns under the period " +
+  "headers. Every row's `values` MUST have exactly one entry per period (same length as " +
+  "`periods`), left-to-right; use null for a blank or '—' cell so columns never shift. " +
   "kind 'section' = header row with no numbers, 'line' = a line item, " +
   "'subtotal'/'total' = summed rows. unit:'shares' for share counts, decimals:2 for per-share rows."
 
@@ -447,12 +452,35 @@ async function extractStatement(
     ],
   })
   const parsed = parseJson(res)
+  const periods = Array.isArray(parsed.periods) ? parsed.periods : []
   // Sanitize: the model occasionally omits fields — keep only well-formed rows and make
   // sure every row has a values array, so compile/validation never hit an undefined.
   const rows = (Array.isArray(parsed.rows) ? parsed.rows : [])
     .filter((r): r is Row => !!r && typeof r.label === "string")
     .map((r) => ({ ...r, values: Array.isArray(r.values) ? r.values : [] }))
-  return { periods: Array.isArray(parsed.periods) ? parsed.periods : [], rows }
+
+  // Safety net: every row must carry exactly one value per period. A different count means the
+  // model dropped or added a cell — i.e. a silent column shift. Flag those rows and normalise
+  // the length (pad right with null / truncate) so a miscount can never misalign the compile.
+  const P = periods.length
+  if (P > 0) {
+    let flagged = 0
+    for (const r of rows) {
+      if (r.kind === "section") continue // headers legitimately carry no values
+      if (r.values.length === P) continue
+      flagged++
+      console.warn(
+        `    ⚠ ${kind}: "${r.label}" returned ${r.values.length} values for ${P} periods — check for a column shift`
+      )
+      r.values =
+        r.values.length < P
+          ? [...r.values, ...Array(P - r.values.length).fill(null)]
+          : r.values.slice(0, P)
+    }
+    if (flagged)
+      console.warn(`    ⚠ ${kind}: ${flagged} row(s) had a value/period count mismatch`)
+  }
+  return { periods, rows }
 }
 
 function parseJson(content: string): {
@@ -519,6 +547,18 @@ function cleanLabel(label: string): string {
     .trim()
 }
 
+// Some older reports come back with expense lines as positive magnitudes (the model dropped the
+// parenthesis/minus that marks them negative). A pure-expense line is always negative in the
+// statement, so we coerce any stray positive back to negative — restoring the as-reported sign.
+// Net "income and expenses" lines and revenue/profit/income lines are excluded (they swing sign).
+function isExpenseRow(label: string): boolean {
+  const l = label.toLowerCase()
+  if (/income/.test(l) && /expenses?/.test(l)) return false // net income-and-expense line
+  if (/income tax/.test(l)) return true
+  if (/\b(revenue|profit|gross|income)\b/.test(l)) return false
+  return /\b(costs?|expenses?)\b/.test(l)
+}
+
 function compile(input: { year: number; statement: Statement }[]): Statement {
   const newestFirst = [...input].sort((a, b) => b.year - a.year)
 
@@ -562,6 +602,8 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
         restated.push(i)
     })
     const row: Row = { label: cleanLabel(template.label), kind: template.kind, values }
+    if (isExpenseRow(row.label))
+      row.values = row.values.map((v) => (v != null && v > 0 ? -v : v))
     if (template.unit) row.unit = template.unit
     if (template.decimals != null) row.decimals = template.decimals
     if (restated.length) row.restatedIndices = restated
