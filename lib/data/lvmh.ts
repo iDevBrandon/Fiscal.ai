@@ -781,6 +781,37 @@ export const incomeStatement: StatementData = {
         9,
         10
       ]
+    },
+    {
+      "label": "Number of shares on which the calculation is based",
+      "kind": "line",
+      "values": [
+        497976118,
+        499681046,
+        500304316,
+        502480100,
+        503895592,
+        504210133,
+        503839542,
+        503918140,
+        504010291,
+        504640459,
+        504894946,
+        503861733
+      ],
+      "unit": "shares",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
     }
   ]
 }
@@ -1483,6 +1514,35 @@ export const balanceSheet: StatementData = {
       ]
     },
     {
+      "label": "Deferred tax",
+      "kind": "line",
+      "values": [
+        6993,
+        7344,
+        7012,
+        6952,
+        6704,
+        5481,
+        5498,
+        5036,
+        4989,
+        4137,
+        4685,
+        4392
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
       "label": "Purchase commitments for minority interests’ shares",
       "kind": "line",
       "values": [
@@ -1607,6 +1667,35 @@ export const balanceSheet: StatementData = {
         4184,
         3960,
         3606
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "label": "Income taxes",
+      "kind": "line",
+      "values": [
+        828,
+        1231,
+        1148,
+        1211,
+        1267,
+        721,
+        722,
+        538,
+        763,
+        428,
+        640,
+        549
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -2910,6 +2999,56 @@ export const cashFlowStatement: StatementData = {
         8,
         9,
         10
+      ]
+    },
+    {
+      "label": "Operating investments",
+      "kind": "line",
+      "values": [
+        -4567,
+        -5531,
+        -7478,
+        -4969,
+        -2664,
+        -2478,
+        -3294,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "label": "Repayment of lease liabilities",
+      "kind": "line",
+      "values": [
+        -2974,
+        -2915,
+        -2818,
+        -2751,
+        -2453,
+        -2302,
+        -2187,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
       ]
     },
     {

@@ -559,6 +559,23 @@ function isExpenseRow(label: string): boolean {
   return /\b(costs?|expenses?)\b/.test(l)
 }
 
+// IFRS balance sheets repeat the SAME label in two sections — e.g. "Borrowings",
+// "Provisions", "Trade payables" appear once under non-current and again under current
+// liabilities. They are DIFFERENT line items and must both survive. canonKey alone would
+// merge them, so we disambiguate by the label's Nth occurrence WITHIN a statement: the
+// first "Borrowings" (non-current) → "borrowings", the second (current) → "borrowings#1".
+// Presentation order (non-current before current) is stable across a company's reports, so
+// the same period lines up for restatement. Returns keys parallel to statement.rows.
+function rowKeys(statement: Statement): string[] {
+  const counts = new Map<string, number>()
+  return statement.rows.map((row) => {
+    const base = canonKey(row.label)
+    const n = counts.get(base) ?? 0
+    counts.set(base, n + 1)
+    return n === 0 ? base : `${base}#${n}`
+  })
+}
+
 function compile(input: { year: number; statement: Statement }[]): Statement {
   const newestFirst = [...input].sort((a, b) => b.year - a.year)
 
@@ -575,25 +592,27 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
   const periods = years.map((y) => String(y))
 
   // Dedup by canonical key; the first row seen (newest report) becomes the display template.
-  const labels: Row[] = []
+  // Keys are ordinal-disambiguated (see rowKeys) so a label repeated in two sections stays two rows.
+  const labels: { row: Row; key: string }[] = []
   const seen = new Set<string>()
   for (const { statement } of newestFirst) {
-    for (const row of statement.rows) {
-      const key = canonKey(row.label)
-      if (seen.has(key)) continue
+    const keys = rowKeys(statement)
+    statement.rows.forEach((row, i) => {
+      const key = keys[i]
+      if (seen.has(key)) return
       seen.add(key)
-      labels.push(row)
-    }
+      labels.push({ row, key })
+    })
   }
 
-  const rows = labels.map((template) => {
+  const rows = labels.map(({ row: template, key }) => {
     const values: (number | null)[] = []
     const restated: number[] = []
     years.forEach((year, i) => {
       const reporting = newestFirst
         .map((r) => ({
           year: r.year,
-          value: valueFor(r.statement, template.label, year),
+          value: valueFor(r.statement, key, year),
         }))
         .filter((r) => r.value !== null)
       if (reporting.length === 0) return values.push(null)
@@ -615,12 +634,12 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
 
 function valueFor(
   statement: Statement,
-  label: string,
+  key: string,
   year: number
 ): number | null {
-  const key = canonKey(label)
-  const row = statement.rows.find((r) => canonKey(r.label) === key)
-  if (!row) return null
+  const idx = rowKeys(statement).indexOf(key)
+  if (idx === -1) return null
+  const row = statement.rows[idx]
   const col = statement.periods.findIndex((p) => yearOf(p) === year)
   return col === -1 ? null : (row.values?.[col] ?? null)
 }

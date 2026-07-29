@@ -129,8 +129,19 @@ pnpm run catalog                       # all companies
 pnpm run catalog -- --company sap      # one
 
 # 2. Parse the annual reports into the 10-year statements (OpenAI / Cloudflare / Groq)
-pnpm run extract -- --company "SAP SE" --years 2016-2025 --slug sap
+
 pnpm run extract -- --check            # just test the LLM key
+# Novo Nordisk
+rm cache/novonordisk-*.extracted.json
+pnpm run extract -- --company "Novo Nordisk" --years 2016-2025 --slug novonordisk
+
+# SAP
+rm cache/sap-*.extracted.json
+pnpm run extract -- --company "SAP SE" --years 2016-2025 --slug sap
+
+# LVMH
+rm cache/lvmh-*.extracted.json
+pnpm run extract -- --company "LVMH" --years 2016-2025 --slug lvmh
 ```
 
 Environment (`crawler/.env`): `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` (Browser

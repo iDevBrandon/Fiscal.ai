@@ -937,6 +937,48 @@ export const incomeStatement: StatementData = {
       ]
     },
     {
+      "label": "Attributable to owners of parent",
+      "kind": "line",
+      "values": [
+        7161,
+        3124,
+        6139,
+        2284,
+        5256,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "restatedIndices": [
+        2
+      ]
+    },
+    {
+      "label": "Attributable to non-controlling interests",
+      "kind": "line",
+      "values": [
+        165,
+        26,
+        -175,
+        -576,
+        121,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "restatedIndices": [
+        2
+      ]
+    },
+    {
       "label": "Earnings per share, basic (in €) from continuing operations",
       "kind": "line",
       "values": [
@@ -1738,6 +1780,122 @@ export const balanceSheet: StatementData = {
       ]
     },
     {
+      "label": "Other financial assets",
+      "kind": "line",
+      "values": [
+        7269,
+        7141,
+        5543,
+        5626,
+        6275,
+        3512,
+        2336,
+        1536,
+        1155,
+        1358,
+        1336
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Trade and other receivables",
+      "kind": "line",
+      "values": [
+        218,
+        209,
+        203,
+        169,
+        147,
+        137,
+        129,
+        118,
+        118,
+        126,
+        87
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Other non-financial assets",
+      "kind": "line",
+      "values": [
+        4419,
+        3990,
+        3573,
+        3580,
+        2628,
+        1926,
+        1701,
+        1301,
+        687,
+        532,
+        332
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Tax assets",
+      "kind": "line",
+      "values": [
+        244,
+        359,
+        382,
+        323,
+        263,
+        271,
+        435,
+        397,
+        352,
+        450,
+        282
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
       "label": "Deferred tax assets",
       "kind": "line",
       "values": [
@@ -2025,6 +2183,151 @@ export const balanceSheet: StatementData = {
       ]
     },
     {
+      "label": "Trade and other payables",
+      "kind": "line",
+      "values": [
+        2,
+        10,
+        39,
+        79,
+        122,
+        98,
+        8,
+        129,
+        119,
+        127,
+        81
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Tax liabilities",
+      "kind": "line",
+      "values": [
+        562,
+        512,
+        874,
+        893,
+        827,
+        667,
+        538,
+        495,
+        434,
+        365,
+        402
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Financial liabilities",
+      "kind": "line",
+      "values": [
+        6021,
+        7169,
+        7941,
+        9547,
+        11042,
+        13605,
+        12923,
+        10553,
+        5034,
+        6481,
+        8681
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Other non-financial liabilities",
+      "kind": "line",
+      "values": [
+        524,
+        749,
+        698,
+        705,
+        860,
+        770,
+        957,
+        501,
+        514,
+        461,
+        331
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "label": "Provisions",
+      "kind": "line",
+      "values": [
+        550,
+        494,
+        432,
+        359,
+        355,
+        362,
+        335,
+        270,
+        328,
+        217,
+        180
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
       "label": "Deferred tax liabilities",
       "kind": "line",
       "values": [
@@ -2051,6 +2354,32 @@ export const balanceSheet: StatementData = {
         7,
         8,
         9
+      ]
+    },
+    {
+      "label": "Contract liabilities",
+      "kind": "line",
+      "values": [
+        144,
+        88,
+        33,
+        33,
+        13,
+        36,
+        89,
+        88,
+        null,
+        null,
+        null
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
       ]
     },
     {
@@ -2391,6 +2720,24 @@ export const balanceSheet: StatementData = {
       "unit": "currency"
     },
     {
+      "label": "Contract liabilities/deferred income",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        88,
+        79,
+        null,
+        null
+      ],
+      "unit": "currency"
+    },
+    {
       "label": "Deferred income",
       "kind": "line",
       "values": [
@@ -2405,6 +2752,26 @@ export const balanceSheet: StatementData = {
         3331,
         2383,
         2001
+      ],
+      "restatedIndices": [
+        9
+      ]
+    },
+    {
+      "label": "Deferred income",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        95,
+        143,
+        106
       ],
       "restatedIndices": [
         9
