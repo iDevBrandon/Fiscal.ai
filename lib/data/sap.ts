@@ -85,12 +85,8 @@ export const incomeStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -111,15 +107,8 @@ export const incomeStatement: StatementData = {
         4399
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -140,15 +129,8 @@ export const incomeStatement: StatementData = {
         8829
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -169,15 +151,8 @@ export const incomeStatement: StatementData = {
         13228
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -198,15 +173,10 @@ export const incomeStatement: StatementData = {
         14315
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -227,15 +197,10 @@ export const incomeStatement: StatementData = {
         3245
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -256,15 +221,10 @@ export const incomeStatement: StatementData = {
         17560
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -285,12 +245,8 @@ export const incomeStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -311,15 +267,10 @@ export const incomeStatement: StatementData = {
         -2076
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -340,15 +291,10 @@ export const incomeStatement: StatementData = {
         -2557
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -369,15 +315,10 @@ export const incomeStatement: StatementData = {
         -2426
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -398,15 +339,10 @@ export const incomeStatement: StatementData = {
         -4983
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -427,15 +363,10 @@ export const incomeStatement: StatementData = {
         12578
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -456,15 +387,10 @@ export const incomeStatement: StatementData = {
         -2331
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -485,15 +411,10 @@ export const incomeStatement: StatementData = {
         -4593
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -514,15 +435,10 @@ export const incomeStatement: StatementData = {
         -892
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -543,15 +459,8 @@ export const incomeStatement: StatementData = {
         -126
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -575,10 +484,6 @@ export const incomeStatement: StatementData = {
         2,
         3,
         4,
-        5,
-        6,
-        7,
-        8,
         9,
         10
       ]
@@ -604,12 +509,8 @@ export const incomeStatement: StatementData = {
         2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -633,12 +534,8 @@ export const incomeStatement: StatementData = {
         2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -662,12 +559,8 @@ export const incomeStatement: StatementData = {
         2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -688,15 +581,9 @@ export const incomeStatement: StatementData = {
         127
       ],
       "restatedIndices": [
-        2,
         3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -717,15 +604,10 @@ export const incomeStatement: StatementData = {
         -152
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -746,15 +628,10 @@ export const incomeStatement: StatementData = {
         -25
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -773,9 +650,6 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2
       ]
     },
     {
@@ -796,15 +670,10 @@ export const incomeStatement: StatementData = {
         -1075
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -823,9 +692,6 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2
       ]
     },
     {
@@ -846,15 +712,10 @@ export const incomeStatement: StatementData = {
         3280
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -875,15 +736,9 @@ export const incomeStatement: StatementData = {
         0
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
+        8
       ]
     },
     {
@@ -902,9 +757,6 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2
       ]
     },
     {
@@ -925,15 +777,8 @@ export const incomeStatement: StatementData = {
         3280
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -952,9 +797,6 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2
       ]
     },
     {
@@ -973,9 +815,6 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2
       ]
     },
     {
@@ -996,10 +835,7 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2,
-      "restatedIndices": [
-        2
-      ]
+      "decimals": 2
     },
     {
       "label": "Earnings per share, basic (in €)1",
@@ -1019,10 +855,7 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2,
-      "restatedIndices": [
-        2
-      ]
+      "decimals": 2
     },
     {
       "label": "Earnings per share, diluted (in €) from continuing operations",
@@ -1042,10 +875,7 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2,
-      "restatedIndices": [
-        2
-      ]
+      "decimals": 2
     },
     {
       "label": "Earnings per share, diluted (in €)1",
@@ -1065,10 +895,7 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2,
-      "restatedIndices": [
-        2
-      ]
+      "decimals": 2
     },
     {
       "label": "Consolidated Income Statements of SAP Group for the Years Ended December 31",
@@ -1295,13 +1122,8 @@ export const incomeStatement: StatementData = {
         4355
       ],
       "restatedIndices": [
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -1324,11 +1146,6 @@ export const incomeStatement: StatementData = {
       "unit": "currency",
       "decimals": 2,
       "restatedIndices": [
-        4,
-        5,
-        6,
-        7,
-        8,
         9
       ]
     },
@@ -1352,11 +1169,6 @@ export const incomeStatement: StatementData = {
       "unit": "currency",
       "decimals": 2,
       "restatedIndices": [
-        4,
-        5,
-        6,
-        7,
-        8,
         9
       ]
     },
@@ -1379,8 +1191,7 @@ export const incomeStatement: StatementData = {
       ],
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -1402,8 +1213,7 @@ export const incomeStatement: StatementData = {
       ],
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -1479,7 +1289,7 @@ export const incomeStatement: StatementData = {
         null,
         0,
         0,
-        86
+        -86
       ]
     },
     {
@@ -1536,13 +1346,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1565,13 +1368,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1594,13 +1390,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1623,13 +1412,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1652,13 +1434,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1681,13 +1456,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1739,13 +1507,7 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
         4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1768,13 +1530,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1797,13 +1552,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1826,13 +1574,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1855,13 +1596,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1884,13 +1618,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -1918,7 +1645,6 @@ export const balanceSheet: StatementData = {
         3,
         4,
         5,
-        6,
         7,
         8,
         9
@@ -1944,7 +1670,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
         6,
@@ -1973,7 +1698,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
         6,
@@ -2001,11 +1725,7 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         1,
-        2,
-        3,
-        4,
         5,
-        6,
         7,
         8,
         9
@@ -2029,13 +1749,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2058,13 +1771,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2089,11 +1795,7 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
         6,
-        7,
         8,
         9
       ]
@@ -2116,13 +1818,7 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
-        7,
         8,
         9
       ]
@@ -2145,12 +1841,7 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
+        5
       ]
     },
     {
@@ -2173,10 +1864,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
         7,
         8,
         9
@@ -2200,13 +1887,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2231,11 +1911,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2258,13 +1933,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2287,13 +1955,7 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
-        7,
         8,
         9
       ]
@@ -2316,13 +1978,9 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
         2,
-        3,
-        4,
         5,
         6,
-        7,
         8,
         9
       ]
@@ -2347,9 +2005,7 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
-        5,
         6,
         7,
         8,
@@ -2372,15 +2028,7 @@ export const balanceSheet: StatementData = {
         null,
         null
       ],
-      "unit": "currency",
-      "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
+      "unit": "currency"
     },
     {
       "label": "Total non-current liabilities",
@@ -2402,7 +2050,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
         6,
@@ -2431,7 +2078,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
         6,
@@ -2458,13 +2104,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2487,13 +2126,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2516,13 +2148,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2547,11 +2172,8 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
-        6,
-        7,
         8,
         9
       ]
@@ -2574,13 +2196,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2604,12 +2219,7 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         1,
-        2,
-        3,
-        4,
         5,
-        6,
-        7,
         8,
         9
       ]
@@ -2632,13 +2242,6 @@ export const balanceSheet: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
         9
       ]
@@ -2662,12 +2265,7 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         1,
-        2,
-        3,
-        4,
         5,
-        6,
-        7,
         8,
         9
       ]
@@ -2692,7 +2290,6 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
         4,
         5,
         6,
@@ -2814,16 +2411,8 @@ export const cashFlowStatement: StatementData = {
         3280
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -2860,11 +2449,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        1,
-        2,
-        3
       ]
     },
     {
@@ -2885,16 +2469,10 @@ export const cashFlowStatement: StatementData = {
         1289
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -2933,13 +2511,8 @@ export const cashFlowStatement: StatementData = {
         1075
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
         9,
         10
@@ -2963,16 +2536,10 @@ export const cashFlowStatement: StatementData = {
         25
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3011,12 +2578,8 @@ export const cashFlowStatement: StatementData = {
         70
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
         7,
         8,
         9
@@ -3076,13 +2639,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -3103,13 +2661,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -3130,13 +2683,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -3157,16 +2705,10 @@ export const cashFlowStatement: StatementData = {
         -1356
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3188,8 +2730,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "restatedIndices": [
         1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3210,9 +2751,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3235,14 +2774,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3264,8 +2797,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3284,11 +2816,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        1,
-        2,
-        3
       ]
     },
     {
@@ -3309,16 +2836,10 @@ export const cashFlowStatement: StatementData = {
         -737
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3357,16 +2878,8 @@ export const cashFlowStatement: StatementData = {
         -910
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3387,16 +2900,8 @@ export const cashFlowStatement: StatementData = {
         833
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3417,16 +2922,9 @@ export const cashFlowStatement: StatementData = {
         59
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3448,8 +2946,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "restatedIndices": [
         1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3470,9 +2967,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3495,14 +2990,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3523,16 +3012,8 @@ export const cashFlowStatement: StatementData = {
         -1194
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3553,15 +3034,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9
+        8
       ]
     },
     {
@@ -3582,15 +3055,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9
+        8
       ]
     },
     {
@@ -3611,16 +3076,8 @@ export const cashFlowStatement: StatementData = {
         7503
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3641,16 +3098,8 @@ export const cashFlowStatement: StatementData = {
         -2062
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3671,13 +3120,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -3696,18 +3140,6 @@ export const cashFlowStatement: StatementData = {
         3,
         0,
         0
-      ],
-      "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
       ]
     },
     {
@@ -3728,16 +3160,10 @@ export const cashFlowStatement: StatementData = {
         -130
       ],
       "restatedIndices": [
-        1,
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3759,8 +3185,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "restatedIndices": [
         1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3781,9 +3206,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        1,
-        2,
-        3
+        2
       ]
     },
     {
@@ -3806,14 +3229,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3834,16 +3251,8 @@ export const cashFlowStatement: StatementData = {
         23
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3882,16 +3291,8 @@ export const cashFlowStatement: StatementData = {
         2748
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3912,16 +3313,8 @@ export const cashFlowStatement: StatementData = {
         3328
       ],
       "restatedIndices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -3942,11 +3335,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        2,
         3,
-        4,
-        5,
-        6
+        4
       ]
     },
     {
@@ -3967,12 +3357,8 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        2,
         3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -3993,15 +3379,10 @@ export const cashFlowStatement: StatementData = {
         -286
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4022,15 +3403,11 @@ export const cashFlowStatement: StatementData = {
         -329
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
         7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4051,12 +3428,7 @@ export const cashFlowStatement: StatementData = {
         null
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
+        4
       ]
     },
     {
@@ -4075,10 +3447,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        2,
-        3
       ]
     },
     {
@@ -4099,15 +3467,10 @@ export const cashFlowStatement: StatementData = {
         46
       ],
       "restatedIndices": [
-        2,
         3,
         4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4128,15 +3491,8 @@ export const cashFlowStatement: StatementData = {
         580
       ],
       "restatedIndices": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4155,10 +3511,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        4,
-        5
       ]
     },
     {
@@ -4177,11 +3529,6 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ],
-      "restatedIndices": [
-        4,
-        5,
-        6
       ]
     },
     {
@@ -4219,11 +3566,7 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency",
-      "restatedIndices": [
-        6,
-        7
-      ]
+      "unit": "currency"
     },
     {
       "label": "Decrease/increase in sales and bad debt allowances on trade receivables",
@@ -4245,8 +3588,7 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4269,8 +3611,7 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4331,8 +3672,7 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4354,9 +3694,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        8,
-        9,
-        10
+        9
       ]
     },
     {
@@ -4378,8 +3716,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        9,
-        10
+        9
       ]
     },
     {
@@ -4399,11 +3736,7 @@ export const cashFlowStatement: StatementData = {
         266,
         -111
       ],
-      "unit": "currency",
-      "restatedIndices": [
-        9,
-        10
-      ]
+      "unit": "currency"
     },
     {
       "label": "Cash receipts from swap contracts",
@@ -4424,8 +3757,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        9,
-        10
+        9
       ]
     },
     {
@@ -4447,8 +3779,7 @@ export const cashFlowStatement: StatementData = {
       ],
       "unit": "currency",
       "restatedIndices": [
-        9,
-        10
+        9
       ]
     },
     {

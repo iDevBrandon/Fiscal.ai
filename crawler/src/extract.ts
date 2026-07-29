@@ -554,8 +554,11 @@ function cleanLabel(label: string): string {
 function isExpenseRow(label: string): boolean {
   const l = label.toLowerCase()
   if (/income/.test(l) && /expenses?/.test(l)) return false // net income-and-expense line
-  if (/income tax/.test(l)) return true
-  if (/\b(revenue|profit|gross|income)\b/.test(l)) return false
+  // Result / subtotal lines (profit, loss, earnings, gross) swing sign and are never forced
+  // negative — check these BEFORE the income-tax rule so "Profit before income taxes" (a profit
+  // subtotal that merely mentions tax) isn't mistaken for the tax-expense line.
+  if (/\b(profit|loss|earnings|gross)\b/.test(l)) return false
+  if (/income tax/.test(l)) return true // the tax-expense line itself
   return /\b(costs?|expenses?)\b/.test(l)
 }
 
@@ -576,7 +579,15 @@ function rowKeys(statement: Statement): string[] {
   })
 }
 
-function compile(input: { year: number; statement: Statement }[]): Statement {
+function compile(
+  input: { year: number; statement: Statement }[],
+  kind: Kind = "income"
+): Statement {
+  // The expense-sign repair (forcing pure cost/tax lines negative) only makes sense on the
+  // INCOME statement. In the cash-flow statement the same wording is a positive add-back
+  // (e.g. "Income taxes in the income statement" is added back to net profit), so never flip
+  // signs there; the balance sheet has no expense lines either.
+  const fixExpenseSigns = kind === "income"
   const newestFirst = [...input].sort((a, b) => b.year - a.year)
 
   const labelByYear = new Map<number, string>()
@@ -608,6 +619,10 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
   const rows = labels.map(({ row: template, key }) => {
     const values: (number | null)[] = []
     const restated: number[] = []
+    // Normalise the expense sign the same way the displayed row is (below), so a stray
+    // positive an old report extracted for a cost line isn't mistaken for a restatement.
+    const norm = (v: number | null) =>
+      fixExpenseSigns && isExpenseRow(template.label) && v != null && v > 0 ? -v : v
     years.forEach((year, i) => {
       const reporting = newestFirst
         .map((r) => ({
@@ -616,12 +631,14 @@ function compile(input: { year: number; statement: Statement }[]): Statement {
         }))
         .filter((r) => r.value !== null)
       if (reporting.length === 0) return values.push(null)
-      values.push(reporting[0].value)
-      if (reporting[0].year !== reporting[reporting.length - 1].year)
-        restated.push(i)
+      values.push(reporting[0].value) // newest report wins
+      // Restated only when a later report actually CHANGED the figure — not merely because
+      // the period appears in several reports. Compare the normalised values across reports.
+      const normed = reporting.map((r) => norm(r.value))
+      if (normed.some((v) => v !== normed[0])) restated.push(i)
     })
     const row: Row = { label: cleanLabel(template.label), kind: template.kind, values }
-    if (isExpenseRow(row.label))
+    if (fixExpenseSigns && isExpenseRow(row.label))
       row.values = row.values.map((v) => (v != null && v > 0 ? -v : v))
     if (template.unit) row.unit = template.unit
     if (template.decimals != null) row.decimals = template.decimals
@@ -1132,13 +1149,16 @@ async function main() {
 
   const data: Record<Kind, Statement> = {
     income: compile(
-      reports.map((r) => ({ year: r.year, statement: r.income }))
+      reports.map((r) => ({ year: r.year, statement: r.income })),
+      "income"
     ),
     balance: compile(
-      reports.map((r) => ({ year: r.year, statement: r.balance }))
+      reports.map((r) => ({ year: r.year, statement: r.balance })),
+      "balance"
     ),
     cashflow: compile(
-      reports.map((r) => ({ year: r.year, statement: r.cashflow }))
+      reports.map((r) => ({ year: r.year, statement: r.cashflow })),
+      "cashflow"
     ),
   }
 
