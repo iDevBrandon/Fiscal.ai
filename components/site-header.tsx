@@ -8,7 +8,6 @@ export function SiteHeader() {
             alt="Fiscal.ai"
             className="h-5 w-auto dark:invert"
           />
-          <span className="text-xs text-muted-foreground">by Brandon S. Ha</span>
         </div>
       </div>
     </header>

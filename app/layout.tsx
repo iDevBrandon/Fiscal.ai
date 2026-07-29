@@ -14,7 +14,7 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Fiscal.ai by Brandon S. Ha",
+  title: "Fiscal.ai",
   description:
     "10 years of income statement, balance sheet, and cash flow data — extracted straight from annual report filings.",
 }
