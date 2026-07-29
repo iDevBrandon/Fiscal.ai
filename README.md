@@ -6,6 +6,17 @@ parses the annual reports into the three core financial statements, and compiles
 
 **Live demo:** <https://fiscal-ai-web.vercel.app/>
 
+## How to run
+
+set LLM_PROVIDER=openai
+set OPENAI_API_KEY=key
+
+````bash
+pnpm i
+pnpm dev
+```
+
+
 ## Selected companies
 
 | Company                          | Ticker | Currency · Standard | Investor Relations                           |
@@ -57,7 +68,7 @@ expensive LLM agent only fills gaps (so it barely spends tokens):
                  └───────────────┬──────────────────────────────┘
                                  ▼
                     lib/data/<slug>.ts  →  Next.js dashboard  →  Vercel
-```
+````
 
 ### Design decisions worth calling out
 
