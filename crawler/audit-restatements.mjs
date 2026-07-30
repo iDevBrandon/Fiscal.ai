@@ -30,11 +30,14 @@ const canonKey = (label) => {
     .replace(/\([a-z]?\.?\d+\)/g, " ")
     .replace(/\((loss|profit|gain|income|expense|net)\)/g, " ")
     .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\b(increase decrease|decrease increase)\b/g, "change")
     .replace(/([a-z])\d+\b/g, "$1")
     .replace(/\b(generated (from|by)|provided by|used (in|for)|flows? from)\b/g, "from")
     .replace(/ for the (financial )?(year|period)\b/g, "")
     .replace(/\s+/g, " ").trim()
-  return KEY_ALIASES[k] ?? (k || label.trim().toLowerCase())
+  const singular = (w) => w.endsWith("ss") ? w : w.endsWith("ies") ? w.slice(0,-3)+"y" : w.endsWith("xes") ? w.slice(0,-2) : w.endsWith("s") ? w.slice(0,-1) : w
+  const s = k.split(" ").map(singular).join(" ")
+  return KEY_ALIASES[s] ?? (s || label.trim().toLowerCase())
 }
 const isExpenseRow = (label) => {
   const l = label.toLowerCase()

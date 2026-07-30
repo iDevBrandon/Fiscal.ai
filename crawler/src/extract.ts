@@ -525,6 +525,10 @@ function canonKey(label: string): string {
     // wording that only appears in loss/gain years, e.g. "Profit (loss) after tax"
     .replace(/\((loss|profit|gain|income|expense|net)\)/g, " ")
     .replace(/[^a-z0-9]+/g, " ")
+    // cash-flow working-capital lines flip the direction wording year to year — SAP writes
+    // "Increase/decrease in allowances…" one year and "Decrease/increase…" the next. Collapse
+    // the (increase, decrease) pair to a single "change" token so the variants merge.
+    .replace(/\b(increase decrease|decrease increase)\b/g, "change")
     // trailing footnote digit stuck to a word: "tax1" → "tax", "refunds2" → "refunds"
     .replace(/([a-z])\d+\b/g, "$1")
     // cash-flow subtotals drift in wording: "generated from" / "flows from" / "used in" all
@@ -533,7 +537,17 @@ function canonKey(label: string): string {
     .replace(/ for the (financial )?(year|period)\b/g, "")
     .replace(/\s+/g, " ")
     .trim()
-  return KEY_ALIASES[k] ?? (k || label.trim().toLowerCase())
+  // Singular/plural drift across reports: SAP writes "Share-based payment expense" one year and
+  // "…expenses" the next; Novo alternates "Change" / "Changes in working capital". Singularise
+  // every token so the variants merge onto one row. "-ss" words (gross, loss) are left alone.
+  const singular = (w: string) =>
+    w.endsWith("ss") ? w
+    : w.endsWith("ies") ? w.slice(0, -3) + "y"
+    : w.endsWith("xes") ? w.slice(0, -2)
+    : w.endsWith("s") ? w.slice(0, -1)
+    : w
+  const s = k.split(" ").map(singular).join(" ")
+  return KEY_ALIASES[s] ?? (s || label.trim().toLowerCase())
 }
 
 // Clean a label for DISPLAY only: strip note cross-references — "(D.2)", "(A.1), (C.2)" — and

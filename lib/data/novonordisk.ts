@@ -1004,9 +1004,9 @@ export const balanceSheet: StatementData = {
         582,
         474,
         531,
-        null,
-        null,
-        null
+        784,
+        809,
+        811
       ]
     },
     {
@@ -1674,23 +1674,6 @@ export const balanceSheet: StatementData = {
       "unit": "currency"
     },
     {
-      "label": "Investment in associated company",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        784,
-        809,
-        811
-      ]
-    },
-    {
       "label": "Current debt",
       "kind": "line",
       "values": [
@@ -1848,18 +1831,20 @@ export const cashFlowStatement: StatementData = {
         2589,
         19713,
         -5535,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        -9063,
+        -4353,
+        -3388,
+        -3370,
+        -3634,
+        -3708,
+        -2157,
+        -2148
       ],
       "restatedIndices": [
         1,
-        2
+        2,
+        3,
+        4
       ]
     },
     {
@@ -2259,27 +2244,6 @@ export const cashFlowStatement: StatementData = {
       ]
     },
     {
-      "label": "Change in working capital",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        -12245,
-        -5336,
-        -9063,
-        -4353,
-        -3388,
-        -3370,
-        -3634,
-        -3708,
-        -2157,
-        -2148
-      ],
-      "restatedIndices": [
-        4
-      ]
-    },
-    {
       "label": "Dividend received from associated companies",
       "kind": "line",
       "values": [
@@ -2292,7 +2256,7 @@ export const cashFlowStatement: StatementData = {
         20,
         19,
         26,
-        null,
+        26,
         null,
         null
       ]
@@ -2462,24 +2426,6 @@ export const cashFlowStatement: StatementData = {
         23,
         32,
         35
-      ]
-    },
-    {
-      "label": "Dividend received from associated company",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        26,
-        26,
-        null,
-        null
       ]
     },
     {

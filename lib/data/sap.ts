@@ -2482,15 +2482,19 @@ export const cashFlowStatement: StatementData = {
         1695,
         2385,
         2220,
-        null,
-        null,
-        null,
+        1431,
+        1335,
+        1084,
         1835,
         830,
         1120,
         null,
         null,
         null
+      ],
+      "restatedIndices": [
+        3,
+        4
       ]
     },
     {
@@ -2549,15 +2553,19 @@ export const cashFlowStatement: StatementData = {
         11,
         30,
         -10,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        77,
+        -9,
+        68,
+        14,
+        -67,
+        -32,
         null,
         null,
         null
+      ],
+      "restatedIndices": [
+        3,
+        4
       ]
     },
     {
@@ -2592,15 +2600,21 @@ export const cashFlowStatement: StatementData = {
         -388,
         -247,
         -393,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        196,
+        497,
+        821,
+        -1469,
+        136,
+        -309,
+        -675,
+        -844,
+        -286
+      ],
+      "restatedIndices": [
+        3,
+        4,
+        8,
+        9
       ]
     },
     {
@@ -2610,15 +2624,22 @@ export const cashFlowStatement: StatementData = {
         -1315,
         -632,
         -700,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        -1213,
+        -645,
+        -651,
+        -583,
+        -477,
+        -325,
+        -248,
+        -313,
+        -329
+      ],
+      "restatedIndices": [
+        3,
+        4,
+        7,
+        8,
+        9
       ]
     },
     {
@@ -2634,13 +2655,16 @@ export const cashFlowStatement: StatementData = {
         328,
         240,
         63,
-        null,
-        null,
-        null
+        513,
+        757,
+        573
       ],
       "restatedIndices": [
         3,
-        4
+        4,
+        7,
+        8,
+        9
       ]
     },
     {
@@ -3262,15 +3286,19 @@ export const cashFlowStatement: StatementData = {
         -1390,
         1485,
         -883,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        109,
+        3587,
+        -4,
+        -3313,
+        4617,
+        309,
+        291,
+        83,
+        580
+      ],
+      "restatedIndices": [
+        8,
+        9
       ]
     },
     {
@@ -3313,99 +3341,6 @@ export const cashFlowStatement: StatementData = {
         3328
       ],
       "restatedIndices": [
-        8,
-        9
-      ]
-    },
-    {
-      "label": "Share-based payment expenses",
-      "kind": "line",
-      "values": [
-        null,
-        2385,
-        2220,
-        1431,
-        1335,
-        1084,
-        1835,
-        830,
-        null,
-        null,
-        null,
-        null
-      ],
-      "restatedIndices": [
-        3,
-        4
-      ]
-    },
-    {
-      "label": "Decrease/increase in allowances on trade receivables",
-      "kind": "line",
-      "values": [
-        null,
-        30,
-        -10,
-        77,
-        -9,
-        68,
-        14,
-        -67,
-        -32,
-        null,
-        null,
-        null
-      ],
-      "restatedIndices": [
-        3,
-        4
-      ]
-    },
-    {
-      "label": "Decrease/increase in trade and other receivables",
-      "kind": "line",
-      "values": [
-        null,
-        -247,
-        -393,
-        196,
-        497,
-        821,
-        -1469,
-        136,
-        -309,
-        -675,
-        -844,
-        -286
-      ],
-      "restatedIndices": [
-        3,
-        4,
-        8,
-        9
-      ]
-    },
-    {
-      "label": "Decrease/increase in other assets",
-      "kind": "line",
-      "values": [
-        null,
-        -632,
-        -700,
-        -1213,
-        -645,
-        -651,
-        -583,
-        -477,
-        -325,
-        -248,
-        -313,
-        -329
-      ],
-      "restatedIndices": [
-        3,
-        4,
-        7,
         8,
         9
       ]
@@ -3469,28 +3404,6 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         3,
         4,
-        8,
-        9
-      ]
-    },
-    {
-      "label": "Net decrease/increase in cash and cash equivalents",
-      "kind": "line",
-      "values": [
-        null,
-        1485,
-        -883,
-        109,
-        3587,
-        -4,
-        -3313,
-        4617,
-        309,
-        291,
-        83,
-        580
-      ],
-      "restatedIndices": [
         8,
         9
       ]
@@ -3584,29 +3497,6 @@ export const cashFlowStatement: StatementData = {
         51,
         45,
         47
-      ],
-      "unit": "currency",
-      "restatedIndices": [
-        8,
-        9
-      ]
-    },
-    {
-      "label": "Decrease/increase in trade payables, provisions, and other liabilities",
-      "kind": "line",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        93,
-        389,
-        513,
-        757,
-        573
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -3780,24 +3670,6 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
-    },
-    {
-      "label": "Adjustments to reconcile profit after taxes to net cash provided by operating activities:",
-      "kind": "section",
-      "values": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
       ]
     },
     {
