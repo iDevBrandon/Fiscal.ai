@@ -11,11 +11,10 @@ parses the annual reports into the three core financial statements, and compiles
 set LLM_PROVIDER=openai
 set OPENAI_API_KEY=key
 
-````bash
+```bash
 pnpm i
 pnpm dev
 ```
-
 
 ## Selected companies
 
@@ -68,7 +67,7 @@ expensive LLM agent only fills gaps (so it barely spends tokens):
                  └───────────────┬──────────────────────────────┘
                                  ▼
                     lib/data/<slug>.ts  →  Next.js dashboard  →  Vercel
-````
+```
 
 ### Design decisions worth calling out
 
