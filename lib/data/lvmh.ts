@@ -990,15 +990,11 @@ export const balanceSheet: StatementData = {
         96507,
         74300,
         69755,
-        59616,
-        57601,
-        53362
+        null,
+        null,
+        null
       ],
-      "unit": "currency",
-      "restatedIndices": [
-        8,
-        9
-      ]
+      "unit": "currency"
     },
     {
       "label": "Liabilities and equity",
@@ -1033,7 +1029,7 @@ export const balanceSheet: StatementData = {
         28969,
         26388,
         24339,
-        21763
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -1056,7 +1052,7 @@ export const balanceSheet: StatementData = {
         1408,
         1510,
         1460,
-        1240
+        null
       ],
       "unit": "currency"
     },
@@ -1367,6 +1363,48 @@ export const balanceSheet: StatementData = {
       ]
     },
     {
+      "label": "Total assets",
+      "kind": "total",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        74300,
+        69755,
+        59616,
+        57601,
+        53362
+      ],
+      "unit": "currency",
+      "restatedIndices": [
+        8,
+        9
+      ],
+      "historical": true
+    },
+    {
+      "label": "LIABILITIES AND EQUITY",
+      "kind": "section",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
       "label": "Share capital",
       "kind": "line",
       "values": [
@@ -1609,6 +1647,46 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8
       ],
+      "historical": true
+    },
+    {
+      "label": "Equity, Group share",
+      "kind": "subtotal",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        26393,
+        24339,
+        21763
+      ],
+      "unit": "currency",
+      "historical": true
+    },
+    {
+      "label": "Minority interests",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1510,
+        1460,
+        1240
+      ],
+      "unit": "currency",
       "historical": true
     },
     {

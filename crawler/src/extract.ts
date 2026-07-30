@@ -577,16 +577,40 @@ function isExpenseRow(label: string): boolean {
   return /\b(costs?|expenses?)\b/.test(l)
 }
 
-// IFRS balance sheets repeat the SAME label in two sections — e.g. "Borrowings",
-// "Provisions", "Trade payables" appear once under non-current and again under current
-// liabilities. They are DIFFERENT line items and must both survive. canonKey alone would
-// merge them, so we disambiguate by the label's Nth occurrence WITHIN a statement: the
-// first "Borrowings" (non-current) → "borrowings", the second (current) → "borrowings#1".
-// Presentation order (non-current before current) is stable across a company's reports, so
-// the same period lines up for restatement. Returns keys parallel to statement.rows.
-function rowKeys(statement: Statement): string[] {
+// IFRS balance sheets repeat the SAME label in two sections — "Borrowings", "Provisions",
+// "Other liabilities" appear under both non-current and current liabilities (and "Other
+// receivables" under both non-current and current assets). They are DIFFERENT line items and
+// must both survive, AND the current one in report A must line up with the current one in report
+// B for restatement.
+//
+// For the BALANCE SHEET we key each row by its label + the section subtotal that follows it
+// ("Total current liabilities", "Total non-current assets", …). That tag is stable across
+// reports, so "Other liabilities → Total current liabilities" always matches regardless of
+// whether a given year also happens to list a non-current "Other liabilities". (A pure Nth-
+// occurrence scheme breaks when a label appears a different NUMBER of times across reports —
+// e.g. Novo lists "Other liabilities" twice in 2021 but once in 2025.)
+//
+// Income and cash-flow statements rarely repeat a label, so there a simple Nth-occurrence
+// suffix is enough. Returns keys parallel to statement.rows.
+function rowKeys(statement: Statement, kind: Kind = "income"): string[] {
+  const rows = statement.rows
+  if (kind === "balance") {
+    const isTotal = (r: Row) =>
+      r.kind === "total" || r.kind === "subtotal" || /^total\b/.test(canonKey(r.label))
+    return rows.map((row, i) => {
+      const base = canonKey(row.label)
+      let tag = ""
+      for (let j = i + 1; j < rows.length; j++) {
+        if (isTotal(rows[j])) {
+          tag = canonKey(rows[j].label)
+          break
+        }
+      }
+      return tag ? `${base}@@${tag}` : base
+    })
+  }
   const counts = new Map<string, number>()
-  return statement.rows.map((row) => {
+  return rows.map((row) => {
     const base = canonKey(row.label)
     const n = counts.get(base) ?? 0
     counts.set(base, n + 1)
@@ -608,7 +632,7 @@ function compile(
   // whose key isn't among them only appears in older reports (a renamed/retired line) — flag it
   // "historical" so the UI can list it below the main statement instead of after the ending total.
   const latestKeys = newestFirst.length
-    ? new Set(rowKeys(newestFirst[0].statement))
+    ? new Set(rowKeys(newestFirst[0].statement, kind))
     : new Set<string>()
 
   const labelByYear = new Map<number, string>()
@@ -628,7 +652,7 @@ function compile(
   const labels: { row: Row; key: string }[] = []
   const seen = new Set<string>()
   for (const { statement } of newestFirst) {
-    const keys = rowKeys(statement)
+    const keys = rowKeys(statement, kind)
     statement.rows.forEach((row, i) => {
       const key = keys[i]
       if (seen.has(key)) return
@@ -648,7 +672,7 @@ function compile(
       const reporting = newestFirst
         .map((r) => ({
           year: r.year,
-          value: valueFor(r.statement, key, year),
+          value: valueFor(r.statement, key, year, kind),
         }))
         .filter((r) => r.value !== null)
       if (reporting.length === 0) return values.push(null)
@@ -674,9 +698,10 @@ function compile(
 function valueFor(
   statement: Statement,
   key: string,
-  year: number
+  year: number,
+  kind: Kind = "income"
 ): number | null {
-  const idx = rowKeys(statement).indexOf(key)
+  const idx = rowKeys(statement, kind).indexOf(key)
   if (idx === -1) return null
   const row = statement.rows[idx]
   const col = statement.periods.findIndex((p) => yearOf(p) === year)

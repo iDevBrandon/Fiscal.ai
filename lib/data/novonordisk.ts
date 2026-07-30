@@ -1052,9 +1052,9 @@ export const balanceSheet: StatementData = {
         674,
         841,
         null,
-        2428,
-        2411,
-        2257
+        null,
+        null,
+        null
       ]
     },
     {
@@ -1157,9 +1157,9 @@ export const balanceSheet: StatementData = {
         4161,
         3434,
         3090,
-        null,
-        null,
-        null
+        2428,
+        2411,
+        2257
       ],
       "restatedIndices": [
         1
@@ -1192,15 +1192,11 @@ export const balanceSheet: StatementData = {
         2727,
         1690,
         2332,
-        734,
+        188,
         204,
         2304,
         529,
         304
-      ],
-      "restatedIndices": [
-        5,
-        6
       ]
     },
     {
@@ -1533,9 +1529,9 @@ export const balanceSheet: StatementData = {
       "values": [
         39721,
         35372,
-        189,
-        100,
-        360,
+        28705,
+        23606,
+        19600,
         17005,
         15085,
         14098,
@@ -1557,15 +1553,11 @@ export const balanceSheet: StatementData = {
         2903,
         2184,
         1365,
-        188,
+        734,
         2024,
         309,
         2578,
         1382
-      ],
-      "restatedIndices": [
-        5,
-        6
       ]
     },
     {
@@ -1670,11 +1662,11 @@ export const balanceSheet: StatementData = {
       "kind": "line",
       "values": [
         null,
-        37993,
-        28705,
-        23606,
-        19600,
-        17005,
+        23,
+        189,
+        100,
+        360,
+        null,
         null,
         null,
         null,
@@ -1682,6 +1674,42 @@ export const balanceSheet: StatementData = {
         null
       ],
       "unit": "currency",
+      "historical": true
+    },
+    {
+      "label": "Total equity and liabilities",
+      "kind": "total",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        144922,
+        125612,
+        null,
+        null,
+        null,
+        null
+      ],
+      "historical": true
+    },
+    {
+      "label": "Total assets",
+      "kind": "total",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        144922,
+        125612,
+        null,
+        null,
+        null,
+        null
+      ],
       "historical": true
     },
     {

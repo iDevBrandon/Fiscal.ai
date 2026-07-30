@@ -42,15 +42,25 @@ const canonKey = (label) => {
 const isExpenseRow = (label) => {
   const l = label.toLowerCase()
   if (/income/.test(l) && /expenses?/.test(l)) return false
+  if (/\b(profit|loss|earnings|gross)\b/.test(l)) return false
   if (/income tax/.test(l)) return true
-  if (/\b(revenue|profit|gross|income)\b/.test(l)) return false
   return /\b(costs?|expenses?)\b/.test(l)
 }
-// Nth occurrence of a label within a statement gets a distinct key (IFRS repeats
-// "Borrowings", "Provisions" under both non-current and current liabilities).
-const rowKeys = (s) => {
+// Balance sheet: key by label + following section subtotal (so cross-section repeats match the
+// same section across reports). Income/cashflow: Nth-occurrence suffix.
+const rowKeys = (s, kind = "income") => {
+  const rows = s.rows
+  if (kind === "balance") {
+    const isTotal = (r) => r.kind === "total" || r.kind === "subtotal" || /^total\b/.test(canonKey(r.label))
+    return rows.map((r, i) => {
+      const base = canonKey(r.label)
+      let tag = ""
+      for (let j = i + 1; j < rows.length; j++) { if (isTotal(rows[j])) { tag = canonKey(rows[j].label); break } }
+      return tag ? `${base}@@${tag}` : base
+    })
+  }
   const c = new Map()
-  return s.rows.map((r) => {
+  return rows.map((r) => {
     const b = canonKey(r.label)
     const n = c.get(b) ?? 0
     c.set(b, n + 1)
@@ -69,7 +79,7 @@ if (!years.length) {
 const rows = new Map() // key -> { label, byPeriod: Map(periodYear -> [{ report, value }]) }
 for (const ry of years) {
   const s = JSON.parse(readFileSync(join(CACHE, `${slug}-${ry}.extracted.json`)))[kind]
-  const keys = rowKeys(s)
+  const keys = rowKeys(s, kind)
   s.rows.forEach((r, i) => {
     const key = keys[i]
     if (!rows.has(key)) rows.set(key, { label: r.label, byPeriod: new Map() })

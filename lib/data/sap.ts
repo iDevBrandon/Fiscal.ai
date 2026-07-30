@@ -2091,7 +2091,7 @@ export const balanceSheet: StatementData = {
         22624,
         16969,
         17880,
-        18095
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -2101,8 +2101,7 @@ export const balanceSheet: StatementData = {
         5,
         6,
         7,
-        8,
-        9
+        8
       ]
     },
     {
@@ -2119,12 +2118,11 @@ export const balanceSheet: StatementData = {
         1229,
         1229,
         1229,
-        1229
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
-        8,
-        9
+        8
       ]
     },
     {
@@ -2141,12 +2139,11 @@ export const balanceSheet: StatementData = {
         543,
         570,
         599,
-        558
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
-        8,
-        9
+        8
       ]
     },
     {
@@ -2163,12 +2160,11 @@ export const balanceSheet: StatementData = {
         27407,
         24769,
         22302,
-        20044
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
-        8,
-        9
+        8
       ]
     },
     {
@@ -2185,7 +2181,7 @@ export const balanceSheet: StatementData = {
         1234,
         508,
         3346,
-        2561
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
@@ -2193,8 +2189,7 @@ export const balanceSheet: StatementData = {
         2,
         4,
         5,
-        8,
-        9
+        8
       ]
     },
     {
@@ -2211,12 +2206,11 @@ export const balanceSheet: StatementData = {
         -1580,
         -1591,
         -1099,
-        -1124
+        null
       ],
       "unit": "currency",
       "restatedIndices": [
-        8,
-        9
+        8
       ]
     },
     {
@@ -2394,6 +2388,114 @@ export const balanceSheet: StatementData = {
       ],
       "restatedIndices": [
         9
+      ],
+      "historical": true
+    },
+    {
+      "label": "Total liabilities",
+      "kind": "total",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        18867,
+        18095
+      ],
+      "historical": true
+    },
+    {
+      "label": "Issued capital",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1296,
+        1229
+      ],
+      "historical": true
+    },
+    {
+      "label": "Share premium",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        632,
+        558
+      ],
+      "historical": true
+    },
+    {
+      "label": "Retained earnings",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        23533,
+        20044
+      ],
+      "historical": true
+    },
+    {
+      "label": "Other components of equity",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        3530,
+        2561
+      ],
+      "historical": true
+    },
+    {
+      "label": "Treasury shares",
+      "kind": "line",
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        -1160,
+        -1124
       ],
       "historical": true
     }
