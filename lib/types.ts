@@ -11,6 +11,9 @@ export interface StatementRow {
   values: (number | null)[]
   /** indices into `values` whose figure came from a later annual report than the one that first reported that period */
   restatedIndices?: number[]
+  /** true when this line item is absent from the company's latest report — a renamed/retired line
+   * that only appears in older reports. Shown under a "historical" divider, never dropped. */
+  historical?: boolean
 }
 
 export interface StatementData {

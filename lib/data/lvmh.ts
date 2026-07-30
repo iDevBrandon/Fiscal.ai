@@ -1383,7 +1383,8 @@ export const balanceSheet: StatementData = {
         152,
         152
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Share premium account",
@@ -1402,7 +1403,8 @@ export const balanceSheet: StatementData = {
         2579,
         2655
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Treasury shares and LVMH share-settled derivatives",
@@ -1421,7 +1423,8 @@ export const balanceSheet: StatementData = {
         -240,
         -374
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Cumulative translation adjustment",
@@ -1443,7 +1446,8 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Revaluation reserves",
@@ -1466,7 +1470,8 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Other reserves",
@@ -1489,7 +1494,8 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Net profit, Group share",
@@ -1512,7 +1518,8 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Non-current provisions",
@@ -1534,7 +1541,8 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Other non-current liabilities",
@@ -1557,7 +1565,8 @@ export const balanceSheet: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Current provisions",
@@ -1576,7 +1585,8 @@ export const balanceSheet: StatementData = {
         421,
         332
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other current liabilities",
@@ -1598,7 +1608,8 @@ export const balanceSheet: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Total equity",
@@ -1617,7 +1628,8 @@ export const balanceSheet: StatementData = {
         25799,
         23003
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     }
   ]
 }
@@ -2396,7 +2408,8 @@ export const cashFlowStatement: StatementData = {
         27,
         26
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other computed expenses",
@@ -2415,7 +2428,8 @@ export const cashFlowStatement: StatementData = {
         -456,
         -188
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other adjustments",
@@ -2434,7 +2448,8 @@ export const cashFlowStatement: StatementData = {
         -91,
         -84
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Net cash from operating activities before changes in working capital",
@@ -2457,7 +2472,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Net cash from operating activities and operating investments (free cash flow)",
@@ -2480,7 +2496,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "II. FINANCIAL INVESTMENTS",
@@ -2517,7 +2534,8 @@ export const cashFlowStatement: StatementData = {
         -78,
         -57
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Proceeds from sale of non-current available for sale financial assets",
@@ -2536,7 +2554,8 @@ export const cashFlowStatement: StatementData = {
         68,
         160
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Impact of purchase and sale of consolidated investments",
@@ -2555,7 +2574,8 @@ export const cashFlowStatement: StatementData = {
         -240,
         -167
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Net cash from (used in) financial investments",
@@ -2577,7 +2597,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "III. TRANSACTIONS RELATING TO EQUITY",
@@ -2614,7 +2635,8 @@ export const cashFlowStatement: StatementData = {
         35,
         59
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Capital increases of subsidiaries subscribed by minority interests",
@@ -2633,7 +2655,8 @@ export const cashFlowStatement: StatementData = {
         81,
         3
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Acquisition and disposals of treasury shares and LVMH share-settled derivatives",
@@ -2652,7 +2675,8 @@ export const cashFlowStatement: StatementData = {
         1,
         1
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Interim and final dividends paid by LVMH SE",
@@ -2674,7 +2698,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Tax paid related to interim and final dividends paid",
@@ -2693,7 +2718,8 @@ export const cashFlowStatement: StatementData = {
         -304,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Interim and final dividends paid to minority interests in consolidated subsidiaries",
@@ -2715,7 +2741,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         8
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Net cash from (used in) transactions relating to equity",
@@ -2738,7 +2765,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Change in cash before financing activities",
@@ -2761,7 +2789,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "IV. FINANCING ACTIVITIES",
@@ -2820,7 +2849,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "NET INCREASE (DECREASE) IN CASH AND CASH EQUIVALENTS (I+II+III+IV+V)",
@@ -2839,7 +2869,8 @@ export const cashFlowStatement: StatementData = {
         -393,
         867
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Income taxes paid",
@@ -2857,7 +2888,8 @@ export const cashFlowStatement: StatementData = {
         -1923,
         -1807,
         -1639
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Income taxes paid related to financial investments and consolidated investments",
@@ -2875,7 +2907,8 @@ export const cashFlowStatement: StatementData = {
         -461,
         -265,
         -237
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Income taxes paid related to interim and final dividends paid",
@@ -2893,7 +2926,8 @@ export const cashFlowStatement: StatementData = {
         -145,
         -304,
         -79
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "TOTAL INCOME TAXES PAID",
@@ -2911,7 +2945,8 @@ export const cashFlowStatement: StatementData = {
         -2529,
         -2376,
         -1955
-      ]
+      ],
+      "historical": true
     }
   ]
 }

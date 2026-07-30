@@ -112,6 +112,12 @@ export function StatementTable({
     row.values ? { ...row, values: row.values.slice(0, MAX_PERIODS) } : row
   )
 
+  // A row absent from the latest report (compile flags it `historical`) is a line the company
+  // renamed or retired — keep it (never drop as-reported data) but list it below the main
+  // statement, so the body reads cleanly down to its ending total.
+  const activeRows = rows.filter((row) => !row.historical)
+  const legacyRows = rows.filter((row) => row.historical)
+
   return (
     <div className="max-h-[70vh] overflow-auto rounded-lg border border-border">
       <Table className="border-separate border-spacing-0">
@@ -129,7 +135,7 @@ export function StatementTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((row, idx) => (
+          {activeRows.map((row, idx) => (
             <StatementRowView
               key={`${row.label}-${idx}`}
               row={row}
@@ -137,6 +143,32 @@ export function StatementTable({
               symbol={symbol}
             />
           ))}
+          {legacyRows.length > 0 && (
+            <>
+              <TableRow className="hover:bg-transparent">
+                <TableCell className="sticky left-0 z-10 w-85 max-w-85 min-w-85 border-t border-border bg-background pt-6 pb-1.5 text-[13px] font-semibold text-muted-foreground">
+                  Historical line items
+                  <span className="block text-[11px] font-normal text-muted-foreground/70">
+                    renamed or retired — not in the latest report, kept as reported
+                  </span>
+                </TableCell>
+                {periods.map((period) => (
+                  <TableCell
+                    key={period}
+                    className="border-t border-border bg-background"
+                  />
+                ))}
+              </TableRow>
+              {legacyRows.map((row, idx) => (
+                <StatementRowView
+                  key={`legacy-${row.label}-${idx}`}
+                  row={row}
+                  periodCount={periods.length}
+                  symbol={symbol}
+                />
+              ))}
+            </>
+          )}
         </TableBody>
       </Table>
     </div>

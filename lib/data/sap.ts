@@ -932,7 +932,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Operating Expenses",
@@ -969,7 +970,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Sales and Marketing Expenses",
@@ -988,7 +990,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "General and Administrative Expenses",
@@ -1007,7 +1010,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Operating Income",
@@ -1026,7 +1030,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other Income/Expenses, Net",
@@ -1045,7 +1050,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Income Before Taxes",
@@ -1064,7 +1070,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Income Taxes",
@@ -1083,7 +1090,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Net Income",
@@ -1102,7 +1110,8 @@ export const incomeStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Profit before tax",
@@ -1124,7 +1133,8 @@ export const incomeStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Earnings per share, basic (in €)",
@@ -1147,7 +1157,8 @@ export const incomeStatement: StatementData = {
       "decimals": 2,
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Earnings per share, diluted (in €)",
@@ -1170,7 +1181,8 @@ export const incomeStatement: StatementData = {
       "decimals": 2,
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cloud subscriptions and support",
@@ -1192,7 +1204,8 @@ export const incomeStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cost of cloud subscriptions and support",
@@ -1214,7 +1227,8 @@ export const incomeStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Earnings per share, basic (in respective currency)",
@@ -1234,7 +1248,8 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2
+      "decimals": 2,
+      "historical": true
     },
     {
       "label": "Earnings per share, diluted (in respective currency)",
@@ -1254,7 +1269,8 @@ export const incomeStatement: StatementData = {
         null
       ],
       "unit": "currency",
-      "decimals": 2
+      "decimals": 2,
+      "historical": true
     },
     {
       "label": "TomorrowNow and Versata litigation",
@@ -1272,7 +1288,8 @@ export const incomeStatement: StatementData = {
         0,
         0,
         -309
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Income tax TomorrowNow and Versata litigation",
@@ -1290,7 +1307,8 @@ export const incomeStatement: StatementData = {
         0,
         0,
         -86
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Other income tax expense",
@@ -1308,7 +1326,8 @@ export const incomeStatement: StatementData = {
         -1297,
         -935,
         -1161
-      ]
+      ],
+      "historical": true
     }
   ]
 }
@@ -2314,7 +2333,8 @@ export const balanceSheet: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Contract liabilities/deferred income",
@@ -2332,7 +2352,8 @@ export const balanceSheet: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Deferred income",
@@ -2352,7 +2373,8 @@ export const balanceSheet: StatementData = {
       ],
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Deferred income",
@@ -2372,7 +2394,8 @@ export const balanceSheet: StatementData = {
       ],
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     }
   ]
 }
@@ -3364,7 +3387,8 @@ export const cashFlowStatement: StatementData = {
       ],
       "restatedIndices": [
         4
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from sales of subsidiaries or other businesses",
@@ -3382,7 +3406,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from sales of intangible assets or property, plant, and equipment",
@@ -3406,7 +3431,8 @@ export const cashFlowStatement: StatementData = {
         4,
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cash flows from sale of subsidiaries or businesses",
@@ -3424,7 +3450,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from changes in ownership interests in subsidiaries that do not result in the loss of control",
@@ -3442,7 +3469,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Payments for taxes related to net share settlement of equity awards",
@@ -3460,7 +3488,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from sale of subsidiaries or businesses",
@@ -3479,7 +3508,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Decrease/increase in sales and bad debt allowances on trade receivables",
@@ -3502,7 +3532,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Decrease/increase in contract liabilities/deferred income",
@@ -3521,7 +3552,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Cash flows from derivative financial instruments related to business combinations",
@@ -3540,7 +3572,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Total cash flows for business combinations, net of cash and cash equivalents acquired",
@@ -3563,7 +3596,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         8,
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from reissuance of treasury shares",
@@ -3585,7 +3619,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Decrease/increase in deferred income",
@@ -3607,7 +3642,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cash receipts from derivative financial instruments related to business combinations",
@@ -3626,7 +3662,8 @@ export const cashFlowStatement: StatementData = {
         266,
         -111
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Cash receipts from swap contracts",
@@ -3648,7 +3685,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Total cash flows from proceeds from borrowings",
@@ -3670,7 +3708,8 @@ export const cashFlowStatement: StatementData = {
       "unit": "currency",
       "restatedIndices": [
         9
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cash outflows due to TomorrowNow and Versata litigation",
@@ -3688,7 +3727,8 @@ export const cashFlowStatement: StatementData = {
         0,
         0,
         -555
-      ]
+      ],
+      "historical": true
     }
   ]
 }

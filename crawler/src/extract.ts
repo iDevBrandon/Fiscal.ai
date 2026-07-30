@@ -105,6 +105,7 @@ interface Row {
   decimals?: number
   values: (number | null)[]
   restatedIndices?: number[]
+  historical?: boolean
 }
 interface Statement {
   periods: string[]
@@ -603,6 +604,12 @@ function compile(
   // signs there; the balance sheet has no expense lines either.
   const fixExpenseSigns = kind === "income"
   const newestFirst = [...input].sort((a, b) => b.year - a.year)
+  // Keys present in the company's LATEST report define the canonical statement structure. A row
+  // whose key isn't among them only appears in older reports (a renamed/retired line) — flag it
+  // "historical" so the UI can list it below the main statement instead of after the ending total.
+  const latestKeys = newestFirst.length
+    ? new Set(rowKeys(newestFirst[0].statement))
+    : new Set<string>()
 
   const labelByYear = new Map<number, string>()
   for (const { statement } of newestFirst) {
@@ -657,6 +664,7 @@ function compile(
     if (template.unit) row.unit = template.unit
     if (template.decimals != null) row.decimals = template.decimals
     if (restated.length) row.restatedIndices = restated
+    if (template.kind !== "section" && !latestKeys.has(key)) row.historical = true
     return row
   })
 

@@ -696,7 +696,8 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Other items",
@@ -714,7 +715,8 @@ export const incomeStatement: StatementData = {
         -74,
         366,
         111
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Income tax related to these items",
@@ -732,7 +734,8 @@ export const incomeStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Tax on other comprehensive income, income/(expense)",
@@ -751,7 +754,8 @@ export const incomeStatement: StatementData = {
         -87,
         977
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other comprehensive income, net of tax",
@@ -770,7 +774,8 @@ export const incomeStatement: StatementData = {
         1108,
         -2652
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Other operating income, net",
@@ -788,7 +793,8 @@ export const incomeStatement: StatementData = {
         737,
         3482,
         770
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cash flow hedges, realisation of previously deferred (gains)/losses",
@@ -806,7 +812,8 @@ export const incomeStatement: StatementData = {
         682,
         2216,
         -1229
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Cash flow hedges, deferred gains/(losses) incurred during the period",
@@ -824,7 +831,8 @@ export const incomeStatement: StatementData = {
         -1911,
         -681,
         -2225
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "– Non-recurring income from the partial divestment of NNIT A/S",
@@ -843,7 +851,8 @@ export const incomeStatement: StatementData = {
         2376,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Items that will not be reclassifi ed subsequently to the Income statement:",
@@ -879,7 +888,8 @@ export const incomeStatement: StatementData = {
         -205,
         -37,
         -247
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Items that will be reclassifi ed subsequently to the Income statement:",
@@ -1671,7 +1681,8 @@ export const balanceSheet: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Current debt",
@@ -1688,7 +1699,8 @@ export const balanceSheet: StatementData = {
         1694,
         229,
         1073
-      ]
+      ],
+      "historical": true
     }
   ]
 }
@@ -2259,7 +2271,8 @@ export const cashFlowStatement: StatementData = {
         26,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from sale of property, plant and equipment",
@@ -2281,7 +2294,8 @@ export const cashFlowStatement: StatementData = {
       "restatedIndices": [
         6,
         7
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Investment in associated companies",
@@ -2299,7 +2313,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from the divestment of Group and associated companies",
@@ -2317,7 +2332,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Reclassification of bank overdraft to financing activities",
@@ -2336,7 +2352,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null
       ],
-      "unit": "currency"
+      "unit": "currency",
+      "historical": true
     },
     {
       "label": "Repayment of borrowings, net",
@@ -2354,7 +2371,8 @@ export const cashFlowStatement: StatementData = {
         null,
         null,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Reversal of non-cash items:",
@@ -2390,7 +2408,8 @@ export const cashFlowStatement: StatementData = {
         null,
         -2526,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from the partial divestment of NNIT A/S",
@@ -2408,7 +2427,8 @@ export const cashFlowStatement: StatementData = {
         null,
         2303,
         null
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Proceeds from sale of other financial assets",
@@ -2426,7 +2446,8 @@ export const cashFlowStatement: StatementData = {
         23,
         32,
         35
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Purchase of treasury shares, net",
@@ -2444,7 +2465,8 @@ export const cashFlowStatement: StatementData = {
         -15057,
         -17196,
         -14667
-      ]
+      ],
+      "historical": true
     },
     {
       "label": "Income taxes in Income statement",
@@ -2462,7 +2484,8 @@ export const cashFlowStatement: StatementData = {
         9873,
         8623,
         7615
-      ]
+      ],
+      "historical": true
     }
   ]
 }
